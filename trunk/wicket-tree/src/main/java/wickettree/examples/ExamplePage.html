@@ -1,0 +1,27 @@
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.3-strict.dtd" >
+    <head>  
+    </head>
+    <body>
+		<wicket:link>
+	    	<ul>
+	    		<li>
+					<a href="NestedTreePage.html">Nested tree</a>
+	    		</li>
+	    		<li>
+					<a href="TableTreePage.html">Table tree</a>		
+	    		</li>
+			</ul>
+			
+			<p>
+				<form wicket:id="form">
+					Theme: <select wicket:id="theme"/>
+				</form>
+			</p>
+		</wicket:link>
+		
+		<wicket:child/>
+		
+		<a wicket:id="refresh">Refresh</a>
+    </body>
+</html>
+

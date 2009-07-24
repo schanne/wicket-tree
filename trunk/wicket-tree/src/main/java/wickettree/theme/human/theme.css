@@ -1,0 +1,171 @@
+.subtree {
+  margin: 0px 0px 0px 18px;
+  padding: 0px;
+}
+
+.branch {
+  padding: 0px;
+}
+
+.branch-last {
+  padding: 0px;
+}
+
+/* node */
+
+div.node {
+}
+
+div.node span.junction {
+  display: block;
+  float: left;
+  width: 18px;
+}
+
+div.node a.junction-expanded {
+  display: block;
+  float: left;
+  width: 18px;
+  background-image: url(tree.gif);
+  background-position: -18px center;
+  background-repeat: no-repeat;
+  text-decoration: none;
+}
+
+div.node a.junction-expanded:hover {
+  display: block;
+  float: left;
+  width: 18px;
+  background-image: url(tree.gif);
+  background-position: -54px center;
+  background-repeat: no-repeat;
+  text-decoration: none;
+}
+
+div.node a.junction-expanded span.sign {
+  display: none;
+}
+
+div.node a.junction-collapsed {
+  display: block;
+  float: left;
+  width: 18px;
+  background-image: url(tree.gif);
+  background-position: 0px center;
+  background-repeat: no-repeat;
+  text-decoration: none;
+}
+
+div.node a.junction-collapsed:hover {
+  display: block;
+  float: left;
+  width: 18px;
+  background-image: url(tree.gif);
+  background-position: -36px center;
+  background-repeat: no-repeat;
+  text-decoration: none;
+}
+
+div.node a.junction-collapsed span.sign {
+  display: none;
+}
+
+div.node span.content {
+  display: block;
+  margin-left: 18px;
+}
+
+/* tree */
+
+ul.tree {
+  list-style-type: none;
+  padding: 0px;
+}
+
+ul.subtree {
+  list-style-type: none;
+  padding: 0px;
+}
+
+li.branch {
+  padding: 0px;
+  // following needed for IE
+  display: block;
+  float: left;  
+  clear: both;
+}
+
+li.branch-last {
+  padding: 0px;
+  // following needed for IE
+  display: block;
+  float: left;  
+  clear: both;
+}
+
+/* treetable */
+
+table.treetable {
+  border-collapse: collapse;
+}
+
+table.treetable tr.selected {
+  background-color: #fad184;
+}
+
+table.treetable td {
+  margin: 0px;
+  height: 100%;
+}
+
+table.treetable td.tree {
+  padding: 0px;
+}
+
+table.treetable div.subtree {
+  height: 100%;
+}
+
+table.treetable div.branch {
+  height: 100%;
+}
+
+table.treetable div.branch-last {
+  height: 100%;
+}
+
+/* content */
+
+span.content a {
+  color: black;
+  text-decoration: none;
+}
+
+span.content a:hover {
+  text-decoration: underline;
+}
+
+span.content .selected {
+  background-color: #fad184;
+}
+
+span.content .folder-closed {
+  padding-left: 18px;
+  background-image: url(folder.gif);
+  background-position: 0px 0px;
+  background-repeat: no-repeat;
+}
+
+span.content .folder-open {
+  padding-left: 18px;
+  background-image: url(folder.gif);
+  background-position: 0px 0px;
+  background-repeat: no-repeat;
+}
+
+span.content .folder-other {
+  padding-left: 18px;
+  background-image: url(folder-other.gif);
+  background-position: 0px 0px;
+  background-repeat: no-repeat;
+}
