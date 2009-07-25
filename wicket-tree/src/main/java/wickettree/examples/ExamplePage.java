@@ -30,6 +30,7 @@ import org.apache.wicket.model.PropertyModel;
 
 import wickettree.AbstractTree;
 import wickettree.examples.content.CheckedFolderContent;
+import wickettree.examples.content.CheckedSelectableFolderContent;
 import wickettree.examples.content.Content;
 import wickettree.examples.content.FolderContent;
 import wickettree.examples.content.LabelContent;
@@ -102,6 +103,7 @@ public abstract class ExamplePage extends WebPage
 		contents.add(new FolderContent(provider));
 		contents.add(new SelectableFolderContent(provider));
 		contents.add(new CheckedFolderContent(provider));
+		contents.add(new CheckedSelectableFolderContent(provider));
 
 		content = contents.get(0);
 
