@@ -30,9 +30,7 @@ import org.apache.wicket.model.IModel;
  * A styled link with a label.
  * 
  * @see #newLink(String, IModel)
- * @see #newLabel(String, IModel)
- * @see #isClickable()
- * @see #onClick(AjaxRequestTarget)
+ * @see #getStyleClass()
  * 
  * @author Sven Meier
  */
@@ -134,10 +132,7 @@ public abstract class StyledLinkLabel<T> extends Panel
 	/**
 	 * Get a style class for the link.
 	 */
-	protected String getStyleClass()
-	{
-		return null;
-	}
+	protected abstract String getStyleClass();
 
 	/**
 	 * Clicking is disabled by default, override this method if you want your
