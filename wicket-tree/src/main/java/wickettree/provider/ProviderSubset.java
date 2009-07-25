@@ -27,7 +27,7 @@ import org.apache.wicket.model.IModel;
 import wickettree.ITreeProvider;
 
 /**
- * A subset of a {@link ITreeProvider}s tree.
+ * A subset of a {@link ITreeProvider}'s tree.
  * 
  * @author Sven Meier
  */

@@ -16,8 +16,6 @@
  */
 package wickettree.examples;
 
-import java.util.Set;
-
 import org.apache.wicket.Component;
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.model.IModel;
@@ -36,9 +34,9 @@ public class NestedTreePage extends ExamplePage
 	private DefaultNestedTree<Foo> tree;
 
 	@Override
-	protected AbstractTree<Foo> createTree(FooProvider provider, IModel<Set<Foo>> state)
+	protected AbstractTree<Foo> createTree(FooProvider provider)
 	{
-		tree = new DefaultNestedTree<Foo>("tree", provider, state)
+		tree = new DefaultNestedTree<Foo>("tree", provider)
 		{
 			private static final long serialVersionUID = 1L;
 
