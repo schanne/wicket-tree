@@ -35,9 +35,13 @@ public abstract class Node<T> extends Panel
 
 	private static final long serialVersionUID = 1L;
 
-	public Node(String id, IModel<T> model)
+	private AbstractTree<T> tree;
+
+	public Node(String id, AbstractTree<T> tree, IModel<T> model)
 	{
 		super(id, model);
+
+		this.tree = tree;
 
 		setOutputMarkupId(true);
 
@@ -52,6 +56,11 @@ public abstract class Node<T> extends Panel
 		return (IModel<T>)getDefaultModel();
 	}
 
+	public T getModelObject()
+	{
+		return getModel().getObject();
+	}
+
 	protected Link<?> createJunction(String id)
 	{
 		return new AjaxFallbackLink<Void>(id)
@@ -61,20 +70,13 @@ public abstract class Node<T> extends Panel
 			@Override
 			public void onClick(AjaxRequestTarget target)
 			{
-				if (getState() == State.EXPANDED)
-				{
-					onCollapse();
-				}
-				else
-				{
-					onExpand();
-				}
+				toggle();
 			}
 
 			@Override
 			public boolean isEnabled()
 			{
-				return hasChildren();
+				return tree.hasChildren(Node.this.getModelObject());
 			}
 		};
 	}
@@ -82,9 +84,11 @@ public abstract class Node<T> extends Panel
 	@Override
 	public String getVariation()
 	{
-		if (hasChildren())
+		T t = getModelObject();
+
+		if (tree.hasChildren(t))
 		{
-			if (getState() == State.EXPANDED)
+			if (tree.getState(t) == State.EXPANDED)
 			{
 				return "expanded";
 			}
@@ -96,13 +100,19 @@ public abstract class Node<T> extends Panel
 		return null;
 	}
 
-	protected abstract boolean hasChildren();
+	private void toggle()
+	{
+		T t = getModelObject();
+
+		if (tree.getState(t) == State.EXPANDED)
+		{
+			tree.collapse(t);
+		}
+		else
+		{
+			tree.expand(t);
+		}
+	}
 
 	protected abstract Component createContent(String id, IModel<T> model);
-
-	protected abstract State getState();
-
-	protected abstract void onExpand();
-
-	protected abstract void onCollapse();
 }
