@@ -12,16 +12,18 @@
 	    		</li>
 			</ul>
 			
-			<p>
-				<form wicket:id="form">
+			<form wicket:id="form">
+				<p>
+					Content: <select wicket:id="content"/>
+				</p>
+				<p>
 					Theme: <select wicket:id="theme"/>
-				</form>
-			</p>
+				</p>
+				<p>
+					<wicket:child/>
+				</p>
+			</form>
 		</wicket:link>
-		
-		<wicket:child/>
-		
-		<a wicket:id="refresh">Refresh</a>
     </body>
 </html>
 

@@ -137,7 +137,12 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 			@Override
 			protected Item<T> newRowItem(String id, int index, IModel<T> model)
 			{
-				return TableTree.this.newRowItem(id, index, model);
+				Item<T> item = TableTree.this.newRowItem(id, index, model);
+
+				// @see #updateNode(T, AjaxRequestTarget)
+				item.setOutputMarkupId(true);
+
+				return item;
 			}
 		};
 		datagrid.setRowsPerPage(rowsPerPage);
@@ -412,9 +417,6 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 	protected Item<T> newRowItem(final String id, int index, final IModel<T> model)
 	{
 		Item<T> item = new Item<T>(id, index, model);
-
-		// @see #updateNode(T, AjaxRequestTarget)
-		item.setOutputMarkupId(true);
 
 		return item;
 	}
