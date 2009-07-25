@@ -22,6 +22,7 @@ import java.util.List;
 import org.apache.wicket.Component;
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -34,6 +35,7 @@ import wickettree.examples.content.CheckedSelectableFolderContent;
 import wickettree.examples.content.Content;
 import wickettree.examples.content.FolderContent;
 import wickettree.examples.content.LabelContent;
+import wickettree.examples.content.PanelContent;
 import wickettree.examples.content.SelectableFolderContent;
 import wickettree.theme.HumanTheme;
 import wickettree.theme.WindowsTheme;
@@ -91,6 +93,15 @@ public abstract class ExamplePage extends WebPage
 
 		tree = createTree(provider);
 		form.add(tree);
+		
+		form.add(new Button("submit") {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onSubmit()
+			{
+			}
+		});
 	}
 
 	protected abstract AbstractTree<Foo> createTree(FooProvider provider);
@@ -104,6 +115,7 @@ public abstract class ExamplePage extends WebPage
 		contents.add(new SelectableFolderContent(provider));
 		contents.add(new CheckedFolderContent(provider));
 		contents.add(new CheckedSelectableFolderContent(provider));
+		contents.add(new PanelContent());
 
 		content = contents.get(0);
 

@@ -74,6 +74,16 @@ public class Foo implements Serializable
 		return baz;
 	}
 
+	public void setBar(String bar)
+	{
+		this.bar = bar;
+	}
+	
+	public void setBaz(String baz)
+	{
+		this.baz = baz;
+	}
+	
 	public List<Foo> getFoos()
 	{
 		return Collections.unmodifiableList(foos);
