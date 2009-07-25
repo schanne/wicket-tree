@@ -71,12 +71,6 @@ public class SelectableFolderContent extends Content
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public boolean isClickable()
-			{
-				return true;
-			}
-
-			@Override
 			protected void onClick(AjaxRequestTarget target)
 			{
 				SelectableFolderContent.this.select(getModelObject(), target);

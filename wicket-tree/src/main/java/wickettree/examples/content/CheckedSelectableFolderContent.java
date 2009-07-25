@@ -117,12 +117,6 @@ public class CheckedSelectableFolderContent extends Content
 			}
 
 			@Override
-			public boolean isClickable()
-			{
-				return true;
-			}
-
-			@Override
 			protected void onClick(AjaxRequestTarget target)
 			{
 				CheckedSelectableFolderContent.this.select(getModelObject(), target);
