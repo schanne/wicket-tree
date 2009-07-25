@@ -68,7 +68,7 @@ public abstract class StyledLinkLabel<T> extends Panel
 	 * @param model
 	 * @return
 	 */
-	private Link<?> newLink(String id, IModel<T> model)
+	protected Link<?> newLink(String id, IModel<T> model)
 	{
 		return new AjaxFallbackLink<Void>(id)
 		{
