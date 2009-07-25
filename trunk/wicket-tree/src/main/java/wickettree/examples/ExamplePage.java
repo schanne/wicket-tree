@@ -111,8 +111,8 @@ public abstract class ExamplePage extends WebPage
 	{
 		contents = new ArrayList<Content>();
 
-		contents.add(new LabelContent(provider));
-		contents.add(new FolderContent(provider));
+		contents.add(new LabelContent());
+		contents.add(new FolderContent());
 		contents.add(new SelectableFolderContent(provider));
 		contents.add(new CheckedFolderContent(provider));
 		contents.add(new CheckedSelectableFolderContent(provider));

@@ -21,7 +21,6 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
 
 import wickettree.AbstractTree;
-import wickettree.ITreeProvider;
 import wickettree.examples.Foo;
 
 /**
@@ -31,14 +30,6 @@ public class LabelContent extends Content
 {
 
 	private static final long serialVersionUID = 1L;
-
-	public LabelContent(ITreeProvider<Foo> provider)
-	{
-	}
-
-	public void detach()
-	{
-	}
 
 	@Override
 	public Component newContentComponent(String id, final AbstractTree<Foo> tree, IModel<Foo> model)

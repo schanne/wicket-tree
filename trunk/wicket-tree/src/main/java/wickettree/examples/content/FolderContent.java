@@ -20,7 +20,6 @@ import org.apache.wicket.Component;
 import org.apache.wicket.model.IModel;
 
 import wickettree.AbstractTree;
-import wickettree.ITreeProvider;
 import wickettree.content.Folder;
 import wickettree.examples.Foo;
 
@@ -31,14 +30,6 @@ public class FolderContent extends Content
 {
 
 	private static final long serialVersionUID = 1L;
-
-	public FolderContent(ITreeProvider<Foo> provider)
-	{
-	}
-
-	public void detach()
-	{
-	}
 
 	@Override
 	public Component newContentComponent(String id, final AbstractTree<Foo> tree, IModel<Foo> model)
