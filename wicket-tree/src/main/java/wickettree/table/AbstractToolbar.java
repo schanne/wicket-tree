@@ -16,14 +16,16 @@
  */
 package wickettree.table;
 
+import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 
 import wickettree.TableTree;
 
 /**
- * Copy of
- * {@link org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractToolbar}
+ * {@link TableTree}'s toolbars are very similar to the toolbars of the
+ * {@link DataTable}. Regretfully the latter take the {@link DataTable} as an
+ * constructor argument - maybe these class hierarchies could be merged.
  */
 public abstract class AbstractToolbar extends Panel
 {
