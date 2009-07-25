@@ -150,16 +150,25 @@ public abstract class AbstractTree<T> extends Panel
 		return getModel().getObject();
 	}
 
+	/**
+	 * Expand the given node.
+	 */
 	public void expand(T t)
 	{
 		getModelObject().add(t);
 	}
 
+	/**
+	 * Collapse the given node.
+	 */
 	public void collapse(T t)
 	{
 		getModelObject().remove(t);
 	}
 
+	/**
+	 * Get the given node's {@link State}.
+	 */
 	public State getState(T t)
 	{
 		if (getModelObject().contains(t))
@@ -172,11 +181,20 @@ public abstract class AbstractTree<T> extends Panel
 		}
 	}
 
+	/**
+	 * Does the given object have children - delegates to the
+	 * {@link ITreeProvider#hasChildren(Object)}.
+	 * 
+	 * @param t
+	 */
 	public boolean hasChildren(T t)
 	{
 		return provider.hasChildren(t);
 	}
 
+	/**
+	 * Overriden to detach the {@link ITreeProvider}.
+	 */
 	@Override
 	protected void onDetach()
 	{
@@ -185,6 +203,9 @@ public abstract class AbstractTree<T> extends Panel
 		super.onDetach();
 	}
 
+	/**
+	 * Create a new component for a node.
+	 */
 	public Component newNodeComponent(String id, final IModel<T> model)
 	{
 		return new Node<T>(id, model)
@@ -227,6 +248,13 @@ public abstract class AbstractTree<T> extends Panel
 		};
 	}
 
+	/**
+	 * Hook method for handling of {@link State} changes. This default
+	 * implementation add this whole component for rendering if the change
+	 * happened on an {@link AjaxRequestTarget}.
+	 * 
+	 * @param nodeComponent
+	 */
 	protected void onNodeStateChanged(Component nodeComponent)
 	{
 		AjaxRequestTarget target = AjaxRequestTarget.get();
@@ -236,6 +264,9 @@ public abstract class AbstractTree<T> extends Panel
 		}
 	}
 
+	/**
+	 * Create a new component for the content of a node.
+	 */
 	protected abstract Component newContentComponent(String id, IModel<T> model);
 
 	/**
