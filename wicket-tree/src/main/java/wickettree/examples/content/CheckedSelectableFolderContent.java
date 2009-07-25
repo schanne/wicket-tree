@@ -120,7 +120,7 @@ public class CheckedSelectableFolderContent extends Content
 			 * Always clickable.
 			 */
 			@Override
-			public boolean isClickable()
+			protected boolean isClickable()
 			{
 				return true;
 			}

@@ -44,12 +44,12 @@ public class Folder<T> extends StyledLinkLabel<T>
 	}
 
 	/**
-	 * Clickable is node has children.
+	 * Clickable if node has children.
 	 * 
 	 * @see AbstractTree#hasChildren(Object)
 	 */
 	@Override
-	public boolean isClickable()
+	protected boolean isClickable()
 	{
 		T t = getModelObject();
 
