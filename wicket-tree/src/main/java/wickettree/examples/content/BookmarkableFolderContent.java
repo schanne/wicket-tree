@@ -50,6 +50,7 @@ public class BookmarkableFolderContent extends Content
 
 	public void detach()
 	{
+		provider.detach();
 	}
 
 	@Override
