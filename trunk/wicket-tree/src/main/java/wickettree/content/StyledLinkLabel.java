@@ -80,9 +80,12 @@ public abstract class StyledLinkLabel<T> extends Panel
 	/**
 	 * Hook method to create a new link component.
 	 * 
-	 * @param id
-	 * @param model
-	 * @return
+	 * This default implementation returns an {@link AjaxFallbackLink} which
+	 * invokes {@link #onClick(AjaxRequestTarget)} only if
+	 * {@link #isClickable()} returns <code>true</code>.
+	 * 
+	 * @see #isClickable()
+	 * @see #onClick(AjaxRequestTarget)
 	 */
 	protected Link<?> newLink(String id, IModel<T> model)
 	{
@@ -137,18 +140,24 @@ public abstract class StyledLinkLabel<T> extends Panel
 	}
 
 	/**
-	 * Clicking is disabled by default.
+	 * Clicking is disabled by default, override this method if you want your
+	 * link to be enabled.
+	 * 
+	 * @see #newLink(String, IModel)
+	 * @see #isClickable()
 	 */
-	public boolean isClickable()
+	protected boolean isClickable()
 	{
 		return false;
 	}
 
 	/**
-	 * Hook method to be notified of a click on the link. This component must be
-	 * enabled to receive click notifications.
+	 * Hook method to be notified of a click on the link.
 	 * 
 	 * @param target
+	 * 
+	 * @see #newLink(String, IModel)
+	 * @see #isClickable()
 	 */
 	protected void onClick(AjaxRequestTarget target)
 	{
