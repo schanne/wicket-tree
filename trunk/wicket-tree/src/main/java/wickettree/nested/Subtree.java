@@ -28,10 +28,17 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.RefreshingView;
 import org.apache.wicket.model.IModel;
 
+import wickettree.ITreeProvider;
 import wickettree.NestedTree;
 import wickettree.AbstractTree.State;
 
 /**
+ * A subtree handles all children of a single node (or the root nodes if a
+ * <code>null</code> node was given to the constructor).
+ * 
+ * @see ITreeProvider#getChildren(Object)
+ * @see ITreeProvider#getRoots()
+ * 
  * @author Sven Meier
  */
 public abstract class Subtree<T> extends Panel
@@ -42,6 +49,10 @@ public abstract class Subtree<T> extends Panel
 
 	private NestedTree<T> tree;
 
+	/**
+	 * Create a subtree for the children of the node contained in the given
+	 * model or the root nodes if the model contains <code>null</code>.
+	 */
 	public Subtree(String id, final NestedTree<T> tree, final IModel<T> t)
 	{
 		super(id, t);

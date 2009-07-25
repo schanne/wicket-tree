@@ -36,6 +36,8 @@ import wickettree.provider.ProviderSubset;
  * Abstract base class for {@link NestedTree} and {@link TableTree}. Uses its
  * model for storing the {@link State} of its {@link Node}s.
  * 
+ * @see #newContentComponent(String, IModel)
+ * 
  * @author Sven Meier
  */
 public abstract class AbstractTree<T> extends Panel
