@@ -20,7 +20,6 @@ import java.util.Set;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ResourceReference;
-import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.model.IModel;
 
 import wickettree.content.Folder;
@@ -28,11 +27,8 @@ import wickettree.theme.WindowsTheme;
 
 /**
  * An implementation of the NestedTree that aims to solve the 90% usecase by
- * using clickable {@link Folder}s on a standard {@link NestedTree}.
+ * using {@link Folder}s on a standard {@link NestedTree}.
  * 
- * @see #isClickable(Object)
- * @see #isSelected(Object)
- * @see #onClick(Object, AjaxRequestTarget)
  * @param <T>
  *            The model object type
  * @author Sven Meier
