@@ -70,6 +70,15 @@ public class SelectableFolderContent extends Content
 		{
 			private static final long serialVersionUID = 1L;
 
+			/**
+			 * Always clickable.
+			 */
+			@Override
+			public boolean isClickable()
+			{
+				return true;
+			}
+			
 			@Override
 			protected void onClick(AjaxRequestTarget target)
 			{
