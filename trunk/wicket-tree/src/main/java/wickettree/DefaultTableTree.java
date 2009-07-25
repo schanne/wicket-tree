@@ -20,7 +20,6 @@ import java.util.Set;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ResourceReference;
-import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.OddEvenItem;
@@ -33,12 +32,9 @@ import wickettree.theme.WindowsTheme;
 
 /**
  * An implementation of the TableTree that aims to solve the 90% usecase by
- * using clickable {@link Folder}s and by adding headers and no-records-found
- * toolbars to a standard {@link TableTree}.
+ * using {@link Folder}s and by adding headers and no-records-found toolbars to
+ * a standard {@link TableTree}.
  * 
- * @see #isClickable(Object)
- * @see #isSelected(Object)
- * @see #onClick(Object, AjaxRequestTarget)
  * @param <T>
  *            The model object type
  * @author Sven Meier
@@ -47,7 +43,7 @@ public class DefaultTableTree<T> extends TableTree<T>
 {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final WindowsTheme DEFAULT_THEME = new WindowsTheme();
 
 	public DefaultTableTree(String id, IColumn<T>[] columns, ITreeProvider<T> provider,
