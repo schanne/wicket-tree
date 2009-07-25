@@ -29,9 +29,9 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IStyledColumn;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.navigation.paging.IPageable;
+import org.apache.wicket.markup.repeater.IItemFactory;
 import org.apache.wicket.markup.repeater.IItemReuseStrategy;
 import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.markup.repeater.RefreshingView;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.IModel;
@@ -146,36 +146,23 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 			}
 		};
 		datagrid.setRowsPerPage(rowsPerPage);
+		datagrid.setItemReuseStrategy(new IItemReuseStrategy()
+		{
+			private static final long serialVersionUID = 1L;
+
+			public <S> Iterator<Item<S>> getItems(IItemFactory<S> factory,
+					Iterator<IModel<S>> newModels, Iterator<Item<S>> existingItems)
+			{
+				return TableTree.this.getItemReuseStrategy().getItems(factory, newModels,
+						existingItems);
+			}
+		});
 		add(datagrid);
 
 		topToolbars = new ToolbarsContainer("topToolbars");
 		bottomToolbars = new ToolbarsContainer("bottomToolbars");
 		add(topToolbars);
 		add(bottomToolbars);
-	}
-
-	/**
-	 * Sets the item reuse strategy. This strategy controls the creation of
-	 * {@link Item}s.
-	 * 
-	 * @see RefreshingView#setItemReuseStrategy(IItemReuseStrategy)
-	 * @see IItemReuseStrategy
-	 * 
-	 * @param strategy
-	 *            item reuse strategy
-	 * @return this for chaining
-	 */
-	public final AbstractTree<T> setItemReuseStrategy(IItemReuseStrategy strategy)
-	{
-		datagrid.setItemReuseStrategy(strategy);
-
-		return this;
-	}
-
-	@Override
-	public IItemReuseStrategy getItemReuseStrategy()
-	{
-		return datagrid.getItemReuseStrategy();
 	}
 
 	public IColumn<T>[] getColumns()
