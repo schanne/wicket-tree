@@ -19,7 +19,6 @@ package wickettree.examples.content;
 import org.apache.wicket.Component;
 import org.apache.wicket.Page;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.IModel;
@@ -63,23 +62,7 @@ public class BookmarkableFolderContent extends Content
 				if (!provider.hasChildren(foo))
 				{
 					return new BookmarkablePageLink<Void>(id, pageClass, new PageParameters("foo="
-							+ foo.getId()))
-					{
-
-						private static final long serialVersionUID = 1L;
-
-						@Override
-						protected void onComponentTag(ComponentTag tag)
-						{
-							super.onComponentTag(tag);
-
-							String styleClass = getStyleClass();
-							if (styleClass != null)
-							{
-								tag.put("class", styleClass);
-							}
-						}
-					};
+							+ foo.getId()));
 				}
 				else
 				{

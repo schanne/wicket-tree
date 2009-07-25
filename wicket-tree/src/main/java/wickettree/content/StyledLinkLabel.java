@@ -19,6 +19,7 @@ package wickettree.content;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
+import org.apache.wicket.behavior.AbstractBehavior;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -46,6 +47,20 @@ public abstract class StyledLinkLabel<T> extends Panel
 		super(id, model);
 
 		Link<?> link = newLink("link", model);
+		link.add(new AbstractBehavior()
+		{
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onComponentTag(Component component, ComponentTag tag)
+			{
+				String styleClass = getStyleClass();
+				if (styleClass != null)
+				{
+					tag.put("class", styleClass);
+				}
+			}
+		});
 		add(link);
 
 		link.add(newLabel("label", model));
@@ -56,8 +71,9 @@ public abstract class StyledLinkLabel<T> extends Panel
 	{
 		return (IModel<T>)getDefaultModel();
 	}
-	
-	public T getModelObject() {
+
+	public T getModelObject()
+	{
 		return getModel().getObject();
 	}
 
@@ -73,18 +89,6 @@ public abstract class StyledLinkLabel<T> extends Panel
 		return new AjaxFallbackLink<Void>(id)
 		{
 			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected void onComponentTag(ComponentTag tag)
-			{
-				super.onComponentTag(tag);
-
-				String styleClass = getStyleClass();
-				if (styleClass != null)
-				{
-					tag.put("class", styleClass);
-				}
-			}
 
 			@Override
 			public boolean isEnabled()
