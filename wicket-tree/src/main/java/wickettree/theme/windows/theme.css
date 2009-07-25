@@ -124,6 +124,7 @@ table.treetable div.branch-last {
 /* content */
 
 span.content a {
+  color: black;
   text-decoration: none;
 }
 
