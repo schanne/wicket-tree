@@ -30,7 +30,8 @@ import org.apache.wicket.model.IModel;
  * 
  * @see #newLink(String, IModel)
  * @see #newLabel(String, IModel)
- * @see #isEnabled()
+ * @see #isClickable()
+ * @see #onClick(AjaxRequestTarget)
  * 
  * @author Sven Meier
  */
@@ -48,8 +49,6 @@ public abstract class StyledLinkLabel<T> extends Panel
 		add(link);
 
 		link.add(newLabel("label", model));
-
-		setEnabled(false);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -90,7 +89,7 @@ public abstract class StyledLinkLabel<T> extends Panel
 			@Override
 			public boolean isEnabled()
 			{
-				return StyledLinkLabel.this.isEnabled();
+				return StyledLinkLabel.this.isClickable();
 			}
 
 			@Override
@@ -134,15 +133,11 @@ public abstract class StyledLinkLabel<T> extends Panel
 	}
 
 	/**
-	 * This component is disabled by default, enable it via
-	 * {@link #setEnabled(boolean)} or override this method and return
-	 * <code>true</code> (possibly dependent on this component's model
-	 * object).
+	 * Clicking is disabled by default.
 	 */
-	@Override
-	public boolean isEnabled()
+	public boolean isClickable()
 	{
-		return super.isEnabled();
+		return false;
 	}
 
 	/**

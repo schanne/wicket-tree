@@ -25,10 +25,8 @@ import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulato
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
-import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.markup.repeater.OddEvenItem;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
@@ -67,28 +65,6 @@ public class TableTreePage extends ExamplePage
 			protected Component newContentComponent(String id, IModel<Foo> model)
 			{
 				return TableTreePage.this.newContentComponent(id, model);
-			}
-
-			@Override
-			protected Item<Foo> newRowItem(String id, int index, IModel<Foo> model)
-			{
-				OddEvenItem<Foo> item = new OddEvenItem<Foo>(id, index, model)
-				{
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					protected void onComponentTag(ComponentTag tag)
-					{
-						super.onComponentTag(tag);
-
-						if (isSelected(getModelObject()))
-						{
-							tag.put("class", "selected");
-						}
-					}
-				};
-				item.setOutputMarkupId(true);
-				return item;
 			}
 		};
 		return tree;

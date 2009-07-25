@@ -22,17 +22,19 @@ import java.util.Set;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ResourceReference;
-import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 
 import wickettree.AbstractTree;
-import wickettree.content.CheckedFolder;
+import wickettree.examples.content.CheckedFolderContent;
+import wickettree.examples.content.Content;
+import wickettree.examples.content.FolderContent;
+import wickettree.examples.content.LabelContent;
+import wickettree.examples.content.SelectableFolderContent;
 import wickettree.provider.ProviderSubset;
 import wickettree.theme.HumanTheme;
 import wickettree.theme.WindowsTheme;
@@ -43,33 +45,40 @@ import wickettree.theme.WindowsTheme;
 public abstract class ExamplePage extends WebPage
 {
 
-	private ResourceReference theme = new WindowsTheme();
-
-	private ProviderSubset<Foo> state;
-
-	private ProviderSubset<Foo> selected;
-
-	private ProviderSubset<Foo> checked;
+	private ResourceReference theme;
 
 	private AbstractTree<Foo> tree;
 
-	private FooProvider provider;
+	private FooProvider provider = new FooProvider();
+
+	private Content content;
+
+	private List<Content> contents;
+
+	private List<ResourceReference> themes;
 
 	public ExamplePage()
 	{
-		provider = new FooProvider();
-
-		state = new ProviderSubset<Foo>(provider, true);
-
-		selected = new ProviderSubset<Foo>(provider, false);
-
-		checked = new ProviderSubset<Foo>(provider, false);
+		content = new CheckedFolderContent(provider);
 
 		Form<Void> form = new Form<Void>("form");
 		add(form);
 
+		form.add(new DropDownChoice<Content>("content",
+				new PropertyModel<Content>(this, "content"), initContents(),
+				new ChoiceRenderer<Content>("class.simpleName"))
+		{
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected boolean wantOnSelectionChangedNotifications()
+			{
+				return true;
+			}
+		});
+
 		form.add(new DropDownChoice<ResourceReference>("theme",
-				new PropertyModel<ResourceReference>(this, "theme"), getThemes(),
+				new PropertyModel<ResourceReference>(this, "theme"), initThemes(),
 				new ChoiceRenderer<ResourceReference>("class.simpleName"))
 		{
 			private static final long serialVersionUID = 1L;
@@ -81,64 +90,35 @@ public abstract class ExamplePage extends WebPage
 			}
 		});
 
+		ProviderSubset<Foo> state = new ProviderSubset<Foo>(provider, true);
 		tree = createTree(provider, state);
-		add(tree);
-
-		add(new Link<Void>("refresh")
-		{
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void onClick()
-			{
-			}
-		});
+		form.add(tree);
 	}
 
 	protected abstract AbstractTree<Foo> createTree(FooProvider provider, IModel<Set<Foo>> state);
 
-	protected boolean isSelected(Foo foo)
+	private List<Content> initContents()
 	{
-		return selected.getObject().contains(foo);
+		contents = new ArrayList<Content>();
+
+		contents.add(new LabelContent(provider));
+		contents.add(new FolderContent(provider));
+		contents.add(new SelectableFolderContent(provider));
+		contents.add(new CheckedFolderContent(provider));
+
+		content = contents.get(0);
+
+		return contents;
 	}
 
-	protected void select(Foo foo, final AjaxRequestTarget target)
+	private List<ResourceReference> initThemes()
 	{
-		if (isSelected(foo))
-		{
-			selected.getObject().remove(foo);
-		}
-		else
-		{
-			selected.getObject().add(foo);
-		}
-		tree.updateNode(foo, target);
-	}
-
-	protected boolean isChecked(Foo foo)
-	{
-		return checked.getObject().contains(foo);
-	}
-
-	protected void check(Foo foo, boolean check, final AjaxRequestTarget target)
-	{
-		if (check)
-		{
-			checked.getObject().add(foo);
-		}
-		else
-		{
-			checked.getObject().remove(foo);
-		}
-		tree.updateNode(foo, target);
-	}
-
-	private List<ResourceReference> getThemes()
-	{
-		List<ResourceReference> themes = new ArrayList<ResourceReference>();
+		themes = new ArrayList<ResourceReference>();
 
 		themes.add(new WindowsTheme());
 		themes.add(new HumanTheme());
+
+		theme = themes.get(0);
 
 		return themes;
 	}
@@ -151,59 +131,16 @@ public abstract class ExamplePage extends WebPage
 	@Override
 	public void detachModels()
 	{
-		state.detach();
-		selected.detach();
-		checked.detach();
-		
+		for (Content content : contents)
+		{
+			content.detach();
+		}
+
 		super.detachModels();
 	}
-	
+
 	protected Component newContentComponent(String id, IModel<Foo> model)
 	{
-		return new CheckedFolder<Foo>(id, tree, model)
-		{
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public boolean isEnabled()
-			{
-				return true;
-			}
-
-			@Override
-			protected void onClick(AjaxRequestTarget target)
-			{
-				ExamplePage.this.select(getModelObject(), target);
-			}
-
-			@Override
-			protected boolean isSelected()
-			{
-				return ExamplePage.this.isSelected(getModelObject());
-			}
-
-			@Override
-			protected IModel<Boolean> newCheckBoxModel(final IModel<Foo> model)
-			{
-				return new IModel<Boolean>()
-				{
-					private static final long serialVersionUID = 1L;
-
-					public Boolean getObject()
-					{
-						return isChecked(model.getObject());
-					}
-
-					public void setObject(Boolean object)
-					{
-						check(model.getObject(), object, AjaxRequestTarget.get());
-					}
-
-					public void detach()
-					{
-					}
-				};
-			}
-		};
+		return content.newContentComponent(id, tree, model);
 	}
 }
