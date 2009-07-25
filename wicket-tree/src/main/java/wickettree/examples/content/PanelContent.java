@@ -35,8 +35,4 @@ public class PanelContent extends Content implements IDetachable
 	{
 		return new FooPanel(id, model);
 	}
-
-	public void detach()
-	{
-	}
 }

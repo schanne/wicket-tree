@@ -48,11 +48,6 @@ public class BookmarkableFolderContent extends Content
 		this.pageClass = pageClass;
 	}
 
-	public void detach()
-	{
-		provider.detach();
-	}
-
 	@Override
 	public Component newContentComponent(String id, final AbstractTree<Foo> tree, IModel<Foo> model)
 	{
