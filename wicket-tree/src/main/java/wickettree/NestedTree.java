@@ -48,6 +48,9 @@ public abstract class NestedTree<T> extends AbstractTree<T>
 		add(newSubtree("subtree", new RootsModel()));
 	}
 
+	/**
+	 * Create a new subtree.
+	 */
 	public Subtree<T> newSubtree(String id, IModel<T> model)
 	{
 		return new Subtree<T>(id, this, model)

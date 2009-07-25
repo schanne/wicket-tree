@@ -21,6 +21,8 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 
 /**
+ * A branch contains a single node and its children.
+ * 
  * @author Sven Meier
  */
 public final class Branch<T> extends Item<T>

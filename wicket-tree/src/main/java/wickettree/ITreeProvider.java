@@ -22,7 +22,7 @@ import org.apache.wicket.model.IDetachable;
 import org.apache.wicket.model.IModel;
 
 /**
- * Interface used to provide a tree.
+ * Provider of a tree.
  * 
  * You can use the {@link IDetachable#detach()} method for cleaning up your
  * ITreeProvider instance.
