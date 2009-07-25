@@ -16,6 +16,7 @@
  */
 package wickettree.content;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.model.IModel;
 
 import wickettree.AbstractTree;
@@ -42,6 +43,23 @@ public class Folder<T> extends StyledLinkLabel<T>
 		this.tree = tree;
 	}
 
+	@Override
+	public boolean isClickable()
+	{
+		return true;
+	}
+	
+	@Override
+	protected void onClick(AjaxRequestTarget target)
+	{
+		T t = getModelObject();
+		if (tree.getState(t) == State.EXPANDED) {
+			tree.collapse(t);
+		} else {
+			tree.expand(t);
+		}
+	}
+	
 	/**
 	 * Delegates to others methods depending wether the given model is a folder,
 	 * expanded, collapsed or selected.

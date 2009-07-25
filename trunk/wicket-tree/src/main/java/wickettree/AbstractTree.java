@@ -158,6 +158,8 @@ public abstract class AbstractTree<T> extends Panel
 	public void expand(T t)
 	{
 		getModelObject().add(t);
+		
+		onStateChanged(t);
 	}
 
 	/**
@@ -166,6 +168,8 @@ public abstract class AbstractTree<T> extends Panel
 	public void collapse(T t)
 	{
 		getModelObject().remove(t);
+		
+		onStateChanged(t);
 	}
 
 	/**
@@ -236,16 +240,12 @@ public abstract class AbstractTree<T> extends Panel
 			protected void onCollapse()
 			{
 				AbstractTree.this.collapse(model.getObject());
-
-				onNodeStateChanged(this);
 			}
 
 			@Override
 			protected void onExpand()
 			{
 				AbstractTree.this.expand(model.getObject());
-
-				onNodeStateChanged(this);
 			}
 		};
 	}
@@ -257,7 +257,7 @@ public abstract class AbstractTree<T> extends Panel
 	 * 
 	 * @param nodeComponent
 	 */
-	protected void onNodeStateChanged(Component nodeComponent)
+	protected void onStateChanged(T t)
 	{
 		AjaxRequestTarget target = AjaxRequestTarget.get();
 		if (target != null)

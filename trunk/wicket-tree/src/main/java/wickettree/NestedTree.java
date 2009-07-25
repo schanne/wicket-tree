@@ -24,6 +24,7 @@ import org.apache.wicket.markup.repeater.IItemReuseStrategy;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 
+import wickettree.nested.Branch;
 import wickettree.nested.Subtree;
 
 /**
@@ -78,13 +79,24 @@ public abstract class NestedTree<T> extends AbstractTree<T>
 	}
 
 	@Override
-	protected void onNodeStateChanged(Component nodeComponent)
+	protected void onStateChanged(T t)
 	{
-		AjaxRequestTarget target = AjaxRequestTarget.get();
+		final AjaxRequestTarget target = AjaxRequestTarget.get();
 		if (target != null)
 		{
-			// just add the nodes parental branch
-			target.addComponent(nodeComponent.getParent());
+			final IModel<T> model = getProvider().model(t);
+			visitChildren(Branch.class, new IVisitor<Branch<T>>()
+			{
+				public Object component(Branch<T> branch)
+				{
+					if (model.equals(branch.getModel()))
+					{
+						target.addComponent(branch);
+						return IVisitor.STOP_TRAVERSAL;
+					}
+					return IVisitor.CONTINUE_TRAVERSAL;
+				}
+			});
 		}
 	}
 
