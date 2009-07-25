@@ -217,7 +217,7 @@ public abstract class AbstractTree<T> extends Panel
 	 */
 	public Component newNodeComponent(String id, final IModel<T> model)
 	{
-		return new Node<T>(id, model)
+		return new Node<T>(id, this, model)
 		{
 			private static final long serialVersionUID = 1L;
 
@@ -225,30 +225,6 @@ public abstract class AbstractTree<T> extends Panel
 			protected Component createContent(String id, IModel<T> model)
 			{
 				return AbstractTree.this.newContentComponent(id, model);
-			}
-
-			@Override
-			protected boolean hasChildren()
-			{
-				return AbstractTree.this.hasChildren(model.getObject());
-			}
-
-			@Override
-			protected State getState()
-			{
-				return AbstractTree.this.getState(model.getObject());
-			}
-
-			@Override
-			protected void onCollapse()
-			{
-				AbstractTree.this.collapse(model.getObject());
-			}
-
-			@Override
-			protected void onExpand()
-			{
-				AbstractTree.this.expand(model.getObject());
 			}
 		};
 	}
