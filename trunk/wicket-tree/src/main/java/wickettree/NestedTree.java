@@ -20,10 +20,7 @@ import java.util.Set;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.markup.repeater.DefaultItemReuseStrategy;
 import org.apache.wicket.markup.repeater.IItemReuseStrategy;
-import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.markup.repeater.RefreshingView;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 
@@ -38,8 +35,6 @@ public abstract class NestedTree<T> extends AbstractTree<T>
 {
 
 	private static final long serialVersionUID = 1L;
-
-	private IItemReuseStrategy itemReuseStrategy;
 
 	public NestedTree(String id, ITreeProvider<T> provider)
 	{
@@ -77,33 +72,6 @@ public abstract class NestedTree<T> extends AbstractTree<T>
 				return NestedTree.this.getState(t);
 			}
 		};
-	}
-
-	/**
-	 * Sets the item reuse strategy. This strategy controls the creation of
-	 * {@link Item}s.
-	 * 
-	 * @see RefreshingView#setItemReuseStrategy(IItemReuseStrategy)
-	 * @see IItemReuseStrategy
-	 * 
-	 * @param strategy
-	 *            item reuse strategy
-	 * @return this for chaining
-	 */
-	public final AbstractTree<T> setItemReuseStrategy(IItemReuseStrategy strategy)
-	{
-		this.itemReuseStrategy = strategy;
-
-		return this;
-	}
-
-	public IItemReuseStrategy getItemReuseStrategy()
-	{
-		if (itemReuseStrategy == null)
-		{
-			return DefaultItemReuseStrategy.getInstance();
-		}
-		return itemReuseStrategy;
 	}
 
 	@Override

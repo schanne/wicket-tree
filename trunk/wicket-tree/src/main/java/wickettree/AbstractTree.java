@@ -25,12 +25,17 @@ import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.IHeaderContributor;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.markup.repeater.DefaultItemReuseStrategy;
 import org.apache.wicket.markup.repeater.IItemReuseStrategy;
+import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 
 import wickettree.provider.ProviderSubset;
 
 /**
+ * Abstract base class for {@link NestedTree} and {@link TableTree}. Uses its
+ * model for storing the {@link State} of its {@link Node}s.
+ * 
  * @author Sven Meier
  */
 public abstract class AbstractTree<T> extends Panel
@@ -39,12 +44,14 @@ public abstract class AbstractTree<T> extends Panel
 
 	private ITreeProvider<T> provider;
 
-	public AbstractTree(String id, ITreeProvider<T> provider)
+	private IItemReuseStrategy itemReuseStrategy;
+
+	protected AbstractTree(String id, ITreeProvider<T> provider)
 	{
 		this(id, provider, null);
 	}
 
-	public AbstractTree(String id, ITreeProvider<T> provider, IModel<Set<T>> state)
+	protected AbstractTree(String id, ITreeProvider<T> provider, IModel<Set<T>> state)
 	{
 		super(id, state);
 
@@ -78,21 +85,47 @@ public abstract class AbstractTree<T> extends Panel
 		return null;
 	}
 
-	public abstract AbstractTree<T> setItemReuseStrategy(IItemReuseStrategy strategy);
+	/**
+	 * Sets the item reuse strategy. This strategy controls the creation of
+	 * {@link Item}s.
+	 * 
+	 * @see IItemReuseStrategy
+	 * 
+	 * @param strategy
+	 *            item reuse strategy
+	 * @return this for chaining
+	 */
+	public AbstractTree<T> setItemReuseStrategy(IItemReuseStrategy strategy)
+	{
+		this.itemReuseStrategy = strategy;
 
-	public abstract IItemReuseStrategy getItemReuseStrategy();
+		return this;
+	}
+
+	/**
+	 * @return currently set item reuse strategy. Defaults to
+	 *         <code>DefaultItemReuseStrategy</code> if none was set.
+	 * 
+	 * @see DefaultItemReuseStrategy
+	 */
+	public IItemReuseStrategy getItemReuseStrategy()
+	{
+		if (itemReuseStrategy == null)
+		{
+			return DefaultItemReuseStrategy.getInstance();
+		}
+		return itemReuseStrategy;
+	}
 
 	public ITreeProvider<T> getProvider()
 	{
 		return provider;
 	}
 
-	@SuppressWarnings("unchecked")
-	public IModel<Set<T>> getModel()
-	{
-		return (IModel<Set<T>>)getDefaultModel();
-	}
-
+	/**
+	 * Uses a {@link ProviderSubset} as model if none is inited in super
+	 * implementation.
+	 */
 	@Override
 	protected IModel<?> initModel()
 	{
@@ -104,6 +137,12 @@ public abstract class AbstractTree<T> extends Panel
 		}
 
 		return model;
+	}
+
+	@SuppressWarnings("unchecked")
+	public IModel<Set<T>> getModel()
+	{
+		return (IModel<Set<T>>)getDefaultModel();
 	}
 
 	public Set<T> getModelObject()
