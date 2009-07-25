@@ -36,6 +36,9 @@ import wickettree.provider.ProviderSubset;
  * Abstract base class for {@link NestedTree} and {@link TableTree}. Uses its
  * model for storing the {@link State} of its {@link Node}s.
  * 
+ * Note that a tree has no notion of a <em>selection</em>. Handling state of
+ * nodes besides expanse/collapse is irrelevant to a tree implementation.
+ * 
  * @see #newContentComponent(String, IModel)
  * 
  * @author Sven Meier
@@ -158,7 +161,7 @@ public abstract class AbstractTree<T> extends Panel
 	public void expand(T t)
 	{
 		getModelObject().add(t);
-		
+
 		onStateChanged(t);
 	}
 
@@ -168,7 +171,7 @@ public abstract class AbstractTree<T> extends Panel
 	public void collapse(T t)
 	{
 		getModelObject().remove(t);
-		
+
 		onStateChanged(t);
 	}
 
