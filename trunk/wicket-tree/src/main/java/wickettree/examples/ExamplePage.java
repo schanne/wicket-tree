@@ -18,7 +18,6 @@ package wickettree.examples;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ResourceReference;
@@ -35,7 +34,6 @@ import wickettree.examples.content.Content;
 import wickettree.examples.content.FolderContent;
 import wickettree.examples.content.LabelContent;
 import wickettree.examples.content.SelectableFolderContent;
-import wickettree.provider.ProviderSubset;
 import wickettree.theme.HumanTheme;
 import wickettree.theme.WindowsTheme;
 
@@ -90,12 +88,11 @@ public abstract class ExamplePage extends WebPage
 			}
 		});
 
-		ProviderSubset<Foo> state = new ProviderSubset<Foo>(provider, true);
-		tree = createTree(provider, state);
+		tree = createTree(provider);
 		form.add(tree);
 	}
 
-	protected abstract AbstractTree<Foo> createTree(FooProvider provider, IModel<Set<Foo>> state);
+	protected abstract AbstractTree<Foo> createTree(FooProvider provider);
 
 	private List<Content> initContents()
 	{

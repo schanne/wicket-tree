@@ -28,6 +28,8 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.IItemReuseStrategy;
 import org.apache.wicket.model.IModel;
 
+import wickettree.provider.ProviderSubset;
+
 /**
  * @author Sven Meier
  */
@@ -91,6 +93,19 @@ public abstract class AbstractTree<T> extends Panel
 		return (IModel<Set<T>>)getDefaultModel();
 	}
 
+	@Override
+	protected IModel<?> initModel()
+	{
+		IModel<?> model = super.initModel();
+
+		if (model == null)
+		{
+			model = new ProviderSubset<T>(provider);
+		}
+
+		return model;
+	}
+
 	public Set<T> getModelObject()
 	{
 		return getModel().getObject();
@@ -98,27 +113,16 @@ public abstract class AbstractTree<T> extends Panel
 
 	public void expand(T t)
 	{
-		if (getModel() != null)
-		{
-			getModelObject().add(t);
-		}
+		getModelObject().add(t);
 	}
 
 	public void collapse(T t)
 	{
-		if (getModel() != null)
-		{
-			getModelObject().remove(t);
-		}
+		getModelObject().remove(t);
 	}
 
 	public State getState(T t)
 	{
-		if (getModel() == null)
-		{
-			return State.EXPANDED;
-		}
-			
 		if (getModelObject().contains(t))
 		{
 			return State.EXPANDED;

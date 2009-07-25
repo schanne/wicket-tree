@@ -17,7 +17,6 @@
 package wickettree.examples;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ResourceReference;
@@ -47,11 +46,11 @@ public class TableTreePage extends ExamplePage
 	private TableTree<Foo> tree;
 
 	@Override
-	protected AbstractTree<Foo> createTree(FooProvider provider, IModel<Set<Foo>> state)
+	protected AbstractTree<Foo> createTree(FooProvider provider)
 	{
 		IColumn<Foo>[] columns = createColumns();
 
-		tree = new DefaultTableTree<Foo>("treetable", columns, provider, Integer.MAX_VALUE, state)
+		tree = new DefaultTableTree<Foo>("treetable", columns, provider, Integer.MAX_VALUE)
 		{
 			private static final long serialVersionUID = 1L;
 
