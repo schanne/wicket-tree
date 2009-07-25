@@ -116,6 +116,15 @@ public class CheckedSelectableFolderContent extends Content
 				};
 			}
 
+			/**
+			 * Always clickable.
+			 */
+			@Override
+			public boolean isClickable()
+			{
+				return true;
+			}
+			
 			@Override
 			protected void onClick(AjaxRequestTarget target)
 			{

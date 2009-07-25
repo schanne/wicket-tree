@@ -43,23 +43,33 @@ public class Folder<T> extends StyledLinkLabel<T>
 		this.tree = tree;
 	}
 
+	/**
+	 * Clickable is node has children.
+	 * 
+	 * @see AbstractTree#hasChildren(Object)
+	 */
 	@Override
 	public boolean isClickable()
 	{
-		return true;
+		T t = getModelObject();
+
+		return tree.hasChildren(t);
 	}
-	
+
 	@Override
 	protected void onClick(AjaxRequestTarget target)
 	{
 		T t = getModelObject();
-		if (tree.getState(t) == State.EXPANDED) {
+		if (tree.getState(t) == State.EXPANDED)
+		{
 			tree.collapse(t);
-		} else {
+		}
+		else
+		{
 			tree.expand(t);
 		}
 	}
-	
+
 	/**
 	 * Delegates to others methods depending wether the given model is a folder,
 	 * expanded, collapsed or selected.
