@@ -21,39 +21,35 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 
 /**
- * A branch contains a single node and its children.
+ * A branch is a container for a single node and its children inside a
+ * {@link Subtree}.
+ * 
+ * @see Subtree#newBranchItem(String, int, IModel)
  * 
  * @author Sven Meier
  */
-public final class Branch<T> extends Item<T>
-{
+public final class BranchItem<T> extends Item<T> {
 
 	private static final long serialVersionUID = 1L;
 
-	public Branch(String id, int index, IModel<T> model)
-	{
+	public BranchItem(String id, int index, IModel<T> model) {
 		super(id, index, model);
 
 		setOutputMarkupId(true);
 	}
 
 	@Override
-	protected void onComponentTag(ComponentTag tag)
-	{
+	protected void onComponentTag(ComponentTag tag) {
 		super.onComponentTag(tag);
 
-		if (isLast())
-		{
+		if (isLast()) {
 			tag.put("class", "branch-last");
-		}
-		else
-		{
+		} else {
 			tag.put("class", "branch");
 		}
 	}
 
-	private boolean isLast()
-	{
+	private boolean isLast() {
 		return getIndex() == getParent().size() - 1;
 	}
 }
