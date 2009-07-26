@@ -19,6 +19,7 @@ package wickettree.examples.content;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.PropertyModel;
 
 import wickettree.AbstractTree;
 import wickettree.ITreeProvider;
@@ -34,39 +35,16 @@ public class CheckedSelectableFolderContent extends Content
 
 	private static final long serialVersionUID = 1L;
 
-	private ProviderSubset<Foo> checked;
-
 	private ProviderSubset<Foo> selected;
 
 	public CheckedSelectableFolderContent(ITreeProvider<Foo> provider)
 	{
-		checked = new ProviderSubset<Foo>(provider, false);
-
 		selected = new ProviderSubset<Foo>(provider, false);
 	}
 
 	public void detach()
 	{
-		checked.detach();
-
 		selected.detach();
-	}
-
-	protected boolean isChecked(Foo foo)
-	{
-		return checked.getObject().contains(foo);
-	}
-
-	protected void check(Foo foo, boolean check, AbstractTree<Foo> tree, AjaxRequestTarget target)
-	{
-		if (check)
-		{
-			checked.getObject().add(foo);
-		}
-		else
-		{
-			checked.getObject().remove(foo);
-		}
 	}
 
 	protected boolean isSelected(Foo foo)
@@ -84,7 +62,7 @@ public class CheckedSelectableFolderContent extends Content
 		{
 			selected.getObject().add(foo);
 		}
-		
+
 		tree.updateNode(foo, target);
 	}
 
@@ -98,24 +76,7 @@ public class CheckedSelectableFolderContent extends Content
 			@Override
 			protected IModel<Boolean> newCheckBoxModel(final IModel<Foo> model)
 			{
-				return new IModel<Boolean>()
-				{
-					private static final long serialVersionUID = 1L;
-
-					public Boolean getObject()
-					{
-						return isChecked(model.getObject());
-					}
-
-					public void setObject(Boolean object)
-					{
-						check(model.getObject(), object, tree, AjaxRequestTarget.get());
-					}
-
-					public void detach()
-					{
-					}
-				};
+				return new PropertyModel<Boolean>(model, "quux");
 			}
 
 			/**
@@ -126,7 +87,7 @@ public class CheckedSelectableFolderContent extends Content
 			{
 				return true;
 			}
-			
+
 			@Override
 			protected void onClick(AjaxRequestTarget target)
 			{
