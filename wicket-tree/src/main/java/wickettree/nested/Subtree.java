@@ -41,7 +41,7 @@ import wickettree.AbstractTree.State;
  * 
  * @author Sven Meier
  */
-public abstract class Subtree<T> extends Panel
+public class Subtree<T> extends Panel
 {
 	private static final long serialVersionUID = 1L;
 
@@ -80,7 +80,7 @@ public abstract class Subtree<T> extends Panel
 			{
 				IModel<T> model = item.getModel();
 
-				Component node = newNodeComponent("node", model);
+				Component node = tree.newNodeComponent("node", model);
 				item.add(node);
 
 				item.add(tree.newSubtree("subtree", model));
@@ -93,7 +93,7 @@ public abstract class Subtree<T> extends Panel
 			public <S> Iterator<Item<S>> getItems(IItemFactory<S> factory,
 					Iterator<IModel<S>> newModels, Iterator<Item<S>> existingItems)
 			{
-				return Subtree.this.getItemReuseStrategy().getItems(factory, newModels,
+				return tree.getItemReuseStrategy().getItems(factory, newModels,
 						existingItems);
 			}
 		});
@@ -105,19 +105,6 @@ public abstract class Subtree<T> extends Panel
 	{
 		return (IModel<T>)getDefaultModel();
 	}
-
-	/**
-	 * Create a component suitable for the given node model.
-	 * 
-	 * @param id
-	 * @param model
-	 * @return
-	 */
-	protected abstract Component newNodeComponent(String id, IModel<T> model);
-
-	protected abstract IItemReuseStrategy getItemReuseStrategy();
-
-	protected abstract State getState(T t);
 
 	private final class ModelIterator implements Iterator<IModel<T>>
 	{
@@ -132,7 +119,7 @@ public abstract class Subtree<T> extends Panel
 			}
 			else
 			{
-				if (getState(t) == State.COLLAPSED)
+				if (tree.getState(t) == State.COLLAPSED)
 				{
 					children = EMPTY.iterator();
 				}

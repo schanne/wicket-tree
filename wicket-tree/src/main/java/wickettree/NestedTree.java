@@ -18,9 +18,7 @@ package wickettree;
 
 import java.util.Set;
 
-import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.markup.repeater.IItemReuseStrategy;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 
@@ -51,31 +49,15 @@ public abstract class NestedTree<T> extends AbstractTree<T>
 
 	/**
 	 * Create a new subtree.
+	 * 
+	 * @param id
+	 *            component id
+	 * @param model
+	 *            the model of the new subtree
 	 */
 	public Subtree<T> newSubtree(String id, IModel<T> model)
 	{
-		return new Subtree<T>(id, this, model)
-		{
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected Component newNodeComponent(String id, IModel<T> model)
-			{
-				return NestedTree.this.newNodeComponent(id, model);
-			}
-
-			@Override
-			protected IItemReuseStrategy getItemReuseStrategy()
-			{
-				return NestedTree.this.getItemReuseStrategy();
-			}
-
-			@Override
-			protected State getState(T t)
-			{
-				return NestedTree.this.getState(t);
-			}
-		};
+		return new Subtree<T>(id, this, model);
 	}
 
 	@Override
