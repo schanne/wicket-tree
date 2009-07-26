@@ -36,7 +36,8 @@ import org.apache.wicket.model.IModel;
  */
 public abstract class StyledLinkLabel<T> extends Panel
 {
-
+	private static final StyleBehavior STYLE_CLASS = new StyleBehavior();
+	
 	private static final long serialVersionUID = 1L;
 
 	@SuppressWarnings("unchecked")
@@ -45,20 +46,7 @@ public abstract class StyledLinkLabel<T> extends Panel
 		super(id, model);
 
 		Link<?> link = newLink("link", model);
-		link.add(new AbstractBehavior()
-		{
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void onComponentTag(Component component, ComponentTag tag)
-			{
-				String styleClass = getStyleClass();
-				if (styleClass != null)
-				{
-					tag.put("class", styleClass);
-				}
-			}
-		});
+		link.add(STYLE_CLASS);
 		add(link);
 
 		link.add(newLabel("label", model));
@@ -156,5 +144,25 @@ public abstract class StyledLinkLabel<T> extends Panel
 	 */
 	protected void onClick(AjaxRequestTarget target)
 	{
+	}
+
+	/**
+	 * Behavior to add a style class attribute to a contained link.
+	 */
+	private static class StyleBehavior extends AbstractBehavior
+	{
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void onComponentTag(Component component, ComponentTag tag)
+		{
+			StyledLinkLabel<?> parent = (StyledLinkLabel<?>)component.getParent();
+
+			String styleClass = parent.getStyleClass();
+			if (styleClass != null)
+			{
+				tag.put("class", styleClass);
+			}
+		}
 	}
 }
