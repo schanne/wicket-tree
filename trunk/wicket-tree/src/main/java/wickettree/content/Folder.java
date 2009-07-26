@@ -26,6 +26,9 @@ import wickettree.AbstractTree.State;
 /**
  * A typical folder representation of nodes in a tree.
  * 
+ * The link is used to expand/collapse the tree depending on the {@link State}
+ * of the current node.
+ * 
  * @author Sven Meier
  */
 public class Folder<T> extends StyledLinkLabel<T>
