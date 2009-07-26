@@ -51,7 +51,7 @@ public class SelectableFolderContent extends Content
 		return selected.getObject().contains(foo);
 	}
 
-	protected void select(Foo foo, final AjaxRequestTarget target)
+	protected void toggle(Foo foo, AbstractTree<Foo> tree, final AjaxRequestTarget target)
 	{
 		if (isSelected(foo))
 		{
@@ -61,6 +61,8 @@ public class SelectableFolderContent extends Content
 		{
 			selected.getObject().add(foo);
 		}
+		
+		tree.updateNode(foo, target);
 	}
 
 	@Override
@@ -82,9 +84,7 @@ public class SelectableFolderContent extends Content
 			@Override
 			protected void onClick(AjaxRequestTarget target)
 			{
-				SelectableFolderContent.this.select(getModelObject(), target);
-
-				tree.updateNode(getModelObject(), target);
+				SelectableFolderContent.this.toggle(getModelObject(), tree, target);
 			}
 
 			@Override

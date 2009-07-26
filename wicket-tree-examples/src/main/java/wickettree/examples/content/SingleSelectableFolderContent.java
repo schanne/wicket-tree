@@ -22,101 +22,60 @@ import org.apache.wicket.model.IModel;
 
 import wickettree.AbstractTree;
 import wickettree.ITreeProvider;
-import wickettree.content.CheckedFolder;
+import wickettree.content.Folder;
 import wickettree.examples.Foo;
-import wickettree.provider.ProviderSubset;
 
 /**
  * @author Sven Meier
  */
-public class CheckedSelectableFolderContent extends Content
+public class SingleSelectableFolderContent extends Content
 {
 
 	private static final long serialVersionUID = 1L;
 
-	private ProviderSubset<Foo> checked;
+	private ITreeProvider<Foo> provider;
 
-	private ProviderSubset<Foo> selected;
+	private IModel<Foo> selected;
 
-	public CheckedSelectableFolderContent(ITreeProvider<Foo> provider)
+	public SingleSelectableFolderContent(ITreeProvider<Foo> provider)
 	{
-		checked = new ProviderSubset<Foo>(provider, false);
-
-		selected = new ProviderSubset<Foo>(provider, false);
+		this.provider = provider;
 	}
 
 	public void detach()
 	{
-		checked.detach();
-
-		selected.detach();
-	}
-
-	protected boolean isChecked(Foo foo)
-	{
-		return checked.getObject().contains(foo);
-	}
-
-	protected void check(Foo foo, boolean check, AbstractTree<Foo> tree, AjaxRequestTarget target)
-	{
-		if (check)
+		if (selected != null)
 		{
-			checked.getObject().add(foo);
-		}
-		else
-		{
-			checked.getObject().remove(foo);
+			selected.detach();
 		}
 	}
 
 	protected boolean isSelected(Foo foo)
 	{
-		return selected.getObject().contains(foo);
+		return selected != null && selected.equals(provider.model(foo));
 	}
 
-	protected void toggle(Foo foo, AbstractTree<Foo> tree, final AjaxRequestTarget target)
+	protected void select(Foo foo, AbstractTree<Foo> tree, final AjaxRequestTarget target)
 	{
-		if (isSelected(foo))
+		if (selected != null)
 		{
-			selected.getObject().remove(foo);
+			tree.updateNode(selected.getObject(), target);
+
+			selected.detach();
+			selected = null;
 		}
-		else
-		{
-			selected.getObject().add(foo);
-		}
-		
+
+		selected = provider.model(foo);
+
 		tree.updateNode(foo, target);
 	}
 
 	@Override
 	public Component newContentComponent(String id, final AbstractTree<Foo> tree, IModel<Foo> model)
 	{
-		return new CheckedFolder<Foo>(id, tree, model)
+		return new Folder<Foo>(id, tree, model)
 		{
 			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected IModel<Boolean> newCheckBoxModel(final IModel<Foo> model)
-			{
-				return new IModel<Boolean>()
-				{
-					private static final long serialVersionUID = 1L;
-
-					public Boolean getObject()
-					{
-						return isChecked(model.getObject());
-					}
-
-					public void setObject(Boolean object)
-					{
-						check(model.getObject(), object, tree, AjaxRequestTarget.get());
-					}
-
-					public void detach()
-					{
-					}
-				};
-			}
 
 			/**
 			 * Always clickable.
@@ -126,17 +85,17 @@ public class CheckedSelectableFolderContent extends Content
 			{
 				return true;
 			}
-			
+
 			@Override
 			protected void onClick(AjaxRequestTarget target)
 			{
-				CheckedSelectableFolderContent.this.toggle(getModelObject(), tree, target);
+				SingleSelectableFolderContent.this.select(getModelObject(), tree, target);
 			}
 
 			@Override
 			protected boolean isSelected()
 			{
-				return CheckedSelectableFolderContent.this.isSelected(getModelObject());
+				return SingleSelectableFolderContent.this.isSelected(getModelObject());
 			}
 		};
 	}
