@@ -16,6 +16,7 @@
  */
 package wickettree.examples;
 
+import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -34,5 +35,6 @@ public class FooPanel extends Panel
 
 		add(new TextField<String>("bar"));
 		add(new TextField<String>("baz"));
+		add(new CheckBox("quux"));
 	}
 }
