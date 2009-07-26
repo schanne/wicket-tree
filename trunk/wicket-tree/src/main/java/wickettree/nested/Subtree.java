@@ -41,8 +41,8 @@ import wickettree.AbstractTree.State;
  * 
  * @author Sven Meier
  */
-public class Subtree<T> extends Panel
-{
+public class Subtree<T> extends Panel {
+	
 	private static final long serialVersionUID = 1L;
 
 	private final List<T> EMPTY = new ArrayList<T>();
@@ -53,31 +53,26 @@ public class Subtree<T> extends Panel
 	 * Create a subtree for the children of the node contained in the given
 	 * model or the root nodes if the model contains <code>null</code>.
 	 */
-	public Subtree(String id, final NestedTree<T> tree, final IModel<T> t)
-	{
+	public Subtree(String id, final NestedTree<T> tree, final IModel<T> t) {
 		super(id, t);
 
 		this.tree = tree;
 
-		RefreshingView<T> branches = new RefreshingView<T>("branches")
-		{
+		RefreshingView<T> branches = new RefreshingView<T>("branches") {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected Iterator<IModel<T>> getItemModels()
-			{
+			protected Iterator<IModel<T>> getItemModels() {
 				return new ModelIterator();
 			}
 
 			@Override
-			protected Item<T> newItem(String id, int index, IModel<T> model)
-			{
-				return new Branch<T>(id, index, model);
+			protected Item<T> newItem(String id, int index, IModel<T> model) {
+				return newBranchItem(id, index, model);
 			}
 
 			@Override
-			protected void populateItem(Item<T> item)
-			{
+			protected void populateItem(Item<T> item) {
 				IModel<T> model = item.getModel();
 
 				Component node = tree.newNodeComponent("node", model);
@@ -86,13 +81,12 @@ public class Subtree<T> extends Panel
 				item.add(tree.newSubtree("subtree", model));
 			}
 		};
-		branches.setItemReuseStrategy(new IItemReuseStrategy()
-		{
+		branches.setItemReuseStrategy(new IItemReuseStrategy() {
 			private static final long serialVersionUID = 1L;
 
 			public <S> Iterator<Item<S>> getItems(IItemFactory<S> factory,
-					Iterator<IModel<S>> newModels, Iterator<Item<S>> existingItems)
-			{
+					Iterator<IModel<S>> newModels,
+					Iterator<Item<S>> existingItems) {
 				return tree.getItemReuseStrategy().getItems(factory, newModels,
 						existingItems);
 			}
@@ -101,47 +95,39 @@ public class Subtree<T> extends Panel
 	}
 
 	@SuppressWarnings("unchecked")
-	public IModel<T> getModel()
-	{
-		return (IModel<T>)getDefaultModel();
+	public IModel<T> getModel() {
+		return (IModel<T>) getDefaultModel();
 	}
 
-	private final class ModelIterator implements Iterator<IModel<T>>
-	{
+	protected BranchItem<T> newBranchItem(String id, int index, IModel<T> model) {
+		return new BranchItem<T>(id, index, model);
+	}
+
+	private final class ModelIterator implements Iterator<IModel<T>> {
 		private Iterator<T> children;
 
-		public ModelIterator()
-		{
+		public ModelIterator() {
 			T t = getModel().getObject();
-			if (t == null)
-			{
+			if (t == null) {
 				children = tree.getProvider().getRoots();
-			}
-			else
-			{
-				if (tree.getState(t) == State.COLLAPSED)
-				{
+			} else {
+				if (tree.getState(t) == State.COLLAPSED) {
 					children = EMPTY.iterator();
-				}
-				else
-				{
+				} else {
 					children = tree.getProvider().getChildren(t);
 				}
 			}
 		}
 
-		public void remove()
-		{
+		public void remove() {
 			throw new UnsupportedOperationException();
 		}
 
-		public boolean hasNext()
-		{
+		public boolean hasNext() {
 			return children.hasNext();
 		}
 
-		public IModel<T> next()
-		{
+		public IModel<T> next() {
 			return tree.getProvider().model(children.next());
 		}
 	}
