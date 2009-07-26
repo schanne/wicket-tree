@@ -34,6 +34,8 @@ public class Foo implements Serializable
 	private String bar;
 
 	private String baz;
+	
+	private boolean quux;
 
 	private Foo parent;
 
@@ -82,6 +84,15 @@ public class Foo implements Serializable
 	public void setBaz(String baz)
 	{
 		this.baz = baz;
+	}
+
+	public void setQuux(boolean quux)
+	{
+		this.quux = quux;
+	}
+
+	public boolean getQuux() {
+		return quux;
 	}
 	
 	public List<Foo> getFoos()
