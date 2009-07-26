@@ -47,7 +47,7 @@ public class Folder<T> extends StyledLinkLabel<T>
 	}
 
 	/**
-	 * Clickable if node has children.
+	 * Clickable if node can be expanded/collapsed.
 	 * 
 	 * @see AbstractTree#hasChildren(Object)
 	 */
@@ -59,6 +59,9 @@ public class Folder<T> extends StyledLinkLabel<T>
 		return tree.hasChildren(t);
 	}
 
+	/**
+	 * Toggle the node's {@link State} on click.
+	 */
 	@Override
 	protected void onClick(AjaxRequestTarget target)
 	{
