@@ -21,13 +21,20 @@ import org.apache.wicket.model.IDetachable;
 import org.apache.wicket.model.IModel;
 
 import wickettree.AbstractTree;
+import wickettree.examples.ExamplePage;
 import wickettree.examples.Foo;
 
 /**
+ * Tree content for the {@link ExamplePage}.
+ * 
  * @author Sven Meier
  */
 public abstract class Content implements IDetachable
 {
+	
+	/**
+	 * Create new content. 
+	 */
 	public abstract Component newContentComponent(String id, AbstractTree<Foo> tree,
 			IModel<Foo> model);
 	
