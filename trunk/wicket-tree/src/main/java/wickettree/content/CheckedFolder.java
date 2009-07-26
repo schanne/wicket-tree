@@ -25,6 +25,12 @@ import org.apache.wicket.model.Model;
 import wickettree.AbstractTree;
 
 /**
+ * This class adds a checkbox to a {@link Folder}. Subclasses have to override
+ * {@link #newCheckBoxModel(IModel)} to do anything useful with the checkbox
+ * state.
+ * 
+ * @see #newCheckBoxModel(IModel)
+ * 
  * @author Sven Meier
  */
 public class CheckedFolder<T> extends Folder<T>
@@ -41,16 +47,19 @@ public class CheckedFolder<T> extends Folder<T>
 	}
 
 	/**
-	 * Hook method to create a new checkbox component.
+	 * Hook method to create a new checkbox component. This default
+	 * implementation uses an {@link AjaxCheckBox}.
 	 * 
 	 * @param id
 	 * @param model
 	 * @return
 	 * @see #newCheckBoxModel(IModel)
+	 * @see #onUpdate(AjaxRequestTarget)
 	 */
 	protected Component newCheckBox(String id, IModel<T> model)
 	{
-		return new AjaxCheckBox(id, newCheckBoxModel(model)) {
+		return new AjaxCheckBox(id, newCheckBoxModel(model))
+		{
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -62,7 +71,7 @@ public class CheckedFolder<T> extends Folder<T>
 	}
 
 	/**
-	 * Create the model for the checkbox, default to {@link Boolean#FALSE}.
+	 * Create the model for the checkbox, defaults to {@link Boolean#FALSE}.
 	 * 
 	 * @param model
 	 * @return wrapping model
@@ -71,7 +80,7 @@ public class CheckedFolder<T> extends Folder<T>
 	{
 		return Model.of(Boolean.FALSE);
 	}
-	
+
 	/**
 	 * Hook method to be notified of an update of the checkbox.
 	 * 
