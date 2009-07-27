@@ -94,7 +94,7 @@ public abstract class ExamplePage extends WebPage
 			{
 				return true;
 			}
-		});
+		}.setNullValid(true));
 
 		tree = createTree(provider);
 		tree.add(new HeaderContributor(new IHeaderContributor()
@@ -103,7 +103,9 @@ public abstract class ExamplePage extends WebPage
 
 			public void renderHead(IHeaderResponse response)
 			{
-				response.renderCSSReference(theme);
+				if (theme != null) {
+					response.renderCSSReference(theme);					
+				}
 			}
 		}));
 		form.add(tree);
