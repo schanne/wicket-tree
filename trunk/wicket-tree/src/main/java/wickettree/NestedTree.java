@@ -18,6 +18,7 @@ package wickettree;
 
 import java.util.Set;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
@@ -55,7 +56,7 @@ public abstract class NestedTree<T> extends AbstractTree<T>
 	 * @param model
 	 *            the model of the new subtree
 	 */
-	public Subtree<T> newSubtree(String id, IModel<T> model)
+	public Component newSubtree(String id, IModel<T> model)
 	{
 		return new Subtree<T>(id, this, model);
 	}
