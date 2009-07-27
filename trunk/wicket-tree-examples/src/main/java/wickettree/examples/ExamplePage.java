@@ -21,6 +21,9 @@ import java.util.List;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ResourceReference;
+import org.apache.wicket.behavior.HeaderContributor;
+import org.apache.wicket.markup.html.IHeaderContributor;
+import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -36,8 +39,8 @@ import wickettree.examples.content.CheckedSelectableFolderContent;
 import wickettree.examples.content.Content;
 import wickettree.examples.content.FolderContent;
 import wickettree.examples.content.LabelContent;
-import wickettree.examples.content.PanelContent;
 import wickettree.examples.content.MultiSelectableFolderContent;
+import wickettree.examples.content.PanelContent;
 import wickettree.examples.content.SelectableFolderContent;
 import wickettree.theme.HumanTheme;
 import wickettree.theme.WindowsTheme;
@@ -94,9 +97,19 @@ public abstract class ExamplePage extends WebPage
 		});
 
 		tree = createTree(provider);
+		tree.add(new HeaderContributor(new IHeaderContributor()
+		{
+			private static final long serialVersionUID = 1L;
+
+			public void renderHead(IHeaderResponse response)
+			{
+				response.renderCSSReference(theme);
+			}
+		}));
 		form.add(tree);
-		
-		form.add(new Button("submit") {
+
+		form.add(new Button("submit")
+		{
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -136,11 +149,6 @@ public abstract class ExamplePage extends WebPage
 		theme = themes.get(0);
 
 		return themes;
-	}
-
-	protected ResourceReference getTheme()
-	{
-		return theme;
 	}
 
 	@Override

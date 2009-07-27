@@ -17,7 +17,6 @@
 package wickettree.examples;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.ResourceReference;
 import org.apache.wicket.model.IModel;
 
 import wickettree.AbstractTree;
@@ -39,12 +38,6 @@ public class NestedTreePage extends ExamplePage
 		tree = new DefaultNestedTree<Foo>("tree", provider)
 		{
 			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected ResourceReference getTheme()
-			{
-				return NestedTreePage.this.getTheme();
-			}
 
 			@Override
 			protected Component newContentComponent(String id, IModel<Foo> model)
