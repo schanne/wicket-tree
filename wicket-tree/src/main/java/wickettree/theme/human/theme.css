@@ -103,34 +103,34 @@ li.branch-last {
   clear: both;
 }
 
-/* treetable */
+/* tabletree */
 
-table.treetable {
+table.tree {
   border-collapse: collapse;
 }
 
-table.treetable tr.selected {
+table.tree tr.selected {
   background-color: #fad184;
 }
 
-table.treetable td {
+table.tree td {
   margin: 0px;
   height: 100%;
 }
 
-table.treetable td.tree {
+table.tree td.tree {
   padding: 0px;
 }
 
-table.treetable div.subtree {
+table.tree div.subtree {
   height: 100%;
 }
 
-table.treetable div.branch {
+table.tree div.branch {
   height: 100%;
 }
 
-table.treetable div.branch-last {
+table.tree div.branch-last {
   height: 100%;
 }
 
