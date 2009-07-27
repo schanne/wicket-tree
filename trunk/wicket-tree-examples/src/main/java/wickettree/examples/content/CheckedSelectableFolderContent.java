@@ -25,45 +25,18 @@ import wickettree.AbstractTree;
 import wickettree.ITreeProvider;
 import wickettree.content.CheckedFolder;
 import wickettree.examples.Foo;
-import wickettree.provider.ProviderSubset;
 
 /**
  * @author Sven Meier
  */
-public class CheckedSelectableFolderContent extends Content
+public class CheckedSelectableFolderContent extends SelectableFolderContent
 {
 
 	private static final long serialVersionUID = 1L;
 
-	private ProviderSubset<Foo> selected;
-
 	public CheckedSelectableFolderContent(ITreeProvider<Foo> provider)
 	{
-		selected = new ProviderSubset<Foo>(provider, false);
-	}
-
-	public void detach()
-	{
-		selected.detach();
-	}
-
-	protected boolean isSelected(Foo foo)
-	{
-		return selected.getObject().contains(foo);
-	}
-
-	protected void toggle(Foo foo, AbstractTree<Foo> tree, final AjaxRequestTarget target)
-	{
-		if (isSelected(foo))
-		{
-			selected.getObject().remove(foo);
-		}
-		else
-		{
-			selected.getObject().add(foo);
-		}
-
-		tree.updateNode(foo, target);
+		super(provider);
 	}
 
 	@Override
@@ -91,7 +64,7 @@ public class CheckedSelectableFolderContent extends Content
 			@Override
 			protected void onClick(AjaxRequestTarget target)
 			{
-				CheckedSelectableFolderContent.this.toggle(getModelObject(), tree, target);
+				CheckedSelectableFolderContent.this.select(getModelObject(), tree, target);
 			}
 
 			@Override

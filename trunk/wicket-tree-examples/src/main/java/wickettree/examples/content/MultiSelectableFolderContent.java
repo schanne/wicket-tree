@@ -24,49 +24,44 @@ import wickettree.AbstractTree;
 import wickettree.ITreeProvider;
 import wickettree.content.Folder;
 import wickettree.examples.Foo;
+import wickettree.provider.ProviderSubset;
 
 /**
  * @author Sven Meier
  */
-public class SingleSelectableFolderContent extends Content
+public class MultiSelectableFolderContent extends Content
 {
 
 	private static final long serialVersionUID = 1L;
 
-	private ITreeProvider<Foo> provider;
+	private ProviderSubset<Foo> selected;
 
-	private IModel<Foo> selected;
-
-	public SingleSelectableFolderContent(ITreeProvider<Foo> provider)
+	public MultiSelectableFolderContent(ITreeProvider<Foo> provider)
 	{
-		this.provider = provider;
+		selected = new ProviderSubset<Foo>(provider, false);
 	}
 
 	public void detach()
 	{
-		if (selected != null)
-		{
-			selected.detach();
-		}
+		selected.detach();
 	}
 
 	protected boolean isSelected(Foo foo)
 	{
-		return selected != null && selected.equals(provider.model(foo));
+		return selected.getObject().contains(foo);
 	}
 
-	protected void select(Foo foo, AbstractTree<Foo> tree, final AjaxRequestTarget target)
+	protected void toggle(Foo foo, AbstractTree<Foo> tree, final AjaxRequestTarget target)
 	{
-		if (selected != null)
+		if (isSelected(foo))
 		{
-			tree.updateNode(selected.getObject(), target);
-
-			selected.detach();
-			selected = null;
+			selected.getObject().remove(foo);
 		}
-
-		selected = provider.model(foo);
-
+		else
+		{
+			selected.getObject().add(foo);
+		}
+		
 		tree.updateNode(foo, target);
 	}
 
@@ -85,17 +80,17 @@ public class SingleSelectableFolderContent extends Content
 			{
 				return true;
 			}
-
+			
 			@Override
 			protected void onClick(AjaxRequestTarget target)
 			{
-				SingleSelectableFolderContent.this.select(getModelObject(), tree, target);
+				MultiSelectableFolderContent.this.toggle(getModelObject(), tree, target);
 			}
 
 			@Override
 			protected boolean isSelected()
 			{
-				return SingleSelectableFolderContent.this.isSelected(getModelObject());
+				return MultiSelectableFolderContent.this.isSelected(getModelObject());
 			}
 		};
 	}

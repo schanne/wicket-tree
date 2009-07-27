@@ -24,7 +24,6 @@ import wickettree.AbstractTree;
 import wickettree.ITreeProvider;
 import wickettree.content.Folder;
 import wickettree.examples.Foo;
-import wickettree.provider.ProviderSubset;
 
 /**
  * @author Sven Meier
@@ -34,34 +33,40 @@ public class SelectableFolderContent extends Content
 
 	private static final long serialVersionUID = 1L;
 
-	private ProviderSubset<Foo> selected;
+	private ITreeProvider<Foo> provider;
+
+	private IModel<Foo> selected;
 
 	public SelectableFolderContent(ITreeProvider<Foo> provider)
 	{
-		selected = new ProviderSubset<Foo>(provider, false);
+		this.provider = provider;
 	}
 
 	public void detach()
 	{
-		selected.detach();
+		if (selected != null)
+		{
+			selected.detach();
+		}
 	}
 
 	protected boolean isSelected(Foo foo)
 	{
-		return selected.getObject().contains(foo);
+		return selected != null && selected.equals(provider.model(foo));
 	}
 
-	protected void toggle(Foo foo, AbstractTree<Foo> tree, final AjaxRequestTarget target)
+	protected void select(Foo foo, AbstractTree<Foo> tree, final AjaxRequestTarget target)
 	{
-		if (isSelected(foo))
+		if (selected != null)
 		{
-			selected.getObject().remove(foo);
+			tree.updateNode(selected.getObject(), target);
+
+			selected.detach();
+			selected = null;
 		}
-		else
-		{
-			selected.getObject().add(foo);
-		}
-		
+
+		selected = provider.model(foo);
+
 		tree.updateNode(foo, target);
 	}
 
@@ -80,11 +85,11 @@ public class SelectableFolderContent extends Content
 			{
 				return true;
 			}
-			
+
 			@Override
 			protected void onClick(AjaxRequestTarget target)
 			{
-				SelectableFolderContent.this.toggle(getModelObject(), tree, target);
+				SelectableFolderContent.this.select(getModelObject(), tree, target);
 			}
 
 			@Override
