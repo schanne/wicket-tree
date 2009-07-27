@@ -19,7 +19,6 @@ package wickettree.examples;
 import java.util.ArrayList;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.ResourceReference;
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
@@ -53,12 +52,6 @@ public class TableTreePage extends ExamplePage
 		tree = new DefaultTableTree<Foo>("tree", columns, provider, Integer.MAX_VALUE)
 		{
 			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected ResourceReference getTheme()
-			{
-				return TableTreePage.this.getTheme();
-			}
 
 			@Override
 			protected Component newContentComponent(String id, IModel<Foo> model)
