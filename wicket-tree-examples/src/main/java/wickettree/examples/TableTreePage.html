@@ -2,17 +2,17 @@
     <head>
     	<wicket:head>
 <style>
-table.treetable {
+table.tree {
 	width: 100%;
 	border: 1px solid #DDDDDD;
 }
-tr.even {
+table.tree tr.even {
 	background-color: #FFFFFF;
 }
-tr.odd {
+table.tree tr.odd {
 	background-color: #EEEEEE;
 }
-td.number {
+table.tree td.number {
 	text-align: right;
 	padding-right: 1em;
 }
@@ -21,7 +21,7 @@ td.number {
     </head>
     <body>
     	<wicket:extend>
-			<div wicket:id="treetable">[treetable]</div>
+			<table wicket:id="tree" class="tree">[tree]</table>
     	</wicket:extend>
     </body>
 </html>

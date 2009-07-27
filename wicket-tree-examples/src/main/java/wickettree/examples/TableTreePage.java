@@ -50,7 +50,7 @@ public class TableTreePage extends ExamplePage
 	{
 		IColumn<Foo>[] columns = createColumns();
 
-		tree = new DefaultTableTree<Foo>("treetable", columns, provider, Integer.MAX_VALUE)
+		tree = new DefaultTableTree<Foo>("tree", columns, provider, Integer.MAX_VALUE)
 		{
 			private static final long serialVersionUID = 1L;
 
