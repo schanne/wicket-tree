@@ -37,8 +37,8 @@ import wickettree.examples.content.Content;
 import wickettree.examples.content.FolderContent;
 import wickettree.examples.content.LabelContent;
 import wickettree.examples.content.PanelContent;
+import wickettree.examples.content.MultiSelectableFolderContent;
 import wickettree.examples.content.SelectableFolderContent;
-import wickettree.examples.content.SingleSelectableFolderContent;
 import wickettree.theme.HumanTheme;
 import wickettree.theme.WindowsTheme;
 
@@ -115,7 +115,7 @@ public abstract class ExamplePage extends WebPage
 		contents.add(new LabelContent());
 		contents.add(new FolderContent());
 		contents.add(new SelectableFolderContent(provider));
-		contents.add(new SingleSelectableFolderContent(provider));
+		contents.add(new MultiSelectableFolderContent(provider));
 		contents.add(new CheckedFolderContent(provider));
 		contents.add(new CheckedSelectableFolderContent(provider));
 		contents.add(new BookmarkableFolderContent(provider, getClass()));
