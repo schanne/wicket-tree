@@ -27,7 +27,6 @@ import org.apache.wicket.model.IModel;
 import wickettree.content.Folder;
 import wickettree.table.HeadersToolbar;
 import wickettree.table.NoRecordsToolbar;
-import wickettree.theme.WindowsTheme;
 
 /**
  * An implementation of the TableTree that aims to solve the 90% usecase by
@@ -41,8 +40,6 @@ import wickettree.theme.WindowsTheme;
 public class DefaultTableTree<T> extends TableTree<T> {
 
 	private static final long serialVersionUID = 1L;
-
-	private static final WindowsTheme DEFAULT_THEME = new WindowsTheme();
 
 	public DefaultTableTree(String id, IColumn<T>[] columns,
 			ITreeProvider<T> provider, int rowsPerPage) {

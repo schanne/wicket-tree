@@ -22,7 +22,6 @@ import org.apache.wicket.Component;
 import org.apache.wicket.model.IModel;
 
 import wickettree.content.Folder;
-import wickettree.theme.WindowsTheme;
 
 /**
  * An implementation of the NestedTree that aims to solve the 90% usecase by
@@ -34,8 +33,6 @@ import wickettree.theme.WindowsTheme;
  */
 public class DefaultNestedTree<T> extends NestedTree<T> {
 	private static final long serialVersionUID = 1L;
-
-	private static final WindowsTheme DEFAULT_THEME = new WindowsTheme();
 
 	public DefaultNestedTree(String id, ITreeProvider<T> provider) {
 		this(id, provider, null);
