@@ -181,7 +181,7 @@ public abstract class AbstractTree<T> extends Panel {
 
 	/**
 	 * Hook method for handling of {@link State} changes. This default
-	 * implementation add this whole component for rendering if the change
+	 * implementation adds this whole component for rendering if the change
 	 * happened on an {@link AjaxRequestTarget}.
 	 * 
 	 * @param nodeComponent
@@ -199,7 +199,7 @@ public abstract class AbstractTree<T> extends Panel {
 	protected abstract Component newContentComponent(String id, IModel<T> model);
 
 	/**
-	 * Convenience method to update a single {@link Node} on an
+	 * Convenience method to update a single node on an
 	 * {@link AjaxRequestTarget}. Does nothing if target is <code>null</code>.
 	 * 
 	 * @param t
