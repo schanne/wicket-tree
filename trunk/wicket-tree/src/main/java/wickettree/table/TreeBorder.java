@@ -21,6 +21,9 @@ import org.apache.wicket.RequestCycle;
 import org.apache.wicket.Response;
 
 /**
+ * A border for a component which renders nested <code>DIV</code>s to
+ * simulate a tree structure inside a tabular layout.
+ * 
  * @author Sven Meier
  */
 public class TreeBorder implements IComponentBorder
