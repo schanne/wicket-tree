@@ -228,11 +228,25 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 		return datagrid.getCurrentPage();
 	}
 
+	/**
+	 * @return number of rows per page
+	 */
 	public int getRowsPerPage()
 	{
 		return datagrid.getRowsPerPage();
 	}
 
+	/**
+	 * Sets the number of items to be displayed per page
+	 * 
+	 * @param items
+	 *            number of items to display per page
+	 * 
+	 */
+	public void setRowsPerPage(int items) {
+		datagrid.setRowsPerPage(items);
+	}
+	
 	private class DataProvider implements IDataProvider<T>, Iterator<T>, Iterable<T>
 	{
 
