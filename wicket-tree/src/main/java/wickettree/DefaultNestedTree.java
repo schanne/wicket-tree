@@ -30,20 +30,23 @@ import wickettree.content.Folder;
  *            The model object type
  * @author Sven Meier
  */
-public class DefaultNestedTree<T> extends NestedTree<T> {
+public class DefaultNestedTree<T> extends NestedTree<T>
+{
 	private static final long serialVersionUID = 1L;
 
-	public DefaultNestedTree(String id, ITreeProvider<T> provider) {
+	public DefaultNestedTree(String id, ITreeProvider<T> provider)
+	{
 		this(id, provider, null);
 	}
 
-	public DefaultNestedTree(String id, ITreeProvider<T> provider,
-			IModel<Set<T>> state) {
+	public DefaultNestedTree(String id, ITreeProvider<T> provider, IModel<Set<T>> state)
+	{
 		super(id, provider, state);
 	}
 
 	@Override
-	protected Component newContentComponent(String id, IModel<T> model) {
+	protected Component newContentComponent(String id, IModel<T> model)
+	{
 		return new Folder<T>(id, this, model);
 	}
 }

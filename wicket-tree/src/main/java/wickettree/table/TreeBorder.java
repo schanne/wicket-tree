@@ -30,10 +30,11 @@ public class TreeBorder implements IComponentBorder
 
 	private boolean[] branches;
 
-	public TreeBorder(boolean[] branches) {
+	public TreeBorder(boolean[] branches)
+	{
 		this.branches = branches;
 	}
-	
+
 	public void renderBefore(Component component)
 	{
 		Response response = RequestCycle.get().getResponse();

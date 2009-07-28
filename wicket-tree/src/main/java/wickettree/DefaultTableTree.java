@@ -36,17 +36,20 @@ import wickettree.table.NoRecordsToolbar;
  *            The model object type
  * @author Sven Meier
  */
-public class DefaultTableTree<T> extends TableTree<T> {
+public class DefaultTableTree<T> extends TableTree<T>
+{
 
 	private static final long serialVersionUID = 1L;
 
-	public DefaultTableTree(String id, IColumn<T>[] columns,
-			ITreeProvider<T> provider, int rowsPerPage) {
+	public DefaultTableTree(String id, IColumn<T>[] columns, ITreeProvider<T> provider,
+			int rowsPerPage)
+	{
 		this(id, columns, provider, rowsPerPage, null);
 	}
 
-	public DefaultTableTree(String id, IColumn<T>[] columns,
-			ITreeProvider<T> provider, int rowsPerPage, IModel<Set<T>> state) {
+	public DefaultTableTree(String id, IColumn<T>[] columns, ITreeProvider<T> provider,
+			int rowsPerPage, IModel<Set<T>> state)
+	{
 		super(id, columns, provider, rowsPerPage, state);
 
 		addTopToolbar(new HeadersToolbar(this));
@@ -54,12 +57,14 @@ public class DefaultTableTree<T> extends TableTree<T> {
 	}
 
 	@Override
-	protected Component newContentComponent(String id, IModel<T> model) {
+	protected Component newContentComponent(String id, IModel<T> model)
+	{
 		return new Folder<T>(id, this, model);
 	}
 
 	@Override
-	protected Item<T> newRowItem(String id, int index, IModel<T> model) {
+	protected Item<T> newRowItem(String id, int index, IModel<T> model)
+	{
 		return new OddEvenItem<T>(id, index, model);
 	}
 }
