@@ -16,7 +16,9 @@
  */
 package wickettree.examples;
 
+import org.apache.wicket.protocol.http.HttpSessionStore;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.session.ISessionStore;
 
 /**
  * @author Sven Meier
@@ -27,9 +29,25 @@ public class WicketApplication extends WebApplication
 	{
 	}
 
+	@Override
+	protected void init()
+	{
+		try {
+			new Thread().start();
+		} catch (Exception threadsNotAllowed) {
+			getResourceSettings().setResourcePollFrequency(null);
+		}
+	}
+	
 	public Class<NestedTreePage> getHomePage()
 	{
 		return NestedTreePage.class;
 	}
 
+	@Override
+	protected ISessionStore newSessionStore()
+	{
+		// assume no disk present
+		return new HttpSessionStore(this);
+	}
 }
