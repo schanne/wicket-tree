@@ -26,7 +26,9 @@ import wickettree.AbstractTree.State;
  * A typical folder representation of nodes in a tree.
  * 
  * The link is used to expand/collapse the tree depending on the {@link State}
- * of the current node.
+ * of the current node. Nodes without children are not clickable. Subclasses may
+ * change this behavior by overriding {@link #isClickable()} and
+ * {@link #onClick(AjaxRequestTarget)}.
  * 
  * @author Sven Meier
  */
@@ -127,6 +129,9 @@ public class Folder<T> extends StyledLinkLabel<T>
 		return false;
 	}
 
+	/**
+	 * Get a style class for anything other than closed or open folders.
+	 */
 	protected String getOtherStyleClass(T t)
 	{
 		return "folder-other";
@@ -142,6 +147,11 @@ public class Folder<T> extends StyledLinkLabel<T>
 		return "folder-open";
 	}
 
+	/**
+	 * Get a style class to render for a selected folder.
+	 * 
+	 * @see #isSelected()
+	 */
 	protected String getSelectedStyleClass()
 	{
 		return "selected";
