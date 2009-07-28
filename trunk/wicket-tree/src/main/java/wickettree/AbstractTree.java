@@ -38,19 +38,21 @@ import wickettree.provider.ProviderSubset;
  * 
  * @author Sven Meier
  */
-public abstract class AbstractTree<T> extends Panel {
+public abstract class AbstractTree<T> extends Panel
+{
 	private static final long serialVersionUID = 1L;
 
 	private ITreeProvider<T> provider;
 
 	private IItemReuseStrategy itemReuseStrategy;
 
-	protected AbstractTree(String id, ITreeProvider<T> provider) {
+	protected AbstractTree(String id, ITreeProvider<T> provider)
+	{
 		this(id, provider, null);
 	}
 
-	protected AbstractTree(String id, ITreeProvider<T> provider,
-			IModel<Set<T>> state) {
+	protected AbstractTree(String id, ITreeProvider<T> provider, IModel<Set<T>> state)
+	{
 		super(id, state);
 
 		this.provider = provider;
@@ -69,7 +71,8 @@ public abstract class AbstractTree<T> extends Panel {
 	 *            item reuse strategy
 	 * @return this for chaining
 	 */
-	public AbstractTree<T> setItemReuseStrategy(IItemReuseStrategy strategy) {
+	public AbstractTree<T> setItemReuseStrategy(IItemReuseStrategy strategy)
+	{
 		this.itemReuseStrategy = strategy;
 
 		return this;
@@ -81,14 +84,17 @@ public abstract class AbstractTree<T> extends Panel {
 	 * 
 	 * @see DefaultItemReuseStrategy
 	 */
-	public IItemReuseStrategy getItemReuseStrategy() {
-		if (itemReuseStrategy == null) {
+	public IItemReuseStrategy getItemReuseStrategy()
+	{
+		if (itemReuseStrategy == null)
+		{
 			return DefaultItemReuseStrategy.getInstance();
 		}
 		return itemReuseStrategy;
 	}
 
-	public ITreeProvider<T> getProvider() {
+	public ITreeProvider<T> getProvider()
+	{
 		return provider;
 	}
 
@@ -97,10 +103,12 @@ public abstract class AbstractTree<T> extends Panel {
 	 * implementation.
 	 */
 	@Override
-	protected IModel<?> initModel() {
+	protected IModel<?> initModel()
+	{
 		IModel<?> model = super.initModel();
 
-		if (model == null) {
+		if (model == null)
+		{
 			model = new ProviderSubset<T>(provider);
 		}
 
@@ -108,18 +116,21 @@ public abstract class AbstractTree<T> extends Panel {
 	}
 
 	@SuppressWarnings("unchecked")
-	public IModel<Set<T>> getModel() {
-		return (IModel<Set<T>>) getDefaultModel();
+	public IModel<Set<T>> getModel()
+	{
+		return (IModel<Set<T>>)getDefaultModel();
 	}
 
-	public Set<T> getModelObject() {
+	public Set<T> getModelObject()
+	{
 		return getModel().getObject();
 	}
 
 	/**
 	 * Expand the given node.
 	 */
-	public void expand(T t) {
+	public void expand(T t)
+	{
 		getModelObject().add(t);
 
 		onStateChanged(t);
@@ -128,7 +139,8 @@ public abstract class AbstractTree<T> extends Panel {
 	/**
 	 * Collapse the given node.
 	 */
-	public void collapse(T t) {
+	public void collapse(T t)
+	{
 		getModelObject().remove(t);
 
 		onStateChanged(t);
@@ -137,10 +149,14 @@ public abstract class AbstractTree<T> extends Panel {
 	/**
 	 * Get the given node's {@link State}.
 	 */
-	public State getState(T t) {
-		if (getModelObject().contains(t)) {
+	public State getState(T t)
+	{
+		if (getModelObject().contains(t))
+		{
 			return State.EXPANDED;
-		} else {
+		}
+		else
+		{
 			return State.COLLAPSED;
 		}
 	}
@@ -151,7 +167,8 @@ public abstract class AbstractTree<T> extends Panel {
 	 * 
 	 * @param t
 	 */
-	public boolean hasChildren(T t) {
+	public boolean hasChildren(T t)
+	{
 		return provider.hasChildren(t);
 	}
 
@@ -159,7 +176,8 @@ public abstract class AbstractTree<T> extends Panel {
 	 * Overriden to detach the {@link ITreeProvider}.
 	 */
 	@Override
-	protected void onDetach() {
+	protected void onDetach()
+	{
 		provider.detach();
 
 		super.onDetach();
@@ -168,12 +186,15 @@ public abstract class AbstractTree<T> extends Panel {
 	/**
 	 * Create a new component for a node.
 	 */
-	public Component newNodeComponent(String id, final IModel<T> model) {
-		return new Node<T>(id, this, model) {
+	public Component newNodeComponent(String id, final IModel<T> model)
+	{
+		return new Node<T>(id, this, model)
+		{
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected Component createContent(String id, IModel<T> model) {
+			protected Component createContent(String id, IModel<T> model)
+			{
 				return AbstractTree.this.newContentComponent(id, model);
 			}
 		};
@@ -186,9 +207,11 @@ public abstract class AbstractTree<T> extends Panel {
 	 * 
 	 * @param nodeComponent
 	 */
-	protected void onStateChanged(T t) {
+	protected void onStateChanged(T t)
+	{
 		AjaxRequestTarget target = AjaxRequestTarget.get();
-		if (target != null) {
+		if (target != null)
+		{
 			target.addComponent(this);
 		}
 	}
@@ -205,12 +228,17 @@ public abstract class AbstractTree<T> extends Panel {
 	 * @param t
 	 * @param target
 	 */
-	public void updateNode(T t, final AjaxRequestTarget target) {
-		if (target != null) {
+	public void updateNode(T t, final AjaxRequestTarget target)
+	{
+		if (target != null)
+		{
 			final IModel<T> model = getProvider().model(t);
-			visitChildren(Node.class, new IVisitor<Node<T>>() {
-				public Object component(Node<T> node) {
-					if (model.equals(node.getModel())) {
+			visitChildren(Node.class, new IVisitor<Node<T>>()
+			{
+				public Object component(Node<T> node)
+				{
+					if (model.equals(node.getModel()))
+					{
 						target.addComponent(node);
 						return IVisitor.STOP_TRAVERSAL;
 					}

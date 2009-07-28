@@ -465,8 +465,9 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 	}
 
 	/**
-	 * Update the complete row item.
+	 * Overriden to update the complete row item of the node.
 	 */
+	@Override
 	public void updateNode(T t, final AjaxRequestTarget target)
 	{
 		if (target != null)
