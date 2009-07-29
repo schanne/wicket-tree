@@ -38,6 +38,7 @@ import wickettree.examples.content.CheckedSelectableFolderContent;
 import wickettree.examples.content.Content;
 import wickettree.examples.content.FolderContent;
 import wickettree.examples.content.LabelContent;
+import wickettree.examples.content.MultiLineLabelContent;
 import wickettree.examples.content.MultiSelectableFolderContent;
 import wickettree.examples.content.PanelContent;
 import wickettree.examples.content.SelectableFolderContent;
@@ -127,6 +128,7 @@ public abstract class ExamplePage extends WebPage
 		contents = new ArrayList<Content>();
 
 		contents.add(new LabelContent());
+		contents.add(new MultiLineLabelContent());
 		contents.add(new FolderContent());
 		contents.add(new SelectableFolderContent(provider));
 		contents.add(new MultiSelectableFolderContent(provider));
