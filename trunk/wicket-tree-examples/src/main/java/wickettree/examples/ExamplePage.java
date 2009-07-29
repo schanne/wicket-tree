@@ -36,6 +36,7 @@ import wickettree.examples.content.BookmarkableFolderContent;
 import wickettree.examples.content.CheckedFolderContent;
 import wickettree.examples.content.CheckedSelectableFolderContent;
 import wickettree.examples.content.Content;
+import wickettree.examples.content.EditableFolderContent;
 import wickettree.examples.content.FolderContent;
 import wickettree.examples.content.LabelContent;
 import wickettree.examples.content.MultiLineLabelContent;
@@ -130,6 +131,7 @@ public abstract class ExamplePage extends WebPage
 		contents.add(new LabelContent());
 		contents.add(new MultiLineLabelContent());
 		contents.add(new FolderContent());
+		contents.add(new EditableFolderContent());
 		contents.add(new SelectableFolderContent(provider));
 		contents.add(new MultiSelectableFolderContent(provider));
 		contents.add(new CheckedFolderContent(provider));
