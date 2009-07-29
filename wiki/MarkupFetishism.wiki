@@ -89,12 +89,12 @@ And here is the output of Wicket's standard tree implementation:
 </div>
 }}}
 
-With this obesseion in tabular markup you would expect the Wicket {{{TreeTable}}} component to utilize {{{<table>}}} tags, but it uses heavily styled {{{<div>}}} tags instead.
+With this obsession in tabular markup you would expect the Wicket {{{TreeTable}}} component to utilize {{{<table>}}} tags, but it uses heavily styled {{{<div>}}} tags instead.
 
 Here is [http://code.google.com/p/wicket-tree/source/browse/trunk/wicket-tree/src/main/java/wickettree/TableTree.java TableTree]'s markup:
 
 {{{
-<table  class="tree">
+<table class="tree">
 	<tbody>
 		<tr>
 			<td class="tree">
@@ -144,14 +144,18 @@ Here is [http://code.google.com/p/wicket-tree/source/browse/trunk/wicket-tree/sr
 							<div class="subtree">
 								<div class="branch-last">
 									<div class="node">
-						<span class="junction">
-							<em></em>
-						</span>
-						<span class="content">
-							<a class="folder-other">
-								<span class="label">AAA</span>
-							</a>
-						</span>
+										<span class="junction">
+											<em></em>
+										</span>
+										<span class="content">
+											<a class="folder-other">
+												<span class="label">AAA</span>
+											</a>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</td>
