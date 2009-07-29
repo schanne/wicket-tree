@@ -1,7 +1,4 @@
-Say we want to render a very simple tree with two nodes:
-
-[http://wicket-tree.googlecode.com/svn/trunk/wicket-tree/src/main/java/wickettree/theme/windows/folder-open.gif] A
- [http://wicket-tree.googlecode.com/svn/trunk/wicket-tree/src/main/java/wickettree/theme/windows/folder-other.gif] AA
+Say we want to render a very simple tree with two nodes, a folder *A* containing file *AA*.
 
 Following is the what [http://code.google.com/p/wicket-tree/source/browse/trunk/wicket-tree/src/main/java/wickettree/NestedTree.java NestedTree] is rendering (id, href, onclick attributes removed to protect the innocent):
 
