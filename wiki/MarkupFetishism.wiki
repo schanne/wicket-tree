@@ -1,4 +1,4 @@
-Say we want to render a very simple tree with three nodes, a folder *A* containing folder *AA* containing file *AAA*.
+Say we want to render a very simple tree with three nodes, a folder *A* containing a file *AA*.
 
 Following is the what [http://code.google.com/p/wicket-tree/source/browse/trunk/wicket-tree/src/main/java/wickettree/NestedTree.java NestedTree] is rendering (id, href, onclick attributes removed for brevity):
 
@@ -6,11 +6,11 @@ Following is the what [http://code.google.com/p/wicket-tree/source/browse/trunk/
 <ul class="tree">
 	<li class="branch-last" >
 		<div class="node">
-			<a href="#" class="junction-expanded">
+			<a class="junction-expanded">
 				<span class="sign">-</span> 
 			</a>
 			<span class="content">
-				<a class="folder-open" href="#">
+				<a class="folder-open">
 					<span class="label">A</span>
 				</a>
 			</span>
@@ -19,11 +19,11 @@ Following is the what [http://code.google.com/p/wicket-tree/source/browse/trunk/
 		<ul class="subtree">
 			<li class="branch-last">
 				<div class="node">
-					<a class="junction-expanded">
-						<span class="sign">-</span> 
-					</a>
+					<span class="junction">
+						<em></em> 
+					</span>
 					<span class="content">
-						<a class="folder-open">
+						<a class="folder-other">
 							<span class="label">AA</span>
 						</a>
 					</span>
@@ -68,13 +68,13 @@ And here is the output of Wicket's standard tree implementation:
 				<span/>
 			</td>
 			<td class="half-line">
-				<a class="junction-open"/>
+				<a class="junction-corner"/>
 			</td>
 			<td>
 				<table class="icon-panel">
 					<tr>
 						<td>
-							<img src="../resources/org.apache.wicket.markup.html.tree.LabelIconPanel/res/folder-open.gif" class="icon"/>
+							<img src="../resources/org.apache.wicket.markup.html.tree.LabelIconPanel/res/item.gif" class="icon"/>
 						</td>
 						<td class="content">
 							<a>
@@ -106,27 +106,6 @@ Here is [http://code.google.com/p/wicket-tree/source/browse/trunk/wicket-tree/sr
 						<span class="content">
 							<a class="folder-open">
 								<span class="label">A</span>
-							</a>
-						</span>
-					</div>
-				</div>
-			</td>
-			<td>
-				... further columns
-			</td>
-		</tr>
-		<tr>
-			<td class="tree">
-				<div class="branch-last">
-					<div class="subtree">
-						<div class="branch-last">
-							<div class="node">
-								<a class="junction-expanded">
-							<span class="sign">-</span> 
-						</a>
-						<span class="content">
-							<a class="folder-open">
-								<span class="label">AA</span>
 							</a>
 						</span>
 					</div>
