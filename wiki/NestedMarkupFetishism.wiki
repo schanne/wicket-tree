@@ -1,0 +1,95 @@
+Say we want to render a very simple tree with two nodes:
+
+  * A
+    * AA
+
+This is the what NestedTree is rendering:
+
+{{{
+<ul class="tree">
+	<li class="branch-last" >
+		<div class="node">
+			<a href="#" class="junction-expanded">
+				<span class="sign">-</span> 
+			</a>
+			<span class="content">
+				<a class="folder-open" href="#">
+					<span class="label">A</span>
+				</a>
+			</span>
+		</div>
+	
+		<ul class="subtree">
+			<li class="branch-last">
+				<div class="node">
+					<a class="junction-expanded">
+						<span class="sign">-</span> 
+					</a>
+					<span class="content">
+						<a class="folder-open">
+							<span class="label">AA</span>
+						</a>
+					</span>
+				</div>
+				
+				<ul class="subtree">
+				</ul>
+			</li>
+		</ul>
+	</li>
+</ul>
+}}}
+
+And here is the output of Wicket's standard tree implementation:
+
+{{{
+<div class="my-tree">
+	<table class="wicket-tree-content">
+		<tr>
+			<td class="half-line">
+				<a class="junction-open" />
+			</td>
+			<td>
+				<table class="icon-panel">
+					<tr>
+						<td>
+							<img src="../resources/org.apache.wicket.markup.html.tree.LabelIconPanel/res/folder-open.gif" class="icon"/>
+						</td>
+						<td class="content">
+							<a>
+								<span class="content">A</span>
+							</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<table class="wicket-tree-content">
+		<tr>
+			<td class="spacer">
+				<span/>
+			</td>
+			<td class="half-line">
+				<a class="junction-open"/>
+			</td>
+			<td>
+				<table class="icon-panel">
+					<tr>
+						<td>
+							<img src="../resources/org.apache.wicket.markup.html.tree.LabelIconPanel/res/folder-open.gif" class="icon"/>
+						</td>
+						<td class="content">
+							<a>
+								<span class="content">AA</span>
+							</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+}}}
+
+Enough said.
