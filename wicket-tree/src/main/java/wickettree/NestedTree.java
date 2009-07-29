@@ -40,9 +40,9 @@ public abstract class NestedTree<T> extends AbstractTree<T>
 		this(id, provider, null);
 	}
 
-	public NestedTree(String id, ITreeProvider<T> provider, IModel<Set<T>> expansion)
+	public NestedTree(String id, ITreeProvider<T> provider, IModel<Set<T>> state)
 	{
-		super(id, provider, expansion);
+		super(id, provider, state);
 
 		add(newSubtree("subtree", new RootsModel()));
 	}
