@@ -3,7 +3,7 @@ Say we want to render a very simple tree with two nodes:
   * A
     * AA
 
-This is the what NestedTree is rendering:
+Following is the what [http://code.google.com/p/wicket-tree/source/browse/trunk/wicket-tree/src/main/java/wickettree/NestedTree.java NestedTree] is rendering (id, href, onclick attributes removed to protect the innocent):
 
 {{{
 <ul class="tree">
@@ -92,4 +92,4 @@ And here is the output of Wicket's standard tree implementation:
 </div>
 }}}
 
-Enough said.
+'nough said.
