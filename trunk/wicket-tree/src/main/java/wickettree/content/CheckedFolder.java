@@ -84,6 +84,7 @@ public class CheckedFolder<T> extends Folder<T>
 	 * Hook method to be notified of an update of the checkbox.
 	 * 
 	 * @param target
+	 * @see #newCheckBox(String, IModel)
 	 */
 	protected void onUpdate(AjaxRequestTarget target)
 	{
