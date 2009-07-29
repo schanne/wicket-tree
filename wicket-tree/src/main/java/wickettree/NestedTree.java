@@ -61,22 +61,7 @@ public abstract class NestedTree<T> extends AbstractTree<T>
 	}
 
 	/**
-	 * Overriden to update the affected branch only.
-	 * 
-	 * @see #updateBranch(Object, AjaxRequestTarget)
-	 */
-	@Override
-	protected void onStateChanged(T t)
-	{
-		updateBranch(t, AjaxRequestTarget.get());
-	}
-
-	/**
-	 * Convenience method to update a branch of a node on an
-	 * {@link AjaxRequestTarget}. Does nothing if target is <code>null</code>.
-	 * 
-	 * @param t
-	 * @param target
+	 * Overriden to update the affected {@link BranchItem} only.
 	 */
 	public void updateBranch(T t, final AjaxRequestTarget target)
 	{

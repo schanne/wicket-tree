@@ -93,6 +93,11 @@ public abstract class AbstractTree<T> extends Panel
 		return itemReuseStrategy;
 	}
 
+	/**
+	 * Get the provider of the tree nodes.
+	 * 
+	 * @return provider
+	 */
 	public ITreeProvider<T> getProvider()
 	{
 		return provider;
@@ -127,23 +132,29 @@ public abstract class AbstractTree<T> extends Panel
 	}
 
 	/**
-	 * Expand the given node.
+	 * Expand the given node, tries to update the affected branch if the change
+	 * happens on an {@link AjaxRequestTarget}.
+	 * 
+	 * @see #updateBranch(Object, AjaxRequestTarget)
 	 */
 	public void expand(T t)
 	{
 		getModelObject().add(t);
 
-		onStateChanged(t);
+		updateBranch(t, AjaxRequestTarget.get());
 	}
 
 	/**
-	 * Collapse the given node.
+	 * Collapse the given node, tries to update the affected branch if the
+	 * change happens on an {@link AjaxRequestTarget}.
+	 * 
+	 * @see #updateBranch(Object, AjaxRequestTarget)
 	 */
 	public void collapse(T t)
 	{
 		getModelObject().remove(t);
 
-		onStateChanged(t);
+		updateBranch(t, AjaxRequestTarget.get());
 	}
 
 	/**
@@ -201,25 +212,26 @@ public abstract class AbstractTree<T> extends Panel
 	}
 
 	/**
-	 * Hook method for handling of {@link State} changes. This default
-	 * implementation adds this whole component for rendering if the change
-	 * happened on an {@link AjaxRequestTarget}.
-	 * 
-	 * @param nodeComponent
+	 * Create a new component for the content of a node.
 	 */
-	protected void onStateChanged(T t)
+	protected abstract Component newContentComponent(String id, IModel<T> model);
+
+	/**
+	 * Convenience method to update a single branch on an
+	 * {@link AjaxRequestTarget}. Does nothing if target is <code>null</code>.
+	 * 
+	 * This default implementation adds this whole component for rendering.
+	 * 
+	 * @param t
+	 * @param target
+	 */
+	public void updateBranch(T t, final AjaxRequestTarget target)
 	{
-		AjaxRequestTarget target = AjaxRequestTarget.get();
 		if (target != null)
 		{
 			target.addComponent(this);
 		}
 	}
-
-	/**
-	 * Create a new component for the content of a node.
-	 */
-	protected abstract Component newContentComponent(String id, IModel<T> model);
 
 	/**
 	 * Convenience method to update a single node on an
