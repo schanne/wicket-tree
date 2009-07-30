@@ -16,19 +16,19 @@
 package wickettree.content;
 
 import org.apache.wicket.Component;
+import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.behavior.AbstractBehavior;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 
 /**
  * A styled link with a label.
  * 
- * @see #newLink(String, IModel)
+ * @see #newLinkComponent(String, IModel)
  * @see #getStyleClass()
  * 
  * @author Sven Meier
@@ -44,11 +44,11 @@ public abstract class StyledLinkLabel<T> extends Panel
 	{
 		super(id, model);
 
-		Link<?> link = newLink("link", model);
+		MarkupContainer link = newLinkComponent("link", model);
 		link.add(STYLE_CLASS);
 		add(link);
 
-		link.add(newLabel("label", model));
+		link.add(newLabelComponent("label", model));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -72,7 +72,7 @@ public abstract class StyledLinkLabel<T> extends Panel
 	 * @see #isClickable()
 	 * @see #onClick(AjaxRequestTarget)
 	 */
-	protected Link<?> newLink(String id, IModel<T> model)
+	protected MarkupContainer newLinkComponent(String id, IModel<T> model)
 	{
 		return new AjaxFallbackLink<Void>(id)
 		{
@@ -100,7 +100,7 @@ public abstract class StyledLinkLabel<T> extends Panel
 	 * @return
 	 * @see #newLabelModel(IModel)
 	 */
-	protected Component newLabel(String id, IModel<T> model)
+	protected Component newLabelComponent(String id, IModel<T> model)
 	{
 		return new Label(id, newLabelModel(model));
 	}
@@ -125,7 +125,7 @@ public abstract class StyledLinkLabel<T> extends Panel
 	 * Clicking is disabled by default, override this method if you want your
 	 * link to be enabled.
 	 * 
-	 * @see #newLink(String, IModel)
+	 * @see #newLinkComponent(String, IModel)
 	 * @see #isClickable()
 	 */
 	protected boolean isClickable()
@@ -138,7 +138,7 @@ public abstract class StyledLinkLabel<T> extends Panel
 	 * 
 	 * @param target
 	 * 
-	 * @see #newLink(String, IModel)
+	 * @see #newLinkComponent(String, IModel)
 	 * @see #isClickable()
 	 */
 	protected void onClick(AjaxRequestTarget target)

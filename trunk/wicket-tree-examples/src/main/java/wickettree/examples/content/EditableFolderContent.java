@@ -36,10 +36,11 @@ public class EditableFolderContent extends Content
 	@Override
 	public Component newContentComponent(String id, final AbstractTree<Foo> tree, IModel<Foo> model)
 	{
-		return new Folder<Foo>(id, tree, model) {
-			
+		return new Folder<Foo>(id, tree, model)
+		{
+
 			private EditLabel label;
-			
+
 			/**
 			 * Always clickable.
 			 */
@@ -48,7 +49,7 @@ public class EditableFolderContent extends Content
 			{
 				return true;
 			}
-			
+
 			/**
 			 * Start edit on click.
 			 */
@@ -57,23 +58,24 @@ public class EditableFolderContent extends Content
 			{
 				label.onEdit(target);
 			}
-			
+
 			@Override
-			protected Component newLabel(String id, IModel<Foo> model)
+			protected Component newLabelComponent(String id, IModel<Foo> model)
 			{
 				label = new EditLabel(id, new PropertyModel<String>(model, "bar"));
 				return label;
 			}
 		};
 	}
-	
-	private class EditLabel extends AjaxEditableLabel<String> {
+
+	private class EditLabel extends AjaxEditableLabel<String>
+	{
 
 		public EditLabel(String id, IModel<String> model)
 		{
 			super(id, model);
 		}
-		
+
 		@Override
 		public void onEdit(AjaxRequestTarget target)
 		{
