@@ -52,6 +52,12 @@ public class Subtree<T> extends Panel
 	/**
 	 * Create a subtree for the children of the node contained in the given
 	 * model or the root nodes if the model contains <code>null</code>.
+	 * 
+	 * @param id
+	 *            component id
+	 * @param tree
+	 *            the containing tree
+	 * @param model
 	 */
 	public Subtree(String id, final NestedTree<T> tree, final IModel<T> t)
 	{
@@ -105,6 +111,11 @@ public class Subtree<T> extends Panel
 		return (IModel<T>)getDefaultModel();
 	}
 
+	public T getModelObject()
+	{
+		return getModel().getObject();
+	}
+	
 	protected BranchItem<T> newBranchItem(String id, int index, IModel<T> model)
 	{
 		return new BranchItem<T>(id, index, model);
