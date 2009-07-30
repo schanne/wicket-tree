@@ -16,10 +16,10 @@
 package wickettree.examples.content;
 
 import org.apache.wicket.Component;
+import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.Page;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.IModel;
 
 import wickettree.AbstractTree;
@@ -54,7 +54,7 @@ public class BookmarkableFolderContent extends Content
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected Link<?> newLink(String id, IModel<Foo> model)
+			protected MarkupContainer newLinkComponent(String id, IModel<Foo> model)
 			{
 				Foo foo = model.getObject();
 
@@ -65,7 +65,7 @@ public class BookmarkableFolderContent extends Content
 				}
 				else
 				{
-					return super.newLink(id, model);
+					return super.newLinkComponent(id, model);
 				}
 			}
 		};

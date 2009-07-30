@@ -16,9 +16,9 @@
 package wickettree;
 
 import org.apache.wicket.Component;
+import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 
@@ -44,7 +44,7 @@ public abstract class Node<T> extends Panel
 
 		setOutputMarkupId(true);
 
-		add(createJunction("junction"));
+		add(createJunctionComponent("junction"));
 
 		add(createContent("content", model));
 	}
@@ -60,7 +60,7 @@ public abstract class Node<T> extends Panel
 		return getModel().getObject();
 	}
 
-	protected Link<?> createJunction(String id)
+	protected MarkupContainer createJunctionComponent(String id)
 	{
 		return new AjaxFallbackLink<Void>(id)
 		{
