@@ -173,17 +173,6 @@ public abstract class AbstractTree<T> extends Panel
 	}
 
 	/**
-	 * Does the given object have children - delegates to the
-	 * {@link ITreeProvider#hasChildren(Object)}.
-	 * 
-	 * @param t
-	 */
-	public boolean hasChildren(T t)
-	{
-		return provider.hasChildren(t);
-	}
-
-	/**
 	 * Overriden to detach the {@link ITreeProvider}.
 	 */
 	@Override

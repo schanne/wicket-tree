@@ -57,7 +57,7 @@ public class Folder<T> extends StyledLinkLabel<T>
 	{
 		T t = getModelObject();
 
-		return tree.hasChildren(t);
+		return tree.getProvider().hasChildren(t);
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class Folder<T> extends StyledLinkLabel<T>
 		T t = getModelObject();
 
 		String styleClass;
-		if (tree.hasChildren(t))
+		if (tree.getProvider().hasChildren(t))
 		{
 			if (tree.getState(t) == State.EXPANDED)
 			{
