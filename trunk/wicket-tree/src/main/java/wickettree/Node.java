@@ -75,7 +75,7 @@ public abstract class Node<T> extends Panel
 			@Override
 			public boolean isEnabled()
 			{
-				return tree.hasChildren(Node.this.getModelObject());
+				return tree.getProvider().hasChildren(Node.this.getModelObject());
 			}
 		};
 	}
@@ -85,7 +85,7 @@ public abstract class Node<T> extends Panel
 	{
 		T t = getModelObject();
 
-		if (tree.hasChildren(t))
+		if (tree.getProvider().hasChildren(t))
 		{
 			if (tree.getState(t) == State.EXPANDED)
 			{
