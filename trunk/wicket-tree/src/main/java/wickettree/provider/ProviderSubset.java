@@ -26,7 +26,9 @@ import org.apache.wicket.model.IModel;
 import wickettree.ITreeProvider;
 
 /**
- * A subset of a {@link ITreeProvider}'s tree.
+ * A subset of a {@link ITreeProvider}'s tree offering automatic detachment.
+ * 
+ * @see ITreeProvider#model(Object)
  * 
  * @author Sven Meier
  */
@@ -41,11 +43,25 @@ public class ProviderSubset<T> implements IModel<Set<T>>
 
 	private Set<T> set = new SetImpl();
 
+	/**
+	 * Create an empty subset.
+	 * 
+	 * @param provider
+	 *            the provider of the complete set
+	 */
 	public ProviderSubset(ITreeProvider<T> provider)
 	{
 		this(provider, false);
 	}
 
+	/**
+	 * Create a subset optionally containing all roots of the provider.
+	 * 
+	 * @param provider
+	 *            the provider of the complete set
+	 * @param addRoots
+	 *            should all roots be added to this subset
+	 */
 	public ProviderSubset(ITreeProvider<T> provider, boolean addRoots)
 	{
 		this.provider = provider;
@@ -123,7 +139,25 @@ public class ProviderSubset<T> implements IModel<Set<T>>
 
 		public Iterator<T> iterator()
 		{
-			throw new UnsupportedOperationException();
+			return new Iterator<T>() {
+				
+				private Iterator<IModel<T>> iterator = models.iterator();
+				
+				public boolean hasNext()
+				{
+					return iterator.hasNext();
+				}
+
+				public T next()
+				{
+					return iterator.next().getObject();
+				}
+
+				public void remove()
+				{
+					iterator.remove();
+				}
+			};
 		}
 
 		public boolean addAll(Collection<? extends T> ts)
