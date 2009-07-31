@@ -55,6 +55,8 @@ import wickettree.theme.WindowsTheme;
 public abstract class ExamplePage extends WebPage
 {
 
+	private static final long serialVersionUID = 1L;
+
 	private ResourceReference theme;
 
 	private AbstractTree<Foo> tree;
