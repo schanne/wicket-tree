@@ -99,4 +99,25 @@ public class FooProvider implements ITreeProvider<Foo>
 	{
 		return Model.of(foo);
 	}
+
+	public Foo get(String id)
+	{
+		return get(foos, id);
+	}
+
+	private Foo get(List<Foo> foos, String id)
+	{
+		for (Foo foo : foos) {
+			if (foo.getId().equals(id)) {
+				return foo;
+			}
+			
+			Foo temp = get(foo.getFoos(), id);
+			if (temp != null) {
+				return temp;
+			}
+		}
+
+		return null;
+	}
 }

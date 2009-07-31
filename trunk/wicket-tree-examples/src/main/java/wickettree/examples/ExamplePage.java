@@ -17,8 +17,10 @@ package wickettree.examples;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.wicket.Component;
+import org.apache.wicket.PageParameters;
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.IHeaderContributor;
@@ -43,6 +45,7 @@ import wickettree.examples.content.MultiLineLabelContent;
 import wickettree.examples.content.MultiSelectableFolderContent;
 import wickettree.examples.content.PanelContent;
 import wickettree.examples.content.SelectableFolderContent;
+import wickettree.provider.ProviderSubset;
 import wickettree.theme.HumanTheme;
 import wickettree.theme.WindowsTheme;
 
@@ -58,13 +61,15 @@ public abstract class ExamplePage extends WebPage
 
 	private FooProvider provider = new FooProvider();
 
+	private ProviderSubset<Foo> state = new ProviderSubset<Foo>(provider);
+
 	private Content content;
 
 	private List<Content> contents;
 
 	private List<ResourceReference> themes;
 
-	public ExamplePage()
+	public ExamplePage(PageParameters parameters)
 	{
 		content = new CheckedFolderContent(provider);
 
@@ -97,15 +102,16 @@ public abstract class ExamplePage extends WebPage
 			}
 		}.setNullValid(true));
 
-		tree = createTree(provider);
+		tree = createTree(provider, state);
 		tree.add(new HeaderContributor(new IHeaderContributor()
 		{
 			private static final long serialVersionUID = 1L;
 
 			public void renderHead(IHeaderResponse response)
 			{
-				if (theme != null) {
-					response.renderCSSReference(theme);					
+				if (theme != null)
+				{
+					response.renderCSSReference(theme);
 				}
 			}
 		}));
@@ -120,9 +126,22 @@ public abstract class ExamplePage extends WebPage
 			{
 			}
 		});
+
+		String id = parameters.getString("foo");
+		if (id != null)
+		{
+			Foo foo = provider.get(id);
+			while (foo != null) {
+				state.getObject().add(foo);
+				foo = foo.getParent();
+			}
+			
+			// use BookmarkableFolderContent
+			content = contents.get(contents.size() - 1);
+		}
 	}
 
-	protected abstract AbstractTree<Foo> createTree(FooProvider provider);
+	protected abstract AbstractTree<Foo> createTree(FooProvider provider, IModel<Set<Foo>> state);
 
 	private List<Content> initContents()
 	{
@@ -136,8 +155,8 @@ public abstract class ExamplePage extends WebPage
 		contents.add(new MultiSelectableFolderContent(provider));
 		contents.add(new CheckedFolderContent(provider));
 		contents.add(new CheckedSelectableFolderContent(provider));
-		contents.add(new BookmarkableFolderContent(provider, getClass()));
 		contents.add(new PanelContent());
+		contents.add(new BookmarkableFolderContent(provider, getClass()));
 
 		content = contents.get(0);
 
