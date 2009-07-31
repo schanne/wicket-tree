@@ -51,6 +51,19 @@ public class CheckedSelectableFolderContent extends SelectableFolderContent
 				return new PropertyModel<Boolean>(model, "quux");
 			}
 
+			@Override
+			protected void onUpdate(AjaxRequestTarget target)
+			{
+				Foo foo = getModelObject();
+				
+				// search first ancestor with quux not set
+				while (!foo.getQuux() && foo.getParent() != null) {
+					foo = foo.getParent();
+				}
+				
+				tree.updateBranch(foo, target);
+			}
+			
 			/**
 			 * Always clickable.
 			 */
