@@ -88,6 +88,18 @@ public class Foo implements Serializable
 	public void setQuux(boolean quux)
 	{
 		this.quux = quux;
+		
+		if (quux) {
+			// set quux on all descendants
+			for (Foo foo : foos) {
+				foo.setQuux(true);
+			}
+		} else {
+			// clear quux on all ancestors
+			if (parent != null) {
+				parent.setQuux(false);
+			}
+		}
 	}
 
 	public boolean getQuux() {
