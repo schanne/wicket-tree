@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.IHeaderContributor;
@@ -72,12 +71,27 @@ public abstract class ExamplePage extends WebPage
 
 	private List<ResourceReference> themes;
 
-	public ExamplePage(PageParameters parameters)
+	public ExamplePage()
 	{
 		content = new CheckedFolderContent(provider);
 
 		Form<Void> form = new Form<Void>("form");
 		add(form);
+
+		tree = createTree(provider, newStateModel());
+		tree.add(new HeaderContributor(new IHeaderContributor()
+		{
+			private static final long serialVersionUID = 1L;
+
+			public void renderHead(IHeaderResponse response)
+			{
+				if (theme != null)
+				{
+					response.renderCSSReference(theme);
+				}
+			}
+		}));
+		form.add(tree);
 
 		form.add(new DropDownChoice<Content>("content",
 				new PropertyModel<Content>(this, "content"), initContents(),
@@ -105,21 +119,6 @@ public abstract class ExamplePage extends WebPage
 			}
 		}.setNullValid(true));
 
-		tree = createTree(provider, newStateModel());
-		tree.add(new HeaderContributor(new IHeaderContributor()
-		{
-			private static final long serialVersionUID = 1L;
-
-			public void renderHead(IHeaderResponse response)
-			{
-				if (theme != null)
-				{
-					response.renderCSSReference(theme);
-				}
-			}
-		}));
-		form.add(tree);
-
 		form.add(new Button("submit")
 		{
 			private static final long serialVersionUID = 1L;
@@ -129,20 +128,6 @@ public abstract class ExamplePage extends WebPage
 			{
 			}
 		});
-
-		String id = parameters.getString("foo");
-		if (id != null)
-		{
-			Foo foo = FooProvider.get(id);
-			while (foo != null)
-			{
-				state.add(foo);
-				foo = foo.getParent();
-			}
-
-			// use BookmarkableFolderContent
-			content = contents.get(contents.size() - 1);
-		}
 	}
 
 	private IModel<Set<Foo>> newStateModel()
@@ -172,6 +157,7 @@ public abstract class ExamplePage extends WebPage
 	{
 		contents = new ArrayList<Content>();
 
+		contents.add(new BookmarkableFolderContent(tree));
 		contents.add(new LabelContent());
 		contents.add(new MultiLineLabelContent());
 		contents.add(new FolderContent());
@@ -181,7 +167,6 @@ public abstract class ExamplePage extends WebPage
 		contents.add(new CheckedFolderContent(provider));
 		contents.add(new CheckedSelectableFolderContent(provider));
 		contents.add(new PanelContent());
-		contents.add(new BookmarkableFolderContent(provider, getClass()));
 
 		content = contents.get(0);
 
