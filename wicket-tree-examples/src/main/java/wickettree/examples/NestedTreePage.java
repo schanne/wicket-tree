@@ -18,7 +18,6 @@ package wickettree.examples;
 import java.util.Set;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.model.IModel;
 
 import wickettree.AbstractTree;
@@ -34,11 +33,6 @@ public class NestedTreePage extends ExamplePage
 
 	private DefaultNestedTree<Foo> tree;
 
-	public NestedTreePage(PageParameters parameters)
-	{
-		super(parameters);
-	}
-	
 	@Override
 	protected AbstractTree<Foo> createTree(FooProvider provider, IModel<Set<Foo>> state)
 	{

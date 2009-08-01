@@ -17,15 +17,14 @@ package wickettree.examples.content;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.MarkupContainer;
-import org.apache.wicket.Page;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.model.IModel;
 
 import wickettree.AbstractTree;
-import wickettree.ITreeProvider;
 import wickettree.content.Folder;
 import wickettree.examples.Foo;
+import wickettree.examples.FooProvider;
 
 /**
  * @author Sven Meier
@@ -35,15 +34,18 @@ public class BookmarkableFolderContent extends Content
 
 	private static final long serialVersionUID = 1L;
 
-	private ITreeProvider<Foo> provider;
-
-	private Class<? extends Page> pageClass;
-
-	public BookmarkableFolderContent(ITreeProvider<Foo> provider, Class<? extends Page> pageClass)
+	public BookmarkableFolderContent(final AbstractTree<Foo> tree)
 	{
-		this.provider = provider;
-
-		this.pageClass = pageClass;
+		String id = tree.getRequest().getParameter("foo");
+		if (id != null)
+		{
+			Foo foo = FooProvider.get(id);
+			while (foo != null)
+			{
+				tree.getModel().getObject().add(foo);
+				foo = foo.getParent();
+			}
+		}
 	}
 
 	@Override
@@ -58,10 +60,10 @@ public class BookmarkableFolderContent extends Content
 			{
 				Foo foo = model.getObject();
 
-				if (!provider.hasChildren(foo))
+				if (!tree.getProvider().hasChildren(foo))
 				{
-					return new BookmarkablePageLink<Void>(id, pageClass, new PageParameters("foo="
-							+ foo.getId()));
+					return new BookmarkablePageLink<Void>(id, tree.getPage().getClass(),
+							new PageParameters("foo=" + foo.getId()));
 				}
 				else
 				{
