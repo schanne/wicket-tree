@@ -97,7 +97,6 @@ public class ProviderSubset<T> implements Set<T>, IDetachable
 		models.clear();
 	}
 
-	@SuppressWarnings("unchecked")
 	public boolean contains(Object o)
 	{
 		IModel<T> model = model(o);
@@ -114,7 +113,6 @@ public class ProviderSubset<T> implements Set<T>, IDetachable
 		return models.add(model(t));
 	}
 
-	@SuppressWarnings("unchecked")
 	public boolean remove(Object o)
 	{
 		IModel<T> model = model(o);
@@ -159,7 +157,6 @@ public class ProviderSubset<T> implements Set<T>, IDetachable
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
 	public boolean containsAll(Collection<?> cs)
 	{
 		for (Object c : cs)
@@ -172,7 +169,6 @@ public class ProviderSubset<T> implements Set<T>, IDetachable
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
 	public boolean removeAll(Collection<?> cs)
 	{
 		for (Object c : cs)
