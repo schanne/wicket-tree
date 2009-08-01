@@ -152,6 +152,8 @@ public class FooProvider implements ITreeProvider<Foo>
 	 */
 	private static class FooModel extends LoadableDetachableModel<Foo>
 	{
+		private static final long serialVersionUID = 1L;
+		
 		private String id;
 
 		public FooModel(Foo foo)
@@ -175,9 +177,9 @@ public class FooProvider implements ITreeProvider<Foo>
 		{
 			if (obj instanceof FooModel)
 			{
-				return ((FooModel)obj).id == this.id;
+				return ((FooModel)obj).id.equals(this.id);
 			}
-			return super.equals(obj);
+			return false;
 		}
 
 		/**
