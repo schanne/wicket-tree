@@ -15,16 +15,23 @@
  */
 package wickettree.examples;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 
 import wickettree.ITreeProvider;
 
 /**
+ * A provider of {@link Foo}s.
+ * 
+ * For simplicity all objects are kept as class members, in a real world
+ * scenario these would be fetched from a database.
+ * 
  * @author Sven Meier
  */
 public class FooProvider implements ITreeProvider<Foo>
@@ -32,8 +39,14 @@ public class FooProvider implements ITreeProvider<Foo>
 
 	private static final long serialVersionUID = 1L;
 
-	private static List<Foo> foos = new ArrayList<Foo>();
+	/**
+	 * All root {@link Foo}s.
+	 */
+	private static List<Foo> roots = new ArrayList<Foo>();
 
+	/**
+	 * Initialize roots.
+	 */
 	static
 	{
 		Foo fooA = new Foo("A");
@@ -63,26 +76,29 @@ public class FooProvider implements ITreeProvider<Foo>
 				new Foo(fooAC, "ACB");
 			}
 		}
-		foos.add(fooA);
+		roots.add(fooA);
 
 		Foo fooB = new Foo("B");
 		{
 			new Foo(fooB, "BA");
 			new Foo(fooB, "BB");
 		}
-		foos.add(fooB);
+		roots.add(fooB);
 
 		Foo fooC = new Foo("C");
-		foos.add(fooC);
+		roots.add(fooC);
 	}
 
+	/**
+	 * Nothing to do.
+	 */
 	public void detach()
 	{
 	}
 
 	public Iterator<Foo> getRoots()
 	{
-		return foos.iterator();
+		return roots.iterator();
 	}
 
 	public boolean hasChildren(Foo foo)
@@ -100,9 +116,12 @@ public class FooProvider implements ITreeProvider<Foo>
 		return new FooModel(foo);
 	}
 
+	/**
+	 * Get a {@link Foo} by its id.
+	 */
 	public static Foo get(String id)
 	{
-		return get(foos, id);
+		return get(roots, id);
 	}
 
 	private static Foo get(List<Foo> foos, String id)
@@ -124,15 +143,21 @@ public class FooProvider implements ITreeProvider<Foo>
 		return null;
 	}
 
+	/**
+	 * If {@link Foo} where declared {@link Serializable} we could just use a
+	 * standard {@link Model}.
+	 * 
+	 * @see #equals(Object)
+	 * @see #hashCode()
+	 */
 	private static class FooModel extends LoadableDetachableModel<Foo>
 	{
-
 		private String id;
 
 		public FooModel(Foo foo)
 		{
 			super(foo);
-			
+
 			id = foo.getId();
 		}
 
@@ -141,16 +166,23 @@ public class FooProvider implements ITreeProvider<Foo>
 		{
 			return get(id);
 		}
-		
+
+		/**
+		 * Important! Models must be identifyable by their contained object.
+		 */
 		@Override
 		public boolean equals(Object obj)
 		{
-			if (obj instanceof FooModel) {
-				return ((FooModel)obj).id == this.id; 
+			if (obj instanceof FooModel)
+			{
+				return ((FooModel)obj).id == this.id;
 			}
 			return super.equals(obj);
 		}
-		
+
+		/**
+		 * Important! Models must be identifyable by their contained object.
+		 */
 		@Override
 		public int hashCode()
 		{
