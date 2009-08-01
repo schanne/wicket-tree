@@ -15,6 +15,7 @@
  */
 package wickettree;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import org.apache.wicket.Component;
@@ -24,6 +25,7 @@ import org.apache.wicket.markup.repeater.DefaultItemReuseStrategy;
 import org.apache.wicket.markup.repeater.IItemReuseStrategy;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 
 import wickettree.provider.ProviderSubset;
 
@@ -114,7 +116,7 @@ public abstract class AbstractTree<T> extends Panel
 
 		if (model == null)
 		{
-			model = new ProviderSubset<T>(provider);
+			model = Model.of((Serializable)new ProviderSubset<T>(provider));
 		}
 
 		return model;

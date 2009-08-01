@@ -47,18 +47,18 @@ public class MultiSelectableFolderContent extends Content
 
 	protected boolean isSelected(Foo foo)
 	{
-		return selected.getObject().contains(foo);
+		return selected.contains(foo);
 	}
 
 	protected void toggle(Foo foo, AbstractTree<Foo> tree, final AjaxRequestTarget target)
 	{
 		if (isSelected(foo))
 		{
-			selected.getObject().remove(foo);
+			selected.remove(foo);
 		}
 		else
 		{
-			selected.getObject().add(foo);
+			selected.add(foo);
 		}
 		
 		tree.updateNode(foo, target);

@@ -104,7 +104,7 @@ public abstract class ExamplePage extends WebPage
 			}
 		}.setNullValid(true));
 
-		tree = createTree(provider, state);
+		tree = createTree(provider, new PropertyModel<Set<Foo>>(this, "state"));
 		tree.add(new HeaderContributor(new IHeaderContributor()
 		{
 			private static final long serialVersionUID = 1L;
@@ -133,11 +133,12 @@ public abstract class ExamplePage extends WebPage
 		if (id != null)
 		{
 			Foo foo = provider.get(id);
-			while (foo != null) {
-				state.getObject().add(foo);
+			while (foo != null)
+			{
+				state.add(foo);
 				foo = foo.getParent();
 			}
-			
+
 			// use BookmarkableFolderContent
 			content = contents.get(contents.size() - 1);
 		}

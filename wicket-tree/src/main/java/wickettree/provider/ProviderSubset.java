@@ -15,12 +15,12 @@
  */
 package wickettree.provider;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.apache.wicket.model.IDetachable;
 import org.apache.wicket.model.IModel;
 
 import wickettree.ITreeProvider;
@@ -32,7 +32,7 @@ import wickettree.ITreeProvider;
  * 
  * @author Sven Meier
  */
-public class ProviderSubset<T> implements IModel<Set<T>>
+public class ProviderSubset<T> implements Set<T>, IDetachable
 {
 
 	private static final long serialVersionUID = 1L;
@@ -40,8 +40,6 @@ public class ProviderSubset<T> implements IModel<Set<T>>
 	private ITreeProvider<T> provider;
 
 	private Set<IModel<T>> models = new HashSet<IModel<T>>();
-
-	private Set<T> set = new SetImpl();
 
 	/**
 	 * Create an empty subset.
@@ -71,19 +69,9 @@ public class ProviderSubset<T> implements IModel<Set<T>>
 			Iterator<T> roots = provider.getRoots();
 			while (roots.hasNext())
 			{
-				getObject().add(roots.next());
+				add(roots.next());
 			}
 		}
-	}
-
-	public Set<T> getObject()
-	{
-		return set;
-	}
-
-	public void setObject(Set<T> object)
-	{
-		throw new UnsupportedOperationException();
 	}
 
 	public void detach()
@@ -94,117 +82,112 @@ public class ProviderSubset<T> implements IModel<Set<T>>
 		}
 	}
 
+	public int size()
+	{
+		return models.size();
+	}
+
+	public boolean isEmpty()
+	{
+		return models.size() == 0;
+	}
+
+	public void clear()
+	{
+		models.clear();
+	}
+
+	@SuppressWarnings("unchecked")
+	public boolean contains(Object o)
+	{
+		return models.contains(model(o));
+	}
+
+	public boolean add(T t)
+	{
+		return models.add(model(t));
+	}
+
+	@SuppressWarnings("unchecked")
+	public boolean remove(Object o)
+	{
+		return models.remove(model(o));
+	}
+
+	public Iterator<T> iterator()
+	{
+		return new Iterator<T>()
+		{
+
+			private Iterator<IModel<T>> iterator = models.iterator();
+
+			public boolean hasNext()
+			{
+				return iterator.hasNext();
+			}
+
+			public T next()
+			{
+				return iterator.next().getObject();
+			}
+
+			public void remove()
+			{
+				iterator.remove();
+			}
+		};
+	}
+
+	public boolean addAll(Collection<? extends T> ts)
+	{
+		for (T t : ts)
+		{
+			add(t);
+		}
+		return true;
+	}
+
+	@SuppressWarnings("unchecked")
+	public boolean containsAll(Collection<?> cs)
+	{
+		for (Object c : cs)
+		{
+			if (!models.contains(model(c)))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@SuppressWarnings("unchecked")
+	public boolean removeAll(Collection<?> cs)
+	{
+		for (Object c : cs)
+		{
+			models.remove(model(c));
+		}
+		return true;
+	}
+
+	public boolean retainAll(Collection<?> c)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	public Object[] toArray()
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	public <S> S[] toArray(S[] a)
+	{
+		throw new UnsupportedOperationException();
+	}
+	
 	@SuppressWarnings("unchecked")
 	private IModel<T> model(Object o)
 	{
 		return provider.model((T)o);
-	}
-
-	private class SetImpl implements Set<T>, Serializable
-	{
-
-		private static final long serialVersionUID = 1L;
-
-		public int size()
-		{
-			return models.size();
-		}
-
-		public boolean isEmpty()
-		{
-			return models.size() == 0;
-		}
-
-		public void clear()
-		{
-			models.clear();
-		}
-
-		@SuppressWarnings("unchecked")
-		public boolean contains(Object o)
-		{
-			return models.contains(model(o));
-		}
-
-		public boolean add(T t)
-		{
-			return models.add(model(t));
-		}
-
-		@SuppressWarnings("unchecked")
-		public boolean remove(Object o)
-		{
-			return models.remove(model(o));
-		}
-
-		public Iterator<T> iterator()
-		{
-			return new Iterator<T>() {
-				
-				private Iterator<IModel<T>> iterator = models.iterator();
-				
-				public boolean hasNext()
-				{
-					return iterator.hasNext();
-				}
-
-				public T next()
-				{
-					return iterator.next().getObject();
-				}
-
-				public void remove()
-				{
-					iterator.remove();
-				}
-			};
-		}
-
-		public boolean addAll(Collection<? extends T> ts)
-		{
-			for (T t : ts)
-			{
-				add(t);
-			}
-			return true;
-		}
-
-		@SuppressWarnings("unchecked")
-		public boolean containsAll(Collection<?> cs)
-		{
-			for (Object c : cs)
-			{
-				if (!models.contains(model(c)))
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-
-		@SuppressWarnings("unchecked")
-		public boolean removeAll(Collection<?> cs)
-		{
-			for (Object c : cs)
-			{
-				models.remove(model(c));
-			}
-			return true;
-		}
-
-		public boolean retainAll(Collection<?> c)
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		public Object[] toArray()
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		public <S> S[] toArray(S[] a)
-		{
-			throw new UnsupportedOperationException();
-		}
 	}
 }
