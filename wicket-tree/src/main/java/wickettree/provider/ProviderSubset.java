@@ -164,7 +164,7 @@ public class ProviderSubset<T> implements Set<T>, IDetachable
 	{
 		for (Object c : cs)
 		{
-			if (!models.contains(model(c)))
+			if (!contains(c))
 			{
 				return false;
 			}
@@ -177,7 +177,7 @@ public class ProviderSubset<T> implements Set<T>, IDetachable
 	{
 		for (Object c : cs)
 		{
-			models.remove(model(c));
+			remove(c);
 		}
 		return true;
 	}

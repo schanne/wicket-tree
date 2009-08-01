@@ -503,6 +503,7 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 					return IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
 				}
 			});
+			model.detach();
 		}
 	}
 }

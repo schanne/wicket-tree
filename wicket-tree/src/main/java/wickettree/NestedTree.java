@@ -80,6 +80,7 @@ public abstract class NestedTree<T> extends AbstractTree<T>
 					return IVisitor.CONTINUE_TRAVERSAL;
 				}
 			});
+			model.detach();
 		}
 	}
 

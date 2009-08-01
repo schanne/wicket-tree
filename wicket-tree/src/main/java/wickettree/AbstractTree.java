@@ -248,6 +248,7 @@ public abstract class AbstractTree<T> extends Panel
 					return IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
 				}
 			});
+			model.detach();
 		}
 	}
 
