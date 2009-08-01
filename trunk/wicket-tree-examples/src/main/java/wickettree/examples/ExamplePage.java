@@ -30,6 +30,7 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 
@@ -104,7 +105,7 @@ public abstract class ExamplePage extends WebPage
 			}
 		}.setNullValid(true));
 
-		tree = createTree(provider, new PropertyModel<Set<Foo>>(this, "state"));
+		tree = createTree(provider, newStateModel());
 		tree.add(new HeaderContributor(new IHeaderContributor()
 		{
 			private static final long serialVersionUID = 1L;
@@ -142,6 +143,27 @@ public abstract class ExamplePage extends WebPage
 			// use BookmarkableFolderContent
 			content = contents.get(contents.size() - 1);
 		}
+	}
+
+	private IModel<Set<Foo>> newStateModel()
+	{
+		return new AbstractReadOnlyModel<Set<Foo>>()
+		{
+			@Override
+			public Set<Foo> getObject()
+			{
+				return state;
+			}
+
+			/**
+			 * Super class doesn't detach - would be nice though.
+			 */
+			@Override
+			public void detach()
+			{
+				state.detach();
+			}
+		};
 	}
 
 	protected abstract AbstractTree<Foo> createTree(FooProvider provider, IModel<Set<Foo>> state);
