@@ -132,7 +132,7 @@ public abstract class ExamplePage extends WebPage
 		String id = parameters.getString("foo");
 		if (id != null)
 		{
-			Foo foo = provider.get(id);
+			Foo foo = FooProvider.get(id);
 			while (foo != null)
 			{
 				state.add(foo);

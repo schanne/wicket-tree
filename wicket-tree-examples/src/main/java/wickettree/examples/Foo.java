@@ -15,7 +15,6 @@
  */
 package wickettree.examples;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +22,7 @@ import java.util.List;
 /**
  * @author Sven Meier
  */
-public class Foo implements Serializable
+public class Foo
 {
 
 	private static final long serialVersionUID = 1L;
@@ -33,7 +32,7 @@ public class Foo implements Serializable
 	private String bar;
 
 	private String baz;
-	
+
 	private boolean quux;
 
 	private Foo parent;
@@ -79,7 +78,7 @@ public class Foo implements Serializable
 	{
 		this.bar = bar;
 	}
-	
+
 	public void setBaz(String baz)
 	{
 		this.baz = baz;
@@ -88,24 +87,30 @@ public class Foo implements Serializable
 	public void setQuux(boolean quux)
 	{
 		this.quux = quux;
-		
-		if (quux) {
+
+		if (quux)
+		{
 			// set quux on all descendants
-			for (Foo foo : foos) {
+			for (Foo foo : foos)
+			{
 				foo.setQuux(true);
 			}
-		} else {
+		}
+		else
+		{
 			// clear quux on all ancestors
-			if (parent != null) {
+			if (parent != null)
+			{
 				parent.setQuux(false);
 			}
 		}
 	}
 
-	public boolean getQuux() {
+	public boolean getQuux()
+	{
 		return quux;
 	}
-	
+
 	public List<Foo> getFoos()
 	{
 		return Collections.unmodifiableList(foos);

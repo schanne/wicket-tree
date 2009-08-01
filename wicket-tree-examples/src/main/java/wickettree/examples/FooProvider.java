@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
+import org.apache.wicket.model.LoadableDetachableModel;
 
 import wickettree.ITreeProvider;
 
@@ -31,10 +31,10 @@ public class FooProvider implements ITreeProvider<Foo>
 {
 
 	private static final long serialVersionUID = 1L;
-	
-	private List<Foo> foos = new ArrayList<Foo>();
 
-	public FooProvider()
+	private static List<Foo> foos = new ArrayList<Foo>();
+
+	static
 	{
 		Foo fooA = new Foo("A");
 		{
@@ -71,7 +71,7 @@ public class FooProvider implements ITreeProvider<Foo>
 			new Foo(fooB, "BB");
 		}
 		foos.add(fooB);
-		
+
 		Foo fooC = new Foo("C");
 		foos.add(fooC);
 	}
@@ -97,27 +97,64 @@ public class FooProvider implements ITreeProvider<Foo>
 
 	public IModel<Foo> model(Foo foo)
 	{
-		return Model.of(foo);
+		return new FooModel(foo);
 	}
 
-	public Foo get(String id)
+	public static Foo get(String id)
 	{
 		return get(foos, id);
 	}
 
-	private Foo get(List<Foo> foos, String id)
+	private static Foo get(List<Foo> foos, String id)
 	{
-		for (Foo foo : foos) {
-			if (foo.getId().equals(id)) {
+		for (Foo foo : foos)
+		{
+			if (foo.getId().equals(id))
+			{
 				return foo;
 			}
-			
+
 			Foo temp = get(foo.getFoos(), id);
-			if (temp != null) {
+			if (temp != null)
+			{
 				return temp;
 			}
 		}
 
 		return null;
+	}
+
+	private static class FooModel extends LoadableDetachableModel<Foo>
+	{
+
+		private String id;
+
+		public FooModel(Foo foo)
+		{
+			super(foo);
+			
+			id = foo.getId();
+		}
+
+		@Override
+		protected Foo load()
+		{
+			return get(id);
+		}
+		
+		@Override
+		public boolean equals(Object obj)
+		{
+			if (obj instanceof FooModel) {
+				return ((FooModel)obj).id == this.id; 
+			}
+			return super.equals(obj);
+		}
+		
+		@Override
+		public int hashCode()
+		{
+			return id.hashCode();
+		}
 	}
 }
