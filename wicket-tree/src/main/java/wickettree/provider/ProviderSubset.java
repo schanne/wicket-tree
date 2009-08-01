@@ -100,7 +100,13 @@ public class ProviderSubset<T> implements Set<T>, IDetachable
 	@SuppressWarnings("unchecked")
 	public boolean contains(Object o)
 	{
-		return models.contains(model(o));
+		IModel<T> model = model(o);
+		
+		boolean contains = models.contains(model);
+		
+		model.detach();
+		
+		return contains;
 	}
 
 	public boolean add(T t)
@@ -111,7 +117,13 @@ public class ProviderSubset<T> implements Set<T>, IDetachable
 	@SuppressWarnings("unchecked")
 	public boolean remove(Object o)
 	{
-		return models.remove(model(o));
+		IModel<T> model = model(o);
+		
+		boolean removed = models.remove(model);
+		
+		model.detach();
+		
+		return removed;
 	}
 
 	public Iterator<T> iterator()

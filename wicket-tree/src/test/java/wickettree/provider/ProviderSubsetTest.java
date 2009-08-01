@@ -45,17 +45,9 @@ public class ProviderSubsetTest extends TestCase
 		subset.add("AAA");
 
 		assertEquals(3, subset.size());
-		StringBuilder builder = new StringBuilder();
-		for (String string : subset)
-		{
-			builder.append(string);
-		}
-		assertEquals("AAAAAA", builder.toString());
-
-		for (StringModel model : models)
-		{
-			assertFalse(model.isDetached());
-		}
+		assertTrue(subset.contains("A"));
+		assertTrue(subset.contains("AA"));
+		assertTrue(subset.contains("AAA"));
 
 		subset.detach();
 
@@ -75,7 +67,6 @@ public class ProviderSubsetTest extends TestCase
 		public StringModel(String string)
 		{
 			this.string = string;
-
 			models.add(this);
 		}
 
@@ -99,6 +90,18 @@ public class ProviderSubsetTest extends TestCase
 		public boolean isDetached()
 		{
 			return detached;
+		}
+		
+		@Override
+		public boolean equals(Object obj)
+		{
+			return string == ((StringModel)obj).string;
+		}
+		
+		@Override
+		public int hashCode()
+		{
+			return string.hashCode();
 		}
 	}
 
