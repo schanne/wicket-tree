@@ -40,13 +40,13 @@ public class ProviderSubsetTest extends TestCase
 	{
 		ProviderSubset<String> subset = new ProviderSubset<String>(provider);
 
-		subset.getObject().add("A");
-		subset.getObject().add("AA");
-		subset.getObject().add("AAA");
+		subset.add("A");
+		subset.add("AA");
+		subset.add("AAA");
 
-		assertEquals(3, subset.getObject().size());
+		assertEquals(3, subset.size());
 		StringBuilder builder = new StringBuilder();
-		for (String string : subset.getObject())
+		for (String string : subset)
 		{
 			builder.append(string);
 		}

@@ -47,18 +47,18 @@ public class CheckedFolderContent extends Content
 	
 	protected boolean isChecked(Foo foo)
 	{
-		return checked.getObject().contains(foo);
+		return checked.contains(foo);
 	}
 
 	protected void check(Foo foo, boolean check, final AjaxRequestTarget target)
 	{
 		if (check)
 		{
-			checked.getObject().add(foo);
+			checked.add(foo);
 		}
 		else
 		{
-			checked.getObject().remove(foo);
+			checked.remove(foo);
 		}
 	}
 
