@@ -28,6 +28,9 @@ import wickettree.ITreeProvider;
 /**
  * A subset of a {@link ITreeProvider}'s tree offering automatic detachment.
  * 
+ * Make sure that the containing model calls {@link IDetachable#detach()} on its
+ * model object.
+ * 
  * @see ITreeProvider#model(Object)
  * 
  * @author Sven Meier
@@ -100,11 +103,11 @@ public class ProviderSubset<T> implements Set<T>, IDetachable
 	public boolean contains(Object o)
 	{
 		IModel<T> model = model(o);
-		
+
 		boolean contains = models.contains(model);
-		
+
 		model.detach();
-		
+
 		return contains;
 	}
 
@@ -116,11 +119,11 @@ public class ProviderSubset<T> implements Set<T>, IDetachable
 	public boolean remove(Object o)
 	{
 		IModel<T> model = model(o);
-		
+
 		boolean removed = models.remove(model);
-		
+
 		model.detach();
-		
+
 		return removed;
 	}
 
@@ -131,6 +134,8 @@ public class ProviderSubset<T> implements Set<T>, IDetachable
 
 			private Iterator<IModel<T>> iterator = models.iterator();
 
+			private IModel<T> current;
+
 			public boolean hasNext()
 			{
 				return iterator.hasNext();
@@ -138,23 +143,31 @@ public class ProviderSubset<T> implements Set<T>, IDetachable
 
 			public T next()
 			{
-				return iterator.next().getObject();
+				current = iterator.next();
+
+				return current.getObject();
 			}
 
 			public void remove()
 			{
 				iterator.remove();
+
+				current.detach();
+				current = null;
 			}
 		};
 	}
 
 	public boolean addAll(Collection<? extends T> ts)
 	{
+		boolean changed = false;
+
 		for (T t : ts)
 		{
-			add(t);
+			changed = changed || add(t);
 		}
-		return true;
+
+		return changed;
 	}
 
 	public boolean containsAll(Collection<?> cs)
@@ -171,11 +184,14 @@ public class ProviderSubset<T> implements Set<T>, IDetachable
 
 	public boolean removeAll(Collection<?> cs)
 	{
+		boolean changed = false;
+
 		for (Object c : cs)
 		{
-			remove(c);
+			changed = changed || remove(c);
 		}
-		return true;
+
+		return changed;
 	}
 
 	public boolean retainAll(Collection<?> c)
@@ -192,7 +208,7 @@ public class ProviderSubset<T> implements Set<T>, IDetachable
 	{
 		throw new UnsupportedOperationException();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private IModel<T> model(Object o)
 	{

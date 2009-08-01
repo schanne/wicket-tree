@@ -45,6 +45,21 @@ public class ProviderSubsetTest extends TestCase
 		subset.add("AAA");
 
 		assertEquals(3, subset.size());
+		
+		Iterator<String> iterator = subset.iterator();
+		assertTrue(iterator.hasNext());
+		iterator.next();
+		assertTrue(iterator.hasNext());
+		iterator.next();
+		assertTrue(iterator.hasNext());
+		iterator.next();
+		assertFalse(iterator.hasNext());
+		try {
+			iterator.next();
+			fail();
+		}catch (Exception expected) {
+		}
+		
 		assertTrue(subset.contains("A"));
 		assertTrue(subset.contains("AA"));
 		assertTrue(subset.contains("AAA"));
@@ -55,6 +70,10 @@ public class ProviderSubsetTest extends TestCase
 		{
 			assertTrue(model.isDetached());
 		}
+		
+		assertTrue(subset.contains("A"));
+		assertTrue(subset.contains("AA"));
+		assertTrue(subset.contains("AAA"));
 	}
 
 	private class StringModel implements IModel<String>
