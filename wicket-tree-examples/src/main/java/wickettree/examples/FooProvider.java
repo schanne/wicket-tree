@@ -29,8 +29,12 @@ import wickettree.ITreeProvider;
 /**
  * A provider of {@link Foo}s.
  * 
- * For simplicity all objects are kept as class members, in a real world
- * scenario these would be fetched from a database.
+ * For simplicity all foos are kept as class members, in a real world scenario
+ * these would be fetched from a database. If {@link Foo}s were
+ * {@link Serializable} you could of course just keep references in instance
+ * variables.
+ * 
+ * @see #model(Foo)
  * 
  * @author Sven Meier
  */
@@ -111,6 +115,9 @@ public class FooProvider implements ITreeProvider<Foo>
 		return foo.getFoos().iterator();
 	}
 
+	/**
+	 * Creates a {@link FooModel}.
+	 */
 	public IModel<Foo> model(Foo foo)
 	{
 		return new FooModel(foo);
@@ -144,8 +151,10 @@ public class FooProvider implements ITreeProvider<Foo>
 	}
 
 	/**
-	 * If {@link Foo} where declared {@link Serializable} we could just use a
-	 * standard {@link Model}.
+	 * A {@link Model} which uses an id to load its {@link Foo}.
+	 * 
+	 * If {@link Foo}s were {@link Serializable} you could just use a standard
+	 * {@link Model}.
 	 * 
 	 * @see #equals(Object)
 	 * @see #hashCode()
@@ -153,7 +162,7 @@ public class FooProvider implements ITreeProvider<Foo>
 	private static class FooModel extends LoadableDetachableModel<Foo>
 	{
 		private static final long serialVersionUID = 1L;
-		
+
 		private String id;
 
 		public FooModel(Foo foo)
