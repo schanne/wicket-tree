@@ -97,7 +97,8 @@ public abstract class StyledLinkLabel<T> extends Panel
 	 * 
 	 * @param id
 	 * @param model
-	 * @return
+	 * @return created component
+	 * 
 	 * @see #newLabelModel(IModel)
 	 */
 	protected Component newLabelComponent(String id, IModel<T> model)
