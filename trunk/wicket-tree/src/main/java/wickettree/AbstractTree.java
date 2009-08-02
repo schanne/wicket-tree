@@ -15,7 +15,6 @@
  */
 package wickettree;
 
-import java.io.Serializable;
 import java.util.Set;
 
 import org.apache.wicket.Component;
@@ -116,7 +115,7 @@ public abstract class AbstractTree<T> extends Panel
 
 		if (model == null)
 		{
-			model = Model.of((Serializable)new ProviderSubset<T>(provider));
+			model = new Model<ProviderSubset<T>>(new ProviderSubset<T>(provider));
 		}
 
 		return model;
@@ -131,6 +130,20 @@ public abstract class AbstractTree<T> extends Panel
 	public Set<T> getModelObject()
 	{
 		return getModel().getObject();
+	}
+
+	public AbstractTree<T> setModel(IModel<Set<T>> state)
+	{
+		setDefaultModel(state);
+
+		return this;
+	}
+
+	public AbstractTree<T> setModelObject(Set<T> state)
+	{
+		setDefaultModelObject(state);
+
+		return this;
 	}
 
 	/**
