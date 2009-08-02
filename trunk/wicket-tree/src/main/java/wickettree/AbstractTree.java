@@ -150,6 +150,8 @@ public abstract class AbstractTree<T> extends Panel
 	 * Expand the given node, tries to update the affected branch if the change
 	 * happens on an {@link AjaxRequestTarget}.
 	 * 
+	 * @see #getModelObject()
+	 * @see Set#add(Object)
 	 * @see #updateBranch(Object, AjaxRequestTarget)
 	 */
 	public void expand(T t)
@@ -163,6 +165,8 @@ public abstract class AbstractTree<T> extends Panel
 	 * Collapse the given node, tries to update the affected branch if the
 	 * change happens on an {@link AjaxRequestTarget}.
 	 * 
+	 * @see #getModelObject()
+	 * @see Set#remove(Object)
 	 * @see #updateBranch(Object, AjaxRequestTarget)
 	 */
 	public void collapse(T t)
@@ -174,6 +178,9 @@ public abstract class AbstractTree<T> extends Panel
 
 	/**
 	 * Get the given node's {@link State}.
+	 * 
+	 * @see #getModelObject()
+	 * @see Set#contains(Object)
 	 */
 	public State getState(T t)
 	{
@@ -222,7 +229,8 @@ public abstract class AbstractTree<T> extends Panel
 
 	/**
 	 * Convenience method to update a single branch on an
-	 * {@link AjaxRequestTarget}. Does nothing if target is <code>null</code>.
+	 * {@link AjaxRequestTarget}. Does nothing if the given node is currently
+	 * not visible or target is <code>null</code>.
 	 * 
 	 * This default implementation adds this whole component for rendering.
 	 * 
@@ -239,7 +247,8 @@ public abstract class AbstractTree<T> extends Panel
 
 	/**
 	 * Convenience method to update a single node on an
-	 * {@link AjaxRequestTarget}. Does nothing if target is <code>null</code>.
+	 * {@link AjaxRequestTarget}. Does nothing if the given node is currently
+	 * not visible or target is <code>null</code>.
 	 * 
 	 * @param t
 	 * @param target
