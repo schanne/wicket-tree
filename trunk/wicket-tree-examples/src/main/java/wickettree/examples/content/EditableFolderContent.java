@@ -60,9 +60,22 @@ public class EditableFolderContent extends Content
 			}
 
 			@Override
-			protected Component newLabelComponent(String id, IModel<Foo> model)
+			protected Component newLabelComponent(String id, final IModel<Foo> model)
 			{
-				label = new EditLabel(id, new PropertyModel<String>(model, "bar"));
+				label = new EditLabel(id, new PropertyModel<String>(model, "bar"))
+				{
+					@Override
+					protected void onSubmit(AjaxRequestTarget target)
+					{
+						super.onSubmit(target);
+
+						/**
+						 * update whole node in case where located inside
+						 * TableTree
+						 */
+						tree.updateNode(model.getObject(), target);
+					}
+				};
 				return label;
 			}
 		};
