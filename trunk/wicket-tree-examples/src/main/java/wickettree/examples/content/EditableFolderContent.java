@@ -39,7 +39,7 @@ public class EditableFolderContent extends Content
 		return new Folder<Foo>(id, tree, model)
 		{
 
-			private EditLabel label;
+			private StartableAjaxEditableLabel label;
 
 			/**
 			 * Always clickable.
@@ -56,13 +56,13 @@ public class EditableFolderContent extends Content
 			@Override
 			protected void onClick(AjaxRequestTarget target)
 			{
-				label.onEdit(target);
+				label.startEdit(target);
 			}
 
 			@Override
 			protected Component newLabelComponent(String id, final IModel<Foo> model)
 			{
-				label = new EditLabel(id, new PropertyModel<String>(model, "bar"))
+				label = new StartableAjaxEditableLabel(id, new PropertyModel<String>(model, "bar"))
 				{
 					@Override
 					protected void onSubmit(AjaxRequestTarget target)
@@ -81,18 +81,20 @@ public class EditableFolderContent extends Content
 		};
 	}
 
-	private class EditLabel extends AjaxEditableLabel<String>
+	private static class StartableAjaxEditableLabel extends AjaxEditableLabel<String>
 	{
 
-		public EditLabel(String id, IModel<String> model)
+		public StartableAjaxEditableLabel(String id, IModel<String> model)
 		{
 			super(id, model);
 		}
 
-		@Override
-		public void onEdit(AjaxRequestTarget target)
+		/**
+		 * WICKET-2408
+		 */
+		public void startEdit(AjaxRequestTarget target)
 		{
-			super.onEdit(target);
+			onEdit(target);
 		}
 	}
 }
