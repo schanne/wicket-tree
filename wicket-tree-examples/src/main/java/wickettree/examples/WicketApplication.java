@@ -17,6 +17,7 @@ package wickettree.examples;
 
 import org.apache.wicket.protocol.http.HttpSessionStore;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.request.target.coding.QueryStringUrlCodingStrategy;
 import org.apache.wicket.session.ISessionStore;
 
 /**
@@ -31,13 +32,19 @@ public class WicketApplication extends WebApplication
 	@Override
 	protected void init()
 	{
-		try {
+		try
+		{
 			new Thread().start();
-		} catch (Exception threadsNotAllowed) {
+		}
+		catch (Exception threadsNotAllowed)
+		{
 			getResourceSettings().setResourcePollFrequency(null);
 		}
+
+		mount(new QueryStringUrlCodingStrategy("nested", NestedTreePage.class));
+		mount(new QueryStringUrlCodingStrategy("table", TableTreePage.class));
 	}
-	
+
 	public Class<NestedTreePage> getHomePage()
 	{
 		return NestedTreePage.class;
