@@ -48,9 +48,9 @@ public class Folder<T> extends StyledLinkLabel<T>
 	}
 
 	/**
-	 * Clickable if node can be expanded/collapsed.
+	 * Clickable if node can be expanded/collapsed, i.e. has children.
 	 * 
-	 * @see AbstractTree#hasChildren(Object)
+	 * @see ITreeProvider#hasChildren(Object)
 	 */
 	@Override
 	protected boolean isClickable()

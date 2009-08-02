@@ -30,7 +30,7 @@ import wickettree.provider.ProviderSubset;
 
 /**
  * Abstract base class for {@link NestedTree} and {@link TableTree}. Uses its
- * model for storing the {@link State} of its {@link Node}s.
+ * model for storing the {@link State} of its nodes.
  * 
  * Note that a tree has no notion of a <em>selection</em>. Handling state of
  * nodes besides expanse/collapse is irrelevant to a tree implementation.

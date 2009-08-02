@@ -59,9 +59,9 @@ public class Subtree<T> extends Panel
 	 *            the containing tree
 	 * @param model
 	 */
-	public Subtree(String id, final NestedTree<T> tree, final IModel<T> t)
+	public Subtree(String id, final NestedTree<T> tree, final IModel<T> model)
 	{
-		super(id, t);
+		super(id, model);
 
 		this.tree = tree;
 
@@ -115,7 +115,7 @@ public class Subtree<T> extends Panel
 	{
 		return getModel().getObject();
 	}
-	
+
 	protected BranchItem<T> newBranchItem(String id, int index, IModel<T> model)
 	{
 		return new BranchItem<T>(id, index, model);

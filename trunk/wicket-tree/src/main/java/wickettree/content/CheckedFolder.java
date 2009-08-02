@@ -51,7 +51,8 @@ public class CheckedFolder<T> extends Folder<T>
 	 * 
 	 * @param id
 	 * @param model
-	 * @return
+	 * @return created component
+	 * 
 	 * @see #newCheckBoxModel(IModel)
 	 * @see #onUpdate(AjaxRequestTarget)
 	 */
