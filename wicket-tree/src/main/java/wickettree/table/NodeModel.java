@@ -17,10 +17,18 @@ package wickettree.table;
 
 import org.apache.wicket.model.IModel;
 
+import wickettree.ITreeProvider;
+
 /**
+ * A model wrapping the actual node model, carrying additional information about
+ * the parental branches.
+ * 
+ * @see #getBranches()
+ * @see ITreeProvider#model(Object)
+ * 
  * @author Sven Meier
  */
-public class TreeModel<T> implements IModel<T>
+public class NodeModel<T> implements IModel<T>
 {
 
 	private static final long serialVersionUID = 1L;
@@ -29,7 +37,7 @@ public class TreeModel<T> implements IModel<T>
 
 	private boolean[] branches;
 
-	public TreeModel(IModel<T> model, boolean[] branches)
+	public NodeModel(IModel<T> model, boolean[] branches)
 	{
 		this.model = model;
 		this.branches = branches;
@@ -74,9 +82,9 @@ public class TreeModel<T> implements IModel<T>
 	@Override
 	public boolean equals(Object obj)
 	{
-		if (obj instanceof TreeModel<?>)
+		if (obj instanceof NodeModel<?>)
 		{
-			return this.model.equals(((TreeModel<?>)obj).model);
+			return this.model.equals(((NodeModel<?>)obj).model);
 		}
 		return false;
 	}

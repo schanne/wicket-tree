@@ -38,7 +38,7 @@ import org.apache.wicket.model.Model;
 
 import wickettree.table.AbstractToolbar;
 import wickettree.table.ITreeColumn;
-import wickettree.table.TreeModel;
+import wickettree.table.NodeModel;
 
 /**
  * A tree with tabular markup.
@@ -366,7 +366,7 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 				branch = branch.parent;
 			}
 
-			return new TreeModel<T>(model, branches);
+			return new NodeModel<T>(model, branches);
 		}
 
 		public int getDepth()
@@ -493,9 +493,9 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 			{
 				public Object component(Item<T> item)
 				{
-					TreeModel<T> treeModel = (TreeModel<T>)item.getModel();
+					NodeModel<T> nodeModel = (NodeModel<T>)item.getModel();
 
-					if (model.equals(treeModel.getWrappedModel()))
+					if (model.equals(nodeModel.getWrappedModel()))
 					{
 						target.addComponent(item);
 						return IVisitor.STOP_TRAVERSAL;
