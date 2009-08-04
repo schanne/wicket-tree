@@ -31,8 +31,8 @@ import org.apache.wicket.model.Model;
 import wickettree.AbstractTree;
 import wickettree.DefaultTableTree;
 import wickettree.TableTree;
+import wickettree.table.NodeModel;
 import wickettree.table.TreeColumn;
-import wickettree.table.TreeModel;
 
 /**
  * @author Sven Meier
@@ -78,9 +78,9 @@ public class TableTreePage extends ExamplePage
 			public void populateItem(Item<ICellPopulator<Foo>> cellItem, String componentId,
 					IModel<Foo> rowModel)
 			{
-				TreeModel<Foo> model = (TreeModel<Foo>)rowModel;
+				NodeModel<Foo> nodeModel = (NodeModel<Foo>)rowModel;
 
-				cellItem.add(new Label(componentId, "" + model.getDepth()));
+				cellItem.add(new Label(componentId, "" + nodeModel.getDepth()));
 			}
 
 			@Override
