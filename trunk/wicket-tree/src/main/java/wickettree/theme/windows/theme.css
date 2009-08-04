@@ -93,6 +93,7 @@ li.branch-last {
 
 table.tree {
   border-collapse: collapse;
+  border-spacing: 0px;
 }
 
 table.tree tr.selected {
