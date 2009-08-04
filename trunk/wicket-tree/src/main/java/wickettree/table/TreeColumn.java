@@ -45,12 +45,12 @@ public class TreeColumn<T> extends AbstractTreeColumn<T>
 			IModel<T> rowModel)
 	{
 
-		TreeModel<T> treeModel = (TreeModel<T>)rowModel;
+		NodeModel<T> nodeModel = (NodeModel<T>)rowModel;
 
 		Component nodeComponent = getTree().newNodeComponent(componentId,
-				treeModel.getWrappedModel());
+				nodeModel.getWrappedModel());
 
-		nodeComponent.setComponentBorder(new TreeBorder(treeModel.getBranches()));
+		nodeComponent.setComponentBorder(new BranchesBorder(nodeModel.getBranches()));
 
 		nodeComponent.add(new AttributeAppender("class", true, Model.of("node"), " "));
 

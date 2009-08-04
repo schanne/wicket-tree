@@ -19,21 +19,25 @@ import org.apache.wicket.Component;
 import org.apache.wicket.IComponentBorder;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.Response;
+import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.model.IModel;
 
 /**
  * A border for a component which renders nested <code>DIV</code>s to
- * simulate a tree structure inside a tabular layout.
+ * simulate the structure of parental branches inside a tabular layout.
  * 
+ * @see NodeModel
+ * @see TreeColumn#populateItem(Item, String, IModel)
  * @author Sven Meier
  */
-public class TreeBorder implements IComponentBorder
+public class BranchesBorder implements IComponentBorder
 {
 
 	private static final long serialVersionUID = 1L;
 
 	private boolean[] branches;
 
-	public TreeBorder(boolean[] branches)
+	public BranchesBorder(boolean[] branches)
 	{
 		this.branches = branches;
 	}
