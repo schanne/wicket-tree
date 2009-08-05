@@ -15,6 +15,8 @@
  */
 package wickettree.table;
 
+import java.util.Arrays;
+
 import org.apache.wicket.model.IModel;
 
 import wickettree.ITreeProvider;
@@ -84,7 +86,10 @@ public class NodeModel<T> implements IModel<T>
 	{
 		if (obj instanceof NodeModel<?>)
 		{
-			return this.model.equals(((NodeModel<?>)obj).model);
+			NodeModel<?> nodeModel = (NodeModel<?>)obj;
+
+			return Arrays.equals(this.branches, nodeModel.branches)
+					&& this.model.equals((nodeModel).model);
 		}
 		return false;
 	}
