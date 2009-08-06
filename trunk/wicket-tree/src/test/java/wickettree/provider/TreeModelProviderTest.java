@@ -17,14 +17,13 @@ package wickettree.provider;
 
 import java.util.Iterator;
 
-import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeModel;
+import javax.swing.tree.DefaultTreeModel;
+
+import junit.framework.TestCase;
 
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-
-import junit.framework.TestCase;
 
 /**
  * Test for {@link TreeModelProvider}.
@@ -33,34 +32,69 @@ import junit.framework.TestCase;
  */
 public class TreeModelProviderTest extends TestCase
 {
-	private TreeModel treeModel;
+	private DefaultTreeModel treeModel;
 
 	public TreeModelProviderTest()
 	{
-		treeModel = TreeAccess.getDefaultTreeModel();
+		treeModel = getDefaultTreeModel();
 	}
 
 	public void test() throws Exception
 	{
 		TreeModelProvider<DefaultMutableTreeNode> provider = new TreeModelProvider<DefaultMutableTreeNode>(
-				treeModel) {
+				treeModel)
+		{
 			@Override
 			public IModel<DefaultMutableTreeNode> model(DefaultMutableTreeNode object)
 			{
 				return Model.of(object);
 			}
 		};
-		
+
 		Iterator<DefaultMutableTreeNode> roots = provider.getRoots();
 		assertTrue(roots.hasNext());
-		roots.next();
+		DefaultMutableTreeNode root = roots.next();
+		assertEquals("JTree", root.getUserObject());
 		assertFalse(roots.hasNext());
+
+		Iterator<DefaultMutableTreeNode> children = provider.getChildren(root);
+		assertTrue(children.hasNext());
+		assertEquals("colors", children.next().getUserObject());
+		assertTrue(children.hasNext());
+		assertEquals("sports", children.next().getUserObject());
+		assertTrue(children.hasNext());
+		assertEquals("food", children.next().getUserObject());
+		assertFalse(roots.hasNext());
+
+		treeModel.nodeChanged(root);
 	}
-	
-	private static class TreeAccess extends JTree {
-		public static TreeModel getDefaultTreeModel()
-		{
-			return JTree.getDefaultTreeModel();
-		}
+
+	protected static DefaultTreeModel getDefaultTreeModel()
+	{
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode("JTree");
+		DefaultMutableTreeNode parent;
+
+		parent = new DefaultMutableTreeNode("colors");
+		root.add(parent);
+		parent.add(new DefaultMutableTreeNode("blue"));
+		parent.add(new DefaultMutableTreeNode("violet"));
+		parent.add(new DefaultMutableTreeNode("red"));
+		parent.add(new DefaultMutableTreeNode("yellow"));
+
+		parent = new DefaultMutableTreeNode("sports");
+		root.add(parent);
+		parent.add(new DefaultMutableTreeNode("basketball"));
+		parent.add(new DefaultMutableTreeNode("soccer"));
+		parent.add(new DefaultMutableTreeNode("football"));
+		parent.add(new DefaultMutableTreeNode("hockey"));
+
+		parent = new DefaultMutableTreeNode("food");
+		root.add(parent);
+		parent.add(new DefaultMutableTreeNode("hot dogs"));
+		parent.add(new DefaultMutableTreeNode("pizza"));
+		parent.add(new DefaultMutableTreeNode("ravioli"));
+		parent.add(new DefaultMutableTreeNode("bananas"));
+		return new DefaultTreeModel(root);
 	}
+
 }
