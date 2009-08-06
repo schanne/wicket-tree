@@ -16,7 +16,9 @@
 package wickettree.provider;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
@@ -43,7 +45,13 @@ public abstract class TreeModelProvider<T> implements ITreeProvider<T>
 	private boolean rootVisible;
 
 	private Listener listener;
-	
+
+	private boolean completeUpdate;
+
+	private List<T> nodeUpdates;
+
+	private List<T> branchUpdates;
+
 	public TreeModelProvider(TreeModel treeModel)
 	{
 		this(treeModel, true);
@@ -53,7 +61,7 @@ public abstract class TreeModelProvider<T> implements ITreeProvider<T>
 	{
 		this.treeModel = treeModel;
 		this.rootVisible = rootVisible;
-		
+
 		treeModel.addTreeModelListener(listener);
 	}
 
@@ -128,33 +136,88 @@ public abstract class TreeModelProvider<T> implements ITreeProvider<T>
 
 	public void detach()
 	{
-		// TODO clear changes
+		completeUpdate = false;
+		nodeUpdates = null;
+		branchUpdates = null;
 	}
 
 	public void update(AbstractTree<T> tree, AjaxRequestTarget target)
 	{
-		// TODO add changes to target
+		if (completeUpdate)
+		{
+			target.addComponent(tree);
+		}
+		else
+		{
+			for (T object : nodeUpdates)
+			{
+				tree.updateNode(object, target);
+			}
+
+			for (T object : branchUpdates)
+			{
+				tree.updateBranch(object, target);
+			}
+		}
 	}
-	
-	private class Listener implements TreeModelListener, Serializable {
+
+	protected void nodeUpdate(Object[] nodes)
+	{
+		if (nodeUpdates == null)
+		{
+			nodeUpdates = new ArrayList<T>();
+		}
+
+		for (Object node : nodes)
+		{
+			nodeUpdates.add(cast(node));
+		}
+	}
+
+	protected void branchUpdate(Object branch)
+	{
+		if (branchUpdates == null)
+		{
+			branchUpdates = new ArrayList<T>();
+		}
+
+		branchUpdates.add(cast(branch));
+	}
+
+	private class Listener implements TreeModelListener, Serializable
+	{
 		public void treeNodesChanged(TreeModelEvent e)
 		{
-			// TODO record change
+			if (e.getChildIndices() == null)
+			{
+				completeUpdate = true;
+			}
+			else
+			{
+				nodeUpdate(e.getChildren());
+			}
 		}
-		
+
 		public void treeNodesInserted(TreeModelEvent e)
 		{
-			// TODO record change
+			branchUpdate(e.getTreePath().getLastPathComponent());
 		}
-		
+
 		public void treeNodesRemoved(TreeModelEvent e)
 		{
-			// TODO record change
+			branchUpdate(e.getTreePath().getLastPathComponent());
 		}
-		
+
 		public void treeStructureChanged(TreeModelEvent e)
 		{
-			// TODO record change
+			if (e.getTreePath().getPathCount() == 1)
+			{
+				completeUpdate = true;
+			}
+			else
+			{
+				branchUpdate(e.getTreePath().getLastPathComponent());
+			}
 		}
 	}
 }
