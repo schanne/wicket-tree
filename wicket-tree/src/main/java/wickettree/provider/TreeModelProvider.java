@@ -159,6 +159,8 @@ public abstract class TreeModelProvider<T> implements ITreeProvider<T>
 				tree.updateBranch(object, target);
 			}
 		}
+		
+		detach();
 	}
 
 	protected void nodeUpdate(Object[] nodes)
