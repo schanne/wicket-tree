@@ -123,7 +123,7 @@ public class Subtree<T> extends Panel
 
 	private final class ModelIterator implements Iterator<IModel<T>>
 	{
-		private Iterator<T> children;
+		private Iterator<? extends T> children;
 
 		public ModelIterator()
 		{

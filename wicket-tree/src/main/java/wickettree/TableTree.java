@@ -346,9 +346,9 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 	{
 		private Branch parent;
 
-		private Iterator<T> children;
+		private Iterator<? extends T> children;
 
-		public Branch(Branch parent, Iterator<T> children)
+		public Branch(Branch parent, Iterator<? extends T> children)
 		{
 			this.parent = parent;
 			this.children = children;
