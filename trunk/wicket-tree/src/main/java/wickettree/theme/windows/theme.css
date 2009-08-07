@@ -17,6 +17,7 @@
 /* node */
 
 div.node {
+  float: left; /* IE_FIX for correct layout of junction with float:left inside LI */
 }
 
 div.node span.junction {
@@ -66,27 +67,19 @@ div.node span.content {
 ul.tree {
   list-style-type: none;
   padding: 0px;
+  clear: left; /* IE_FIX see DIV.node */
 }
 
 ul.subtree {
   list-style-type: none;
   padding: 0px;
+  clear: left; /* IE_FIX see DIV.node */
 }
 
 li.branch {
-  padding: 0px;
-  // following needed for IE
-  display: block;
-  float: left;
-  clear: both;
 }
 
 li.branch-last {
-  padding: 0px;
-  // following needed for IE
-  display: block;
-  float: left;  
-  clear: both;
 }
 
 /* tabletree */
@@ -141,20 +134,20 @@ span.content .selected span.label {
 span.content .folder-closed {
   padding-left: 18px;
   background-image: url(folder-closed.gif);
-  background-position: 0px 0px;
+  background-position: 0px 50%;
   background-repeat: no-repeat;
 }
 
 span.content .folder-open {
   padding-left: 18px;
   background-image: url(folder-open.gif);
-  background-position: 0px 0px;
+  background-position: 0px 50%;
   background-repeat: no-repeat;
 }
 
 span.content .folder-other {
   padding-left: 18px;
   background-image: url(folder-other.gif);
-  background-position: 0px 0px;
+  background-position: 0px 50%;
   background-repeat: no-repeat;
 }
