@@ -39,7 +39,7 @@ public interface ITreeProvider<T> extends IDetachable
 	 * 
 	 * @return roots
 	 */
-	Iterator<T> getRoots();
+	Iterator<? extends T> getRoots();
 
 	/**
 	 * Does the given object have children - note that this method may return
@@ -53,7 +53,7 @@ public interface ITreeProvider<T> extends IDetachable
 	 * 
 	 * @return roots
 	 */
-	Iterator<T> getChildren(T object);
+	Iterator<? extends T> getChildren(T object);
 
 	/**
 	 * Callback used by the consumer of this tree provider to wrap objects

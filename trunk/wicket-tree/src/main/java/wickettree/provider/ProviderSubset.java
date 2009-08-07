@@ -69,7 +69,7 @@ public class ProviderSubset<T> implements Set<T>, IDetachable
 
 		if (addRoots)
 		{
-			Iterator<T> roots = provider.getRoots();
+			Iterator<? extends T> roots = provider.getRoots();
 			while (roots.hasNext())
 			{
 				add(roots.next());
