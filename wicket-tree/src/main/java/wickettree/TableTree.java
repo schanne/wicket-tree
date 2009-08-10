@@ -32,13 +32,14 @@ import org.apache.wicket.markup.repeater.IItemFactory;
 import org.apache.wicket.markup.repeater.IItemReuseStrategy;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.RepeatingView;
-import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 import wickettree.table.AbstractToolbar;
 import wickettree.table.ITreeColumn;
+import wickettree.table.ITreeDataProvider;
 import wickettree.table.NodeModel;
+import wickettree.table.TreeDataProvider;
 
 /**
  * A tree with tabular markup.
@@ -113,7 +114,7 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 		}
 		this.columns = columns;
 
-		datagrid = new DataGridView<T>("rows", columns, new DataProvider())
+		datagrid = new DataGridView<T>("rows", columns, newDataProvider(provider))
 		{
 			private static final long serialVersionUID = 1L;
 
@@ -162,6 +163,18 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 		bottomToolbars = new ToolbarsContainer("bottomToolbars");
 		add(topToolbars);
 		add(bottomToolbars);
+	}
+
+	protected ITreeDataProvider<T> newDataProvider(ITreeProvider<T> provider)
+	{
+		return new TreeDataProvider<T>(provider)
+		{
+			@Override
+			protected boolean iterateChildren(T object)
+			{
+				return TableTree.this.getState(object) == State.EXPANDED;
+			}
+		};
 	}
 
 	public IColumn<T>[] getColumns()
@@ -243,163 +256,9 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 	 *            number of items to display per page
 	 * 
 	 */
-	public void setRowsPerPage(int items) {
+	public void setRowsPerPage(int items)
+	{
 		datagrid.setRowsPerPage(items);
-	}
-	
-	private class DataProvider implements IDataProvider<T>, Iterator<T>, Iterable<T>
-	{
-
-		private static final long serialVersionUID = 1L;
-
-		private Branch branch;
-
-		private Branch previousBranch;
-
-		private int size = -1;
-
-		@SuppressWarnings("unused")
-		public int size()
-		{
-			if (size == -1)
-			{
-				size = 0;
-				for (T t : this)
-				{
-					size++;
-				}
-			}
-			return size;
-		}
-
-		public Iterator<? extends T> iterator(int first, int count)
-		{
-			branch = new Branch(null, getProvider().getRoots());
-
-			for (int i = 0; i < first; i++)
-			{
-				next();
-			}
-
-			return this;
-		}
-
-		public Iterator<T> iterator()
-		{
-			branch = new Branch(null, getProvider().getRoots());
-
-			return this;
-		}
-
-		public boolean hasNext()
-		{
-			while (branch != null)
-			{
-				if (branch.hasNext())
-				{
-					return true;
-				}
-				branch = branch.parent;
-			}
-
-			return false;
-		}
-
-		public T next()
-		{
-			if (!hasNext())
-			{
-				throw new IllegalStateException();
-			}
-
-			T next = branch.next();
-
-			previousBranch = branch;
-
-			if (getState(next) == State.EXPANDED)
-			{
-				branch = new Branch(previousBranch, getProvider().getChildren(next));
-			}
-
-			return next;
-		}
-
-		public IModel<T> model(T object)
-		{
-			return previousBranch.wrapModel(getProvider().model(object));
-		}
-
-		public void remove()
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		public void detach()
-		{
-			branch = null;
-			previousBranch = null;
-			size = -1;
-		}
-	}
-
-	private class Branch implements Iterator<T>
-	{
-		private Branch parent;
-
-		private Iterator<? extends T> children;
-
-		public Branch(Branch parent, Iterator<? extends T> children)
-		{
-			this.parent = parent;
-			this.children = children;
-		}
-
-		public IModel<T> wrapModel(IModel<T> model)
-		{
-			boolean[] branches = new boolean[getDepth()];
-
-			Branch branch = this;
-			for (int c = branches.length - 1; c >= 0; c--)
-			{
-				branches[c] = branch.hasNext();
-
-				branch = branch.parent;
-			}
-
-			return new NodeModel<T>(model, branches);
-		}
-
-		public int getDepth()
-		{
-			if (parent == null)
-			{
-				return 1;
-			}
-			else
-			{
-				return parent.getDepth() + 1;
-			}
-		}
-
-		public boolean hasNext()
-		{
-			return children.hasNext();
-		}
-
-		public T next()
-		{
-			if (!hasNext())
-			{
-				throw new IllegalStateException();
-			}
-
-			return children.next();
-		}
-
-		public void remove()
-		{
-			throw new UnsupportedOperationException();
-		}
 	}
 
 	/**
