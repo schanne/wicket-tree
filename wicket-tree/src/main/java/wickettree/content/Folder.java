@@ -134,17 +134,17 @@ public class Folder<T> extends StyledLinkLabel<T>
 	 */
 	protected String getOtherStyleClass(T t)
 	{
-		return "folder-other";
+		return "tree-folder-other";
 	}
 
 	protected String getClosedStyleClass()
 	{
-		return "folder-closed";
+		return "tree-folder-closed";
 	}
 
 	protected String getOpenStyleClass()
 	{
-		return "folder-open";
+		return "tree-folder-open";
 	}
 
 	/**

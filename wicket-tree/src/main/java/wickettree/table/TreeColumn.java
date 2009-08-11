@@ -50,9 +50,9 @@ public class TreeColumn<T> extends AbstractTreeColumn<T>
 		Component nodeComponent = getTree().newNodeComponent(componentId,
 				nodeModel.getWrappedModel());
 
-		nodeComponent.setComponentBorder(new BranchesBorder(nodeModel.getBranches()));
+		nodeComponent.setComponentBorder(new NodeBorder(nodeModel.getBranches()));
 
-		nodeComponent.add(new AttributeAppender("class", true, Model.of("node"), " "));
+		nodeComponent.add(new AttributeAppender("class", true, Model.of("tree-node"), " "));
 
 		cellItem.add(nodeComponent);
 	}
