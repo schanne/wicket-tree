@@ -46,11 +46,11 @@ public final class BranchItem<T> extends Item<T>
 
 		if (isLast())
 		{
-			tag.put("class", "branch-last");
+			tag.put("class", "tree-branch-last");
 		}
 		else
 		{
-			tag.put("class", "branch");
+			tag.put("class", "tree-branch");
 		}
 	}
 

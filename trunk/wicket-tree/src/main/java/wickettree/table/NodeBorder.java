@@ -23,21 +23,21 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 
 /**
- * A border for a component which renders nested <code>DIV</code>s to
+ * A border for a node component which renders nested <code>DIV</code>s to
  * simulate the structure of parental branches inside a tabular layout.
  * 
  * @see NodeModel
  * @see TreeColumn#populateItem(Item, String, IModel)
  * @author Sven Meier
  */
-public class BranchesBorder implements IComponentBorder
+public class NodeBorder implements IComponentBorder
 {
 
 	private static final long serialVersionUID = 1L;
 
 	private boolean[] branches;
 
-	public BranchesBorder(boolean[] branches)
+	public NodeBorder(boolean[] branches)
 	{
 		this.branches = branches;
 	}
@@ -50,16 +50,16 @@ public class BranchesBorder implements IComponentBorder
 		{
 			if (i > 0)
 			{
-				response.write("<div class=\"subtree\">");
+				response.write("<div class=\"tree-subtree\">");
 			}
 
 			if (branches[i])
 			{
-				response.write("<div class=\"branch\">");
+				response.write("<div class=\"tree-branch\">");
 			}
 			else
 			{
-				response.write("<div class=\"branch-last\">");
+				response.write("<div class=\"tree-branch-last\">");
 			}
 		}
 	}
