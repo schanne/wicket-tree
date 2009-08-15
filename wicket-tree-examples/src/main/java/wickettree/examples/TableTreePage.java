@@ -25,12 +25,14 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.markup.repeater.OddEvenItem;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 import wickettree.AbstractTree;
-import wickettree.DefaultTableTree;
 import wickettree.TableTree;
+import wickettree.table.HeadersToolbar;
+import wickettree.table.NoRecordsToolbar;
 import wickettree.table.NodeModel;
 import wickettree.table.TreeColumn;
 
@@ -49,7 +51,7 @@ public class TableTreePage extends ExamplePage
 	{
 		IColumn<Foo>[] columns = createColumns();
 
-		tree = new DefaultTableTree<Foo>("tree", columns, provider, Integer.MAX_VALUE, state)
+		tree = new TableTree<Foo>("tree", columns, provider, Integer.MAX_VALUE, state)
 		{
 			private static final long serialVersionUID = 1L;
 
@@ -58,7 +60,15 @@ public class TableTreePage extends ExamplePage
 			{
 				return TableTreePage.this.newContentComponent(id, model);
 			}
+
+			@Override
+			protected Item<Foo> newRowItem(String id, int index, IModel<Foo> model)
+			{
+				return new OddEvenItem<Foo>(id, index, model);
+			}
 		};
+		tree.addTopToolbar(new HeadersToolbar(tree));
+		tree.addBottomToolbar(new NoRecordsToolbar(tree));
 		return tree;
 	}
 
