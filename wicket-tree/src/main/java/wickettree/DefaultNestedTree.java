@@ -18,9 +18,11 @@ package wickettree;
 import java.util.Set;
 
 import org.apache.wicket.Component;
+import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.model.IModel;
 
 import wickettree.content.Folder;
+import wickettree.theme.WindowsTheme;
 
 /**
  * An implementation of the NestedTree that aims to solve the 90% usecase by
@@ -42,6 +44,8 @@ public class DefaultNestedTree<T> extends NestedTree<T>
 	public DefaultNestedTree(String id, ITreeProvider<T> provider, IModel<Set<T>> state)
 	{
 		super(id, provider, state);
+
+		add(CSSPackageResource.getHeaderContribution(new WindowsTheme()));
 	}
 
 	@Override
