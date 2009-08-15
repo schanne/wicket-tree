@@ -44,6 +44,9 @@ import wickettree.table.TreeDataProvider;
 /**
  * A tree with tabular markup.
  * 
+ * If you use one of the provided themes, be sure to add a "tree" class
+ * attribute to your table markup.
+ * 
  * @author Sven Meier
  */
 public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
