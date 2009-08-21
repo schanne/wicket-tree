@@ -55,11 +55,11 @@ public class NodeBorder implements IComponentBorder
 
 			if (branches[i])
 			{
-				response.write("<div class=\"tree-branch\">");
+				response.write("<div class=\"tree-branch tree-branch-mid\">");
 			}
 			else
 			{
-				response.write("<div class=\"tree-branch-last\">");
+				response.write("<div class=\"tree-branch tree-branch-last\">");
 			}
 		}
 	}

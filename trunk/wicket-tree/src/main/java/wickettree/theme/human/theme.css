@@ -1,29 +1,28 @@
-.tree-subtree {
+div.tree-subtree {
   margin: 0px 0px 0px 18px;
   padding: 0px;
 }
 
-.tree-branch {
+div.tree-branch {
+  margin: 0px;
   padding: 0px;
 }
 
-.tree-branch-last {
-  padding: 0px;
+div.tree-branch-mid {
+}
+
+div.tree-branch-last {
 }
 
 /* node */
 
-div.tree-node {
-  float: left; /* IE_FIX for correct layout of junction with float:left inside LI */
-}
-
-div.tree-node span.tree-junction {
+span.tree-junction {
   display: block;
   float: left;
   width: 18px;
 }
 
-div.tree-node a.tree-junction-expanded {
+a.tree-junction-expanded {
   display: block;
   float: left;
   width: 18px;
@@ -33,11 +32,11 @@ div.tree-node a.tree-junction-expanded {
   text-decoration: none;
 }
 
-div.tree-node a.tree-junction-expanded:hover {
+a.tree-junction-expanded:hover {
   background-position: -54px center;
 }
 
-div.tree-node a.tree-junction-collapsed {
+a.tree-junction-collapsed {
   display: block;
   float: left;
   width: 18px;
@@ -47,37 +46,24 @@ div.tree-node a.tree-junction-collapsed {
   text-decoration: none;
 }
 
-div.tree-node a.tree-junction-collapsed:hover {
+a.tree-junction-collapsed:hover {
   background-position: -36px center;
 }
 
-div.tree-node span.tree-sign {
+span.tree-sign {
   display: none;
 }
 
-div.tree-node span.tree-content {
+span.tree-content {
   display: block;
   margin-left: 18px;
-}
-
-/* tree */
-
-ul.tree {
-  list-style-type: none;
-  padding: 0px;
-  clear: left; /* IE_FIX see DIV.node */
-}
-
-ul.tree-subtree {
-  list-style-type: none;
-  padding: 0px;
-  clear: left; /* IE_FIX see DIV.node */
 }
 
 /* tabletree */
 
 table.tree {
   border-spacing: 0px;
+  border-collapse: collapse;
 }
 
 table.tree tr.selected {
@@ -85,24 +71,9 @@ table.tree tr.selected {
 }
 
 table.tree td {
+  /* allow tree divs to fill complete td (regretfully height 100% on divs does not work) */
   margin: 0px;
-  height: 100%;
-}
-
-table.tree td.tree {
   padding: 0px;
-}
-
-table.tree div.tree-subtree {
-  height: 100%;
-}
-
-table.tree div.tree-branch {
-  height: 100%;
-}
-
-table.tree div.tree-branch-last {
-  height: 100%;
 }
 
 /* content */
