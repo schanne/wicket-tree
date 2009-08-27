@@ -86,10 +86,7 @@ public abstract class ExamplePage extends WebPage
 
 			public void renderHead(IHeaderResponse response)
 			{
-				if (theme != null)
-				{
-					response.renderCSSReference(theme);
-				}
+				response.renderCSSReference(theme);
 			}
 		}));
 		form.add(tree);
@@ -118,7 +115,7 @@ public abstract class ExamplePage extends WebPage
 			{
 				return true;
 			}
-		}.setNullValid(true));
+		});
 
 		form.add(new Button("submit")
 		{
