@@ -16,11 +16,9 @@
 package wickettree.table;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 
 /**
  * @author Sven Meier
@@ -50,9 +48,7 @@ public class TreeColumn<T> extends AbstractTreeColumn<T>
 		Component nodeComponent = getTree().newNodeComponent(componentId,
 				nodeModel.getWrappedModel());
 
-		nodeComponent.setComponentBorder(new NodeBorder(nodeModel.getBranches()));
-
-		nodeComponent.add(new AttributeAppender("class", true, Model.of("tree-node"), " "));
+		nodeComponent.add(new NodeBorder(nodeModel.getBranches()));
 
 		cellItem.add(nodeComponent);
 	}

@@ -16,9 +16,10 @@
 package wickettree.table;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.IComponentBorder;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.Response;
+import org.apache.wicket.behavior.AbstractBehavior;
+import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 
@@ -30,7 +31,7 @@ import org.apache.wicket.model.IModel;
  * @see TreeColumn#populateItem(Item, String, IModel)
  * @author Sven Meier
  */
-public class NodeBorder implements IComponentBorder
+public class NodeBorder extends AbstractBehavior
 {
 
 	private static final long serialVersionUID = 1L;
@@ -42,7 +43,8 @@ public class NodeBorder implements IComponentBorder
 		this.branches = branches;
 	}
 
-	public void renderBefore(Component component)
+	@Override
+	public void beforeRender(Component component)
 	{
 		Response response = RequestCycle.get().getResponse();
 
@@ -64,7 +66,14 @@ public class NodeBorder implements IComponentBorder
 		}
 	}
 
-	public void renderAfter(Component component)
+	@Override
+	public void onComponentTag(Component component, ComponentTag tag)
+	{
+		tag.put("class", "tree-node");
+	}
+
+	@Override
+	public void onRendered(Component component)
 	{
 		Response response = RequestCycle.get().getResponse();
 
