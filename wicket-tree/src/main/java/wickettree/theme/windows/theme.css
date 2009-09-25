@@ -91,21 +91,21 @@ span.tree-content .selected span.tree-label {
   color: #FFFFFF;
 }
 
-span.tree-content .tree-folder-closed {
+.tree-folder-closed {
   padding-left: 18px;
   background-image: url(folder-closed.gif);
   background-position: 0px 50%;
   background-repeat: no-repeat;
 }
 
-span.tree-content .tree-folder-open {
+.tree-folder-open {
   padding-left: 18px;
   background-image: url(folder-open.gif);
   background-position: 0px 50%;
   background-repeat: no-repeat;
 }
 
-span.tree-content .tree-folder-other {
+.tree-folder-other {
   padding-left: 18px;
   background-image: url(folder-other.gif);
   background-position: 0px 50%;
