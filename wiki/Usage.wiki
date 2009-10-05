@@ -1,0 +1,18 @@
+  * Maven
+{{{
+	<dependency>
+		<groupId>wicket-tree</groupId>
+		<artifactId>wicket-tree</artifactId>
+		<version>0.4-SNAPSHOT</version>
+	</dependency>
+
+	<repository> 
+		<id>wicket-tree</id> 
+		<name>Wicket-tree Repository</name> 
+		<url>http://wicket-tree.googlecode.com/svn/repo</url> 
+	</repository> 
+}}}
+
+  * Otherwise
+
+	[http://code.google.com/p/wicket-tree/source/browse/#svn/repo/wicket-tree/wicket-tree/0.4-SNAPSHOT]
