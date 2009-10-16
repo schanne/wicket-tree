@@ -56,6 +56,10 @@ public abstract class AbstractTree<T> extends Panel
 	{
 		super(id, state);
 
+		if (provider == null)
+		{
+			throw new IllegalArgumentException("argument [provider] cannot be null");
+		}
 		this.provider = provider;
 
 		// see #onNodeStateChanged(Component)

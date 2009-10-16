@@ -63,6 +63,10 @@ public class Subtree<T> extends Panel
 	{
 		super(id, model);
 
+		if (tree == null)
+		{
+			throw new IllegalArgumentException("argument [tree] cannot be null");
+		}
 		this.tree = tree;
 
 		RefreshingView<T> branches = new RefreshingView<T>("branches")
