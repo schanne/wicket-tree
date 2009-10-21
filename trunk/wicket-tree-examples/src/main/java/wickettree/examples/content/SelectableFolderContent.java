@@ -51,7 +51,13 @@ public class SelectableFolderContent extends Content
 
 	protected boolean isSelected(Foo foo)
 	{
-		return selected != null && selected.equals(provider.model(foo));
+		IModel<Foo> model = provider.model(foo);
+		
+		try {
+			return selected != null && selected.equals(model);
+		} finally {
+			model.detach();
+		}
 	}
 
 	protected void select(Foo foo, AbstractTree<Foo> tree, final AjaxRequestTarget target)
