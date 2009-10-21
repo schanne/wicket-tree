@@ -58,7 +58,9 @@ public interface ITreeProvider<T> extends IDetachable
 	/**
 	 * Callback used by the consumer of this tree provider to wrap objects
 	 * retrieved from {@link #getRoots()} or {@link #getChildren(Object)} with a
-	 * model (usually a detachable one).
+	 * model (usually a detachable one). <br>
+	 * Important note: The model must implement {@link Object#equals(Object)} and
+	 * {@link Object#hashCode()} !
 	 * 
 	 * @param object
 	 *            the object that needs to be wrapped
