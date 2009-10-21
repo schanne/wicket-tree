@@ -33,6 +33,8 @@ public abstract class Node<T> extends Panel
 {
 
 	private static final long serialVersionUID = 1L;
+	
+	public static final String CONTENT_ID = "content";
 
 	private AbstractTree<T> tree;
 
@@ -46,7 +48,13 @@ public abstract class Node<T> extends Panel
 
 		add(createJunctionComponent("junction"));
 
-		add(createContent("content", model));
+		Component content = createContent(CONTENT_ID, model);
+		if (!content.getId().equals(CONTENT_ID))
+		{
+			throw new IllegalArgumentException(
+				"content must have component id equal to Node.CONTENT_ID");
+		}
+		add(content);
 	}
 
 	@SuppressWarnings("unchecked")
