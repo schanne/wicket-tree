@@ -39,7 +39,6 @@ public class Folder<T> extends StyledLinkLabel<T>
 
 	private AbstractTree<T> tree;
 
-	@SuppressWarnings("unchecked")
 	public Folder(String id, AbstractTree<T> tree, IModel<T> model)
 	{
 		super(id, model);
