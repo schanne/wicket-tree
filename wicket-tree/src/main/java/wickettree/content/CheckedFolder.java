@@ -37,7 +37,6 @@ public class CheckedFolder<T> extends Folder<T>
 
 	private static final long serialVersionUID = 1L;
 
-	@SuppressWarnings("unchecked")
 	public CheckedFolder(String id, AbstractTree<T> tree, IModel<T> model)
 	{
 		super(id, tree, model);

@@ -110,7 +110,7 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 		}
 		for (IColumn<T> column : columns)
 		{
-			if (column instanceof ITreeColumn)
+			if (column instanceof ITreeColumn<?>)
 			{
 				((ITreeColumn<T>)column).setTree(this);
 			}
@@ -128,7 +128,7 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 				Item<ICellPopulator<T>> item = TableTree.this.newCellItem(id, index, model);
 
 				final IColumn<?> column = TableTree.this.columns[index];
-				if (column instanceof IStyledColumn)
+				if (column instanceof IStyledColumn<?>)
 				{
 					item.add(new AttributeAppender("class", true, Model
 							.of(((IStyledColumn<?>)column).getCssClass()), " "));
