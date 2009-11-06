@@ -43,20 +43,20 @@ public class DefaultTableTree<T> extends TableTree<T>
 
 	private static final long serialVersionUID = 1L;
 
-	public DefaultTableTree(String id, IColumn<T>[] columns, ITreeProvider<T> provider,
+	public DefaultTableTree(String id, IColumn<T>[] columns, ISortableTreeProvider<T> provider,
 			int rowsPerPage)
 	{
 		this(id, columns, provider, rowsPerPage, null);
 	}
 
-	public DefaultTableTree(String id, IColumn<T>[] columns, ITreeProvider<T> provider,
+	public DefaultTableTree(String id, IColumn<T>[] columns, ISortableTreeProvider<T> provider,
 			int rowsPerPage, IModel<Set<T>> state)
 	{
 		super(id, columns, provider, rowsPerPage, state);
 
 		add(CSSPackageResource.getHeaderContribution(new WindowsTheme()));
 
-		addTopToolbar(new HeadersToolbar(this));
+		addTopToolbar(new HeadersToolbar(this, provider));
 		addBottomToolbar(new NoRecordsToolbar(this));
 	}
 

@@ -17,6 +17,8 @@
 package wickettree.table;
 
 import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.extensions.markup.html.repeater.data.sort.ISortStateLocator;
+import org.apache.wicket.extensions.markup.html.repeater.data.sort.OrderByBorder;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IStyledColumn;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -41,6 +43,17 @@ public class HeadersToolbar extends AbstractToolbar
 	 */
 	public HeadersToolbar(final TableTree<?> tree)
 	{
+		this(tree, null);
+	}
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param tree
+	 *            tree this toolbar will be attached to
+	 */
+	public HeadersToolbar(final TableTree<?> tree, final ISortStateLocator stateLocator)
+	{
 		super(tree);
 
 		RepeatingView headers = new RepeatingView("headers");
@@ -52,7 +65,15 @@ public class HeadersToolbar extends AbstractToolbar
 			WebMarkupContainer item = new WebMarkupContainer(headers.newChildId());
 			headers.add(item);
 
-			WebMarkupContainer header = new WebMarkupContainer("header");
+			WebMarkupContainer header = null;
+			if (column.isSortable())
+			{
+				header = newSortableHeader("header", column.getSortProperty(), stateLocator);
+			}
+			else
+			{
+				header = new WebMarkupContainer("header");
+			}
 
 			if (column instanceof IStyledColumn<?>)
 			{
@@ -65,5 +86,32 @@ public class HeadersToolbar extends AbstractToolbar
 			header.add(column.getHeader("label"));
 
 		}
+	}
+
+	/**
+	 * Factory method for sortable header components. A sortable header component must have id of
+	 * <code>headerId</code> and conform to markup specified in <code>HeadersToolbar.html</code>
+	 * 
+	 * @param headerId
+	 *            header component id
+	 * @param property
+	 *            property this header represents
+	 * @param locator
+	 *            sort state locator
+	 * @return created header component
+	 */
+	protected WebMarkupContainer newSortableHeader(String headerId, String property,
+		ISortStateLocator locator)
+	{
+		return new OrderByBorder(headerId, property, locator)
+		{
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void onSortChanged()
+			{
+				getTree().setCurrentPage(0);
+			}
+		};
 	}
 }
