@@ -62,7 +62,7 @@ public abstract class AbstractTree<T> extends Panel
 		}
 		this.provider = provider;
 
-		// see #onNodeStateChanged(Component)
+		// see #updateBranch(Object, AjaxRequestTarget)
 		setOutputMarkupId(true);
 	}
 
