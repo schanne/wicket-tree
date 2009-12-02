@@ -294,12 +294,6 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 		{
 			super(id);
 		}
-
-		@Override
-		public boolean isVisible()
-		{
-			return ((Component)iterator().next()).isVisible();
-		}
 	}
 
 	/**
@@ -312,31 +306,6 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 		private ToolbarsContainer(String id)
 		{
 			super(id);
-		}
-
-		@Override
-		public boolean isVisible()
-		{
-			// only visible if at least one child is visible
-			final boolean[] visible = new boolean[] { false };
-			visitChildren(new IVisitor<Component>()
-			{
-
-				public Object component(Component component)
-				{
-					if (component.isVisible())
-					{
-						visible[0] = true;
-						return STOP_TRAVERSAL;
-					}
-					else
-					{
-						return CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
-					}
-				}
-
-			});
-			return visible[0];
 		}
 	}
 
