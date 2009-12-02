@@ -22,21 +22,12 @@
 <body>
 
 <wicket:panel>
-	<wicket:enclosure child="topToolbars">
-		<thead>
-			<span wicket:id="topToolbars">
-				<span wicket:id="toolbar"></span>
-			</span>
-		</thead>
-	</wicket:enclosure>
-
-	<wicket:enclosure child="bottomToolbars">
-		<tfoot>
-			<span wicket:id="bottomToolbars">
-				<span wicket:id="toolbar"></span>
-			</span>
-		</tfoot>
-	</wicket:enclosure>
+	<thead wicket:id="topToolbars">
+		<wicket:container wicket:id="toolbar"></wicket:container>
+	</thead>
+	<tfoot wicket:id="bottomToolbars">
+		<wicket:container wicket:id="toolbar"></wicket:container>
+	</tfoot>
 
 	<tbody>
 		<tr wicket:id="rows">
