@@ -88,6 +88,7 @@ public class Folder<T> extends StyledLinkLabel<T>
 	 * @see #getOtherStyleClass(Object)
 	 * @see #getSelectedStyleClass()
 	 */
+	@Override
 	protected String getStyleClass()
 	{
 		T t = getModelObject();

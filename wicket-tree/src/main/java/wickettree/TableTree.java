@@ -17,8 +17,6 @@ package wickettree;
 
 import java.util.Iterator;
 import java.util.Set;
-
-import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.DataGridView;
@@ -34,7 +32,6 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-
 import wickettree.table.AbstractToolbar;
 import wickettree.table.ITreeColumn;
 import wickettree.table.ITreeDataProvider;
