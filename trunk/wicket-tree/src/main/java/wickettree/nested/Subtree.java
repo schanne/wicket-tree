@@ -15,9 +15,7 @@
  */
 package wickettree.nested;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -44,8 +42,6 @@ public class Subtree<T> extends Panel
 {
 
 	private static final long serialVersionUID = 1L;
-
-	private final List<T> EMPTY = new ArrayList<T>();
 
 	private NestedTree<T> tree;
 
@@ -125,6 +121,18 @@ public class Subtree<T> extends Panel
 		return new BranchItem<T>(id, index, model);
 	}
 
+	@Override
+	public boolean isVisible()
+	{
+		T t = getModel().getObject();
+		if (t == null) {
+			// roots always visible
+			return true;
+		} else {			
+			return tree.getState(t) == State.EXPANDED;
+		}
+	}
+	
 	private final class ModelIterator implements Iterator<IModel<T>>
 	{
 		private Iterator<? extends T> children;
@@ -138,14 +146,7 @@ public class Subtree<T> extends Panel
 			}
 			else
 			{
-				if (tree.getState(t) == State.COLLAPSED)
-				{
-					children = EMPTY.iterator();
-				}
-				else
-				{
-					children = tree.getProvider().getChildren(t);
-				}
+				children = tree.getProvider().getChildren(t);
 			}
 		}
 

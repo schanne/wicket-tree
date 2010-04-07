@@ -50,10 +50,6 @@ a.tree-junction-collapsed:hover {
   background-position: -36px center;
 }
 
-span.tree-sign {
-  display: none;
-}
-
 span.tree-content {
   display: block;
   margin-left: 18px;

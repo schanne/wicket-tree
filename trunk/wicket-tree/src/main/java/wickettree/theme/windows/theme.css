@@ -48,10 +48,6 @@ a.tree-junction-collapsed {
   text-decoration: none;
 }
 
-span.tree-sign {
-  display: none;
-}
-
 span.tree-content {
   display: block;
   margin-left: 18px;
