@@ -70,7 +70,7 @@ public class EditableFolderContent extends Content
 						super.onSubmit(target);
 
 						/**
-						 * update whole node in case where located inside
+						 * update whole node in case we're located inside
 						 * TableTree
 						 */
 						tree.updateNode(model.getObject(), target);
