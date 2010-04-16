@@ -24,19 +24,23 @@ import wickettree.examples.ExamplePage;
 import wickettree.examples.Foo;
 
 /**
- * Tree content for the {@link ExamplePage}.
+ * Tree content factory for the {@link ExamplePage}.
+ * 
+ * Note: This indirection is used for demonstration purposes only! Don't jump
+ * through similar hoops if you're just using one type of content for your
+ * application's trees.
  * 
  * @author Sven Meier
  */
 public abstract class Content implements IDetachable
 {
-	
+
 	/**
-	 * Create new content. 
+	 * Create new content.
 	 */
 	public abstract Component newContentComponent(String id, AbstractTree<Foo> tree,
 			IModel<Foo> model);
-	
+
 	public void detach()
 	{
 	}
