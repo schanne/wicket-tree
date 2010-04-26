@@ -1,0 +1,10 @@
+#summary Running wicket-tree-examples
+
+To run wicket-tree-examples, do the following:
+
+  * svn checkout http://wicket-tree.googlecode.com/svn/trunk/ wicket-tree-read-only
+  * cd wicket-tree-read-only/wicket-tree-examples/
+  * mvn package
+  * mvn jetty:run
+
+Then open http://localhost:8080/wicket-tree-examples/ in your browser.
