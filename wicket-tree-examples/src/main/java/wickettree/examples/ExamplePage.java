@@ -29,7 +29,9 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.AbstractReadOnlyModel;
+import org.apache.wicket.model.IDetachable;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 
@@ -46,6 +48,7 @@ import wickettree.examples.content.MultiLineLabelContent;
 import wickettree.examples.content.MultiSelectableFolderContent;
 import wickettree.examples.content.PanelContent;
 import wickettree.examples.content.SelectableFolderContent;
+import wickettree.provider.InverseSet;
 import wickettree.provider.ProviderSubset;
 import wickettree.theme.HumanTheme;
 import wickettree.theme.WindowsTheme;
@@ -64,7 +67,7 @@ public abstract class ExamplePage extends WebPage
 
 	private FooProvider provider = new FooProvider();
 
-	private ProviderSubset<Foo> state = new ProviderSubset<Foo>(provider);
+	private Set<Foo> state = new ProviderSubset<Foo>(provider);
 
 	private Content content;
 
@@ -117,6 +120,26 @@ public abstract class ExamplePage extends WebPage
 			}
 		});
 
+		form.add(new Link<Void>("expandAll")
+		{
+			@Override
+			public void onClick()
+			{
+				((IDetachable)state).detach();
+				state = new InverseSet<Foo>(new ProviderSubset<Foo>(provider));
+			}
+		});
+
+		form.add(new Link<Void>("collapseAll")
+		{
+			@Override
+			public void onClick()
+			{
+				((IDetachable)state).detach();
+				state = new ProviderSubset<Foo>(provider);
+			}
+		});
+
 		form.add(new Button("submit")
 		{
 			private static final long serialVersionUID = 1L;
@@ -144,7 +167,7 @@ public abstract class ExamplePage extends WebPage
 			@Override
 			public void detach()
 			{
-				state.detach();
+				((IDetachable)state).detach();
 			}
 		};
 	}
