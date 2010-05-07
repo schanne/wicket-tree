@@ -109,7 +109,7 @@ public abstract class AbstractTree<T> extends Panel
 	}
 
 	/**
-	 * Uses a {@link ProviderSubset} as model if none is inited in super
+	 * Delegate to {@link #newModel()} if none is inited in super
 	 * implementation.
 	 */
 	@Override
@@ -119,10 +119,19 @@ public abstract class AbstractTree<T> extends Panel
 
 		if (model == null)
 		{
-			model = new Model<ProviderSubset<T>>(new ProviderSubset<T>(provider));
+			model = newModel();
 		}
 
 		return model;
+	}
+
+	/**
+	 * Factory method for a model, by default creates a model containing a
+	 * {@link ProviderSubset}.
+	 */
+	protected Model<ProviderSubset<T>> newModel()
+	{
+		return new Model<ProviderSubset<T>>(new ProviderSubset<T>(provider));
 	}
 
 	@SuppressWarnings("unchecked")
