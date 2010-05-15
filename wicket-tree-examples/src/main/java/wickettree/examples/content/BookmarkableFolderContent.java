@@ -60,14 +60,14 @@ public class BookmarkableFolderContent extends Content
 			{
 				Foo foo = model.getObject();
 
-				if (!tree.getProvider().hasChildren(foo))
+				if (tree.getProvider().hasChildren(foo))
 				{
-					return new BookmarkablePageLink<Void>(id, tree.getPage().getClass(),
-							new PageParameters("foo=" + foo.getId()));
+					return super.newLinkComponent(id, model);
 				}
 				else
 				{
-					return super.newLinkComponent(id, model);
+					return new BookmarkablePageLink<Void>(id, tree.getPage().getClass(),
+							new PageParameters("foo=" + foo.getId()));
 				}
 			}
 		};
