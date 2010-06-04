@@ -16,8 +16,11 @@
 package wickettree.examples.content;
 
 import org.apache.wicket.Component;
+import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.extensions.ajax.markup.html.AjaxEditableLabel;
+import org.apache.wicket.markup.ComponentTag;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 
@@ -39,8 +42,6 @@ public class EditableFolderContent extends Content
 		return new Folder<Foo>(id, tree, model)
 		{
 
-			private StartableAjaxEditableLabel label;
-
 			/**
 			 * Always clickable.
 			 */
@@ -51,18 +52,27 @@ public class EditableFolderContent extends Content
 			}
 
 			/**
-			 * Start edit on click.
+			 * AjaxEditableLabel won't work reliable in Safari if wrapped in a
+			 * Link, so simply replace the anchor with a &lt;span&gt;.
 			 */
 			@Override
-			protected void onClick(AjaxRequestTarget target)
+			protected MarkupContainer newLinkComponent(String id, IModel<Foo> model)
 			{
-				label.startEdit(target);
+				return new WebMarkupContainer(id)
+				{
+					@Override
+					protected void onComponentTag(ComponentTag tag)
+					{
+						tag.setName("span");
+						super.onComponentTag(tag);
+					}
+				};
 			}
 
 			@Override
 			protected Component newLabelComponent(String id, final IModel<Foo> model)
 			{
-				label = new StartableAjaxEditableLabel(id, new PropertyModel<String>(model, "bar"))
+				return new AjaxEditableLabel<String>(id, new PropertyModel<String>(model, "bar"))
 				{
 					@Override
 					protected void onSubmit(AjaxRequestTarget target)
@@ -76,25 +86,7 @@ public class EditableFolderContent extends Content
 						tree.updateNode(model.getObject(), target);
 					}
 				};
-				return label;
 			}
 		};
-	}
-
-	private static class StartableAjaxEditableLabel extends AjaxEditableLabel<String>
-	{
-
-		public StartableAjaxEditableLabel(String id, IModel<String> model)
-		{
-			super(id, model);
-		}
-
-		/**
-		 * WICKET-2408
-		 */
-		public void startEdit(AjaxRequestTarget target)
-		{
-			onEdit(target);
-		}
 	}
 }
