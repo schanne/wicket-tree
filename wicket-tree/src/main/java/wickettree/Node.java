@@ -19,6 +19,8 @@ import org.apache.wicket.Component;
 import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
+import org.apache.wicket.behavior.AbstractBehavior;
+import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 
@@ -33,7 +35,7 @@ public abstract class Node<T> extends Panel
 {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final String CONTENT_ID = "content";
 
 	private AbstractTree<T> tree;
@@ -46,13 +48,15 @@ public abstract class Node<T> extends Panel
 
 		setOutputMarkupId(true);
 
-		add(createJunctionComponent("junction"));
+		MarkupContainer junction = createJunctionComponent("junction");
+		junction.add(new StyleBehavior());
+		add(junction);
 
 		Component content = createContent(CONTENT_ID, model);
 		if (!content.getId().equals(CONTENT_ID))
 		{
 			throw new IllegalArgumentException(
-				"content must have component id equal to Node.CONTENT_ID");
+					"content must have component id equal to Node.CONTENT_ID");
 		}
 		add(content);
 	}
@@ -88,25 +92,6 @@ public abstract class Node<T> extends Panel
 		};
 	}
 
-	@Override
-	public String getVariation()
-	{
-		T t = getModelObject();
-
-		if (tree.getProvider().hasChildren(t))
-		{
-			if (tree.getState(t) == State.EXPANDED)
-			{
-				return "expanded";
-			}
-			else
-			{
-				return "collapsed";
-			}
-		}
-		return null;
-	}
-
 	private void toggle()
 	{
 		T t = getModelObject();
@@ -122,4 +107,57 @@ public abstract class Node<T> extends Panel
 	}
 
 	protected abstract Component createContent(String id, IModel<T> model);
+
+	protected String getStyleClass()
+	{
+		T t = getModelObject();
+
+		if (tree.getProvider().hasChildren(t))
+		{
+			if (tree.getState(t) == State.EXPANDED)
+			{
+				return getExpandedStyleClass(t);
+			}
+			else
+			{
+				return getCollapsedStyleClass();
+			}
+		}
+		return getOtherStyleClass();
+	}
+
+	protected String getExpandedStyleClass(T t)
+	{
+		return "tree-junction-expanded";
+	}
+
+	protected String getCollapsedStyleClass()
+	{
+		return "tree-junction-collapsed";
+	}
+
+	protected String getOtherStyleClass()
+	{
+		return "tree-junction";
+	}
+	
+	/**
+	 * Behavior to add a style class attribute.
+	 */
+	private static class StyleBehavior extends AbstractBehavior
+	{
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void onComponentTag(Component component, ComponentTag tag)
+		{
+			Node<?> node = (Node<?>)component.getParent();
+
+			String styleClass = node.getStyleClass();
+			if (styleClass != null)
+			{
+				tag.put("class", styleClass);
+			}
+		}
+	}
 }
