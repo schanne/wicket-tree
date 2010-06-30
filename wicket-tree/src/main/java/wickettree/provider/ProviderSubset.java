@@ -97,6 +97,8 @@ public class ProviderSubset<T> implements Set<T>, IDetachable
 
 	public void clear()
 	{
+		detach();
+		
 		models.clear();
 	}
 
