@@ -20,11 +20,11 @@ import org.apache.wicket.model.IDetachable;
 import org.apache.wicket.model.IModel;
 
 import wickettree.AbstractTree;
-import wickettree.examples.ExamplePage;
+import wickettree.examples.ContentPage;
 import wickettree.examples.Foo;
 
 /**
- * Tree content factory for the {@link ExamplePage}.
+ * Tree content factory for the {@link ContentPage}.
  * 
  * Note: This indirection is used for demonstration purposes only! Don't jump
  * through similar hoops if you're just using one type of content for your
