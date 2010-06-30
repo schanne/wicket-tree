@@ -25,6 +25,7 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 
 import wickettree.ITreeProvider;
+import wickettree.util.TimeoutTreeProvider;
 
 /**
  * A provider of {@link Foo}s.
@@ -93,6 +94,18 @@ public class FooProvider implements ITreeProvider<Foo>
 		roots.add(fooC);
 	}
 
+	private boolean timeouts;
+
+	public FooProvider()
+	{
+		this(false);
+	}
+
+	public FooProvider(boolean timeouts)
+	{
+		this.timeouts = timeouts;
+	}
+
 	/**
 	 * Nothing to do.
 	 */
@@ -112,6 +125,15 @@ public class FooProvider implements ITreeProvider<Foo>
 
 	public Iterator<Foo> getChildren(Foo foo)
 	{
+		// simulate timeout by random value
+		if (timeouts && Math.random() > 0.5d)
+		{
+			// usually the children would now be fetched asynchronously, so they
+			// are available on the next invocation of #getChildren()
+
+			throw new TimeoutTreeProvider.Timeout();
+		}
+
 		return foo.getFoos().iterator();
 	}
 
