@@ -15,24 +15,32 @@
   limitations under the License.
 -->
 <html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.3-strict.dtd" >
+    <head>  
+<style>
+.tree p {
+  margin: 0px;
+}
+</style>
+    </head>
     <body>
-    	Visit our project on <a href="http://code.google.com/p/wicket-tree/">http://code.google.com/p/wicket-tree/</a>!
-    	
-		<wicket:link>
-	    	<ul>
-	    		<li>
-					<a href="NestedTreePage.html">Nested tree</a>
-	    		</li>
-	    		<li>
-					<a href="TableTreePage.html">Table tree</a>		
-	    		</li>
-	    		<li>
-					<a href="TimeoutPage.html">Timeout tree</a>		
-	    		</li>
-			</ul>
-		</wicket:link>
-
-		<wicket:child />			
+    	<wicket:extend>   
+			<form wicket:id="form">
+				<p>
+					Content: <select wicket:id="content"/>
+				</p>
+				<p>
+					Theme: <select wicket:id="theme"/>
+				</p>
+				<p>
+					<a wicket:id="collapseAll">collapse all</a> / <a wicket:id="expandAll">expand all</a>
+				</p>
+				<p>
+					<wicket:child/>
+				</p>
+				
+				<input type="submit" wicket:id="submit" value="OK"/>
+			</form>
+    	</wicket:extend>
     </body>
 </html>
 

@@ -15,37 +15,38 @@
  */
 package wickettree.examples;
 
-import java.util.Set;
-
 import org.apache.wicket.Component;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.util.time.Duration;
 
-import wickettree.AbstractTree;
-import wickettree.NestedTree;
+import wickettree.DefaultNestedTree;
+import wickettree.util.TimeoutTreeProvider;
 
 /**
  * @author Sven Meier
  */
-public class NestedTreePage extends ContentPage
+public class TimeoutPage extends ExamplePage
 {
 
 	private static final long serialVersionUID = 1L;
 
-	private NestedTree<Foo> tree;
+	private FooProvider provider = new FooProvider(true);
 
-	@Override
-	protected AbstractTree<Foo> createTree(FooProvider provider, IModel<Set<Foo>> state)
+	public TimeoutPage()
 	{
-		tree = new NestedTree<Foo>("tree", provider, state)
-		{
-			private static final long serialVersionUID = 1L;
+		final TimeoutTreeProvider<Foo> timeoutProvider = new TimeoutTreeProvider<Foo>(provider,
+				Duration.seconds(5));
 
+		add(new DefaultNestedTree<Foo>("tree", timeoutProvider)
+		{
+			/**
+			 * Overriden to bind provider to the content component.
+			 */
 			@Override
 			protected Component newContentComponent(String id, IModel<Foo> model)
 			{
-				return NestedTreePage.this.newContentComponent(id, model);
+				return timeoutProvider.bind(super.newContentComponent(id, model));
 			}
-		};
-		return tree;
+		});
 	}
 }

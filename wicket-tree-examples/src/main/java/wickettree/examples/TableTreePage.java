@@ -39,7 +39,7 @@ import wickettree.table.TreeColumn;
 /**
  * @author Sven Meier
  */
-public class TableTreePage extends ExamplePage
+public class TableTreePage extends ContentPage
 {
 
 	private static final long serialVersionUID = 1L;
