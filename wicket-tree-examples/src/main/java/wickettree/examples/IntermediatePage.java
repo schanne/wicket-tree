@@ -16,36 +16,47 @@
 package wickettree.examples;
 
 import org.apache.wicket.Component;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.util.time.Duration;
 
 import wickettree.DefaultNestedTree;
-import wickettree.util.TimeoutTreeProvider;
+import wickettree.util.IntermediateTreeProvider;
 
 /**
  * @author Sven Meier
  */
-public class TimeoutPage extends ExamplePage
+public class IntermediatePage extends ExamplePage
 {
 
 	private static final long serialVersionUID = 1L;
 
 	private FooProvider provider = new FooProvider(true);
 
-	public TimeoutPage()
+	public IntermediatePage()
 	{
-		final TimeoutTreeProvider<Foo> timeoutProvider = new TimeoutTreeProvider<Foo>(provider,
-				Duration.seconds(5));
+		final IntermediateTreeProvider<Foo> intermediateProvider = new IntermediateTreeProvider<Foo>(
+				provider, Duration.seconds(2));
 
-		add(new DefaultNestedTree<Foo>("tree", timeoutProvider)
+		add(new DefaultNestedTree<Foo>("tree", intermediateProvider)
 		{
 			/**
-			 * Overriden to bind provider to the content component.
+			 * Overriden to bind {@link IntermediateTreeProvider} to the content
+			 * component.
 			 */
 			@Override
 			protected Component newContentComponent(String id, IModel<Foo> model)
 			{
-				return timeoutProvider.bind(super.newContentComponent(id, model));
+				return intermediateProvider.bind(super.newContentComponent(id, model));
+			}
+		});
+
+		add(new Link<Void>("reset")
+		{
+			@Override
+			public void onClick()
+			{
+				FooProvider.resetLoaded();
 			}
 		});
 	}

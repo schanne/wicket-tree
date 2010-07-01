@@ -17,6 +17,7 @@ package wickettree.examples;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,7 +26,7 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 
 import wickettree.ITreeProvider;
-import wickettree.util.TimeoutTreeProvider;
+import wickettree.util.IntermediateTreeProvider;
 
 /**
  * A provider of {@link Foo}s.
@@ -94,16 +95,20 @@ public class FooProvider implements ITreeProvider<Foo>
 		roots.add(fooC);
 	}
 
-	private boolean timeouts;
+	private boolean intermediate;
 
 	public FooProvider()
 	{
 		this(false);
 	}
 
-	public FooProvider(boolean timeouts)
+	/**
+	 * @param intermediate
+	 *            are intermediate children allowed.
+	 */
+	public FooProvider(boolean intermediate)
 	{
-		this.timeouts = timeouts;
+		this.intermediate = intermediate;
 	}
 
 	/**
@@ -123,20 +128,56 @@ public class FooProvider implements ITreeProvider<Foo>
 		return foo.getParent() == null || !foo.getFoos().isEmpty();
 	}
 
-	public Iterator<Foo> getChildren(Foo foo)
+	public Iterator<Foo> getChildren(final Foo foo)
 	{
-		// simulate timeout by random value
-		if (timeouts && Math.random() > 0.5d)
+		if (intermediate)
 		{
-			// usually the children would now be fetched asynchronously, so they
-			// are available on the next invocation of #getChildren()
+			if (!foo.isLoaded())
+			{
+				asynchronuous(new Runnable()
+				{
+					public void run()
+					{
+						foo.setLoaded(true);
+					}
+				});
 
-			throw new TimeoutTreeProvider.Timeout();
+				// mark children intermediate
+				return IntermediateTreeProvider.intermediate(Collections.<Foo> emptyList()
+						.iterator());
+			}
 		}
 
 		return foo.getFoos().iterator();
 	}
 
+	/**
+	 * We're cheating here - the given runnable is run immediately.
+	 */
+	private void asynchronuous(Runnable runnable)
+	{
+		runnable.run();
+	}
+
+
+	public static void resetLoaded()
+	{
+		for (Foo foo : roots)
+		{
+			resetLoaded(foo);
+		}
+	}
+
+	private static void resetLoaded(Foo foo)
+	{
+		foo.setLoaded(false);
+
+		for (Foo child : foo.getFoos())
+		{
+			resetLoaded(child);
+		}
+	}
+	
 	/**
 	 * Creates a {@link FooModel}.
 	 */

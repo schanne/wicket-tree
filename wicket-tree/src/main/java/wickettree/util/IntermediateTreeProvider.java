@@ -15,11 +15,9 @@
  */
 package wickettree.util;
 
-import java.util.Collections;
 import java.util.Iterator;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.ajax.AbstractDefaultAjaxBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.IHeaderResponse;
@@ -32,23 +30,23 @@ import wickettree.nested.BranchItem;
 import wickettree.provider.ProviderSubset;
 
 /**
- * Wrapper of a ITreeProvider handling timeouts when accessing childrens of a
- * node.
+ * Wrapper of a ITreeProvider handling intermediate childrens.
  * 
  * @see #getChildren(Object)
+ * @see #intermediate(Iterator)
  * @see #bind(Component)
  */
-public class TimeoutTreeProvider<T> implements ITreeProvider<T>
+public class IntermediateTreeProvider<T> implements ITreeProvider<T>
 {
 
 	private ITreeProvider<T> provider;
 
-	/**
-	 * All previously timed out nodes.
-	 */
-	private ProviderSubset<T> timedOut;
-
 	private Duration delay;
+
+	/**
+	 * All nodes with intermediate children.
+	 */
+	private ProviderSubset<T> intermediates;
 
 	/**
 	 * Wrap the given provider.
@@ -56,22 +54,23 @@ public class TimeoutTreeProvider<T> implements ITreeProvider<T>
 	 * @param provider
 	 *            provider to wrap
 	 * @param delay
-	 *            delay to re-access node's children after a {@link Timeout}
+	 *            delay after which to update branches for nodes with
+	 *            intermediate children
 	 */
-	public TimeoutTreeProvider(ITreeProvider<T> provider, Duration delay)
+	public IntermediateTreeProvider(ITreeProvider<T> provider, Duration delay)
 	{
 		this.provider = provider;
 		this.delay = delay;
 
-		timedOut = new ProviderSubset<T>(provider);
+		intermediates = new ProviderSubset<T>(provider);
 	}
 
 	/**
-	 * Has access to the given object's children previously timed out.
+	 * Does the given node have intermediate children.
 	 */
-	public boolean hasTimedOut(T t)
+	public boolean hasIntermediateChildren(T t)
 	{
-		return timedOut.contains(t);
+		return intermediates.contains(t);
 	}
 
 	public Iterator<? extends T> getRoots()
@@ -85,21 +84,25 @@ public class TimeoutTreeProvider<T> implements ITreeProvider<T>
 	}
 
 	/**
-	 * Delegate to the wrapped {@link ITreeProvider}, handling possible
-	 * {@link Timeout}s.
+	 * Delegate to the wrapped {@link ITreeProvider}, remembering nodes with
+	 * intermediate children.
+	 * 
+	 * @see #intermediate(Iterator)
 	 */
 	public Iterator<? extends T> getChildren(T t)
 	{
-		try
-		{
-			return provider.getChildren(t);
-		}
-		catch (Timeout timeout)
-		{
-			timedOut.add(t);
+		Iterator<? extends T> iterator = provider.getChildren(t);
 
-			return Collections.<T> emptyList().iterator();
+		if (iterator instanceof IntermediateIterator<?>)
+		{
+			intermediates.add(t);
 		}
+		else
+		{
+			intermediates.remove(t);
+		}
+
+		return iterator;
 	}
 
 	public IModel<T> model(T object)
@@ -111,12 +114,12 @@ public class TimeoutTreeProvider<T> implements ITreeProvider<T>
 	{
 		provider.detach();
 
-		timedOut.detach();
+		intermediates.detach();
 	}
 
 	/**
-	 * Bind to the given node component to retry access to children in case of a
-	 * previous {@link Timeout}.
+	 * Bind to the given node component. In case of intermediate children the
+	 * given component which will be updated after the configured delay.
 	 * 
 	 * @see AbstractTree#newNodeComponent(String, IModel)
 	 */
@@ -131,7 +134,7 @@ public class TimeoutTreeProvider<T> implements ITreeProvider<T>
 				super.renderHead(response);
 
 				T t = (T)getComponent().getDefaultModelObject();
-				if (hasTimedOut(t))
+				if (hasIntermediateChildren(t))
 				{
 					response.renderOnLoadJavascript(getJsTimeoutCall());
 				}
@@ -149,9 +152,13 @@ public class TimeoutTreeProvider<T> implements ITreeProvider<T>
 			{
 				T t = (T)getComponent().getDefaultModelObject();
 
-				timedOut.remove(t);
+				intermediates.remove(t);
 
-				target.addComponent(getComponent().findParent(BranchItem.class));
+				BranchItem branch = getComponent().findParent(BranchItem.class);
+				if (branch != null)
+				{
+					target.addComponent(branch);
+				}
 			}
 		});
 
@@ -159,12 +166,40 @@ public class TimeoutTreeProvider<T> implements ITreeProvider<T>
 	}
 
 	/**
-	 * Exception to be thrown by wrapped {@link ITreeProvider} if access to a
-	 * node's children times out.
+	 * Create an iterator over intermediate children. Call this method from your
+	 * {@link ITreeProvider#getChildren(Object)} implementation.
 	 * 
-	 * {@link ITreeProvider#getChildren(Object)}
+	 * @param children
+	 *            intermediate children
+	 * @see ITreeProvider#getChildren(Object)
 	 */
-	public static final class Timeout extends WicketRuntimeException
+	public static <S> Iterator<S> intermediate(Iterator<S> children)
 	{
+		return new IntermediateIterator<S>(children);
+	}
+
+	private static class IntermediateIterator<S> implements Iterator<S>
+	{
+		private Iterator<S> iterator;
+
+		public IntermediateIterator(Iterator<S> iterator)
+		{
+			this.iterator = iterator;
+		}
+
+		public boolean hasNext()
+		{
+			return iterator.hasNext();
+		}
+
+		public S next()
+		{
+			return iterator.next();
+		}
+
+		public void remove()
+		{
+			iterator.remove();
+		}
 	}
 }

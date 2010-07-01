@@ -34,6 +34,8 @@ public class Foo
 	private String baz;
 
 	private boolean quux;
+	
+	private boolean loaded;
 
 	private Foo parent;
 
@@ -120,5 +122,14 @@ public class Foo
 	public String toString()
 	{
 		return id;
+	}
+	
+	public boolean isLoaded() {
+		return loaded;
+	}
+	
+	public void setLoaded(boolean loaded)
+	{
+		this.loaded = loaded;
 	}
 }
