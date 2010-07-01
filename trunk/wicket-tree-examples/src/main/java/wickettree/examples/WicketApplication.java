@@ -43,7 +43,7 @@ public class WicketApplication extends WebApplication
 
 		mount(new QueryStringUrlCodingStrategy("nested", NestedTreePage.class));
 		mount(new QueryStringUrlCodingStrategy("table", TableTreePage.class));
-		mount(new QueryStringUrlCodingStrategy("future", TimeoutPage.class));
+		mount(new QueryStringUrlCodingStrategy("intermediate", IntermediatePage.class));
 	}
 
 	public Class<NestedTreePage> getHomePage()
