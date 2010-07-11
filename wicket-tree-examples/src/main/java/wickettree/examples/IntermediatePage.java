@@ -15,9 +15,7 @@
  */
 package wickettree.examples;
 
-import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.util.time.Duration;
 
 import wickettree.DefaultNestedTree;
@@ -35,21 +33,10 @@ public class IntermediatePage extends ExamplePage
 
 	public IntermediatePage()
 	{
-		final IntermediateTreeProvider<Foo> intermediateProvider = new IntermediateTreeProvider<Foo>(
+		IntermediateTreeProvider<Foo> intermediateProvider = new IntermediateTreeProvider<Foo>(
 				provider, Duration.seconds(2));
 
-		add(new DefaultNestedTree<Foo>("tree", intermediateProvider)
-		{
-			/**
-			 * Overriden to bind {@link IntermediateTreeProvider} to the content
-			 * component.
-			 */
-			@Override
-			protected Component newContentComponent(String id, IModel<Foo> model)
-			{
-				return intermediateProvider.bind(super.newContentComponent(id, model));
-			}
-		});
+		add(new DefaultNestedTree<Foo>("tree", intermediateProvider));
 
 		add(new Link<Void>("reset")
 		{
