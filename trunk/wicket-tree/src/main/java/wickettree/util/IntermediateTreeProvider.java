@@ -21,10 +21,11 @@ import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AbstractDefaultAjaxBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.model.IComponentAssignedModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.IWrapModel;
 import org.apache.wicket.util.time.Duration;
 
-import wickettree.AbstractTree;
 import wickettree.ITreeProvider;
 import wickettree.nested.BranchItem;
 import wickettree.provider.ProviderSubset;
@@ -34,7 +35,6 @@ import wickettree.provider.ProviderSubset;
  * 
  * @see #getChildren(Object)
  * @see #intermediate(Iterator)
- * @see #bind(Component)
  */
 public class IntermediateTreeProvider<T> implements ITreeProvider<T>
 {
@@ -107,7 +107,7 @@ public class IntermediateTreeProvider<T> implements ITreeProvider<T>
 
 	public IModel<T> model(T object)
 	{
-		return provider.model(object);
+		return new BehaviorWrapper(provider.model(object));
 	}
 
 	public void detach()
@@ -118,56 +118,99 @@ public class IntermediateTreeProvider<T> implements ITreeProvider<T>
 	}
 
 	/**
-	 * Bind to the given node component. In case of intermediate children the
-	 * given component which will be updated after the configured delay.
-	 * 
-	 * @see AbstractTree#newNodeComponent(String, IModel)
+	 * A wrapper which adds an Ajax behavior on {@link BranchItem}s.
 	 */
-	public Component bind(Component component)
+	private class BehaviorWrapper implements IComponentAssignedModel<T>, IWrapModel<T>
 	{
-		component.add(new AbstractDefaultAjaxBehavior()
+		private IModel<T> model;
+
+		public BehaviorWrapper(IModel<T> model)
 		{
-			@SuppressWarnings("unchecked")
-			@Override
-			public void renderHead(IHeaderResponse response)
-			{
-				super.renderHead(response);
+			this.model = model;
+		}
 
-				T t = (T)getComponent().getDefaultModelObject();
-				if (hasIntermediateChildren(t))
+		public T getObject()
+		{
+			return model.getObject();
+		}
+
+		public void setObject(T object)
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		public void detach()
+		{
+			model.detach();
+		}
+
+		@Override
+		public int hashCode()
+		{
+			return model.hashCode();
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public boolean equals(Object obj)
+		{
+			if (obj instanceof IntermediateTreeProvider.BehaviorWrapper)
+			{
+				BehaviorWrapper other = (BehaviorWrapper)obj;
+
+				return this.model.equals(other.model);
+			}
+			return false;
+		}
+
+		public IWrapModel<T> wrapOnAssignment(final Component component)
+		{
+			if (component instanceof BranchItem<?>)
+			{
+				component.add(new AbstractDefaultAjaxBehavior()
 				{
-					response.renderOnLoadJavascript(getJsTimeoutCall());
-				}
+					@Override
+					public void renderHead(IHeaderResponse response)
+					{
+						super.renderHead(response);
+
+						T t = model.getObject();
+						if (hasIntermediateChildren(t))
+						{
+							response.renderOnLoadJavascript(getJsTimeoutCall());
+						}
+					}
+
+					protected final String getJsTimeoutCall()
+					{
+						return "setTimeout(\"" + getCallbackScript() + "\", "
+								+ delay.getMilliseconds() + ");";
+					}
+
+					@Override
+					protected void respond(AjaxRequestTarget target)
+					{
+						T t = model.getObject();
+
+						intermediates.remove(t);
+
+						target.addComponent(component);
+					}
+				});
 			}
 
-			protected final String getJsTimeoutCall()
-			{
-				return "setTimeout(\"" + getCallbackScript() + "\", " + delay.getMilliseconds()
-						+ ");";
-			}
+			return this;
+		}
 
-			@SuppressWarnings("unchecked")
-			@Override
-			protected void respond(AjaxRequestTarget target)
-			{
-				T t = (T)getComponent().getDefaultModelObject();
-
-				intermediates.remove(t);
-
-				BranchItem branch = getComponent().findParent(BranchItem.class);
-				if (branch != null)
-				{
-					target.addComponent(branch);
-				}
-			}
-		});
-
-		return component;
+		public IModel<?> getWrappedModel()
+		{
+			return model;
+		}
 	}
 
 	/**
-	 * Create an iterator over intermediate children. Call this method from your
-	 * {@link ITreeProvider#getChildren(Object)} implementation.
+	 * Mark children as intermediate. Call this method from your
+	 * {@link ITreeProvider#getChildren(Object)} implementation as needed.
 	 * 
 	 * @param children
 	 *            intermediate children
