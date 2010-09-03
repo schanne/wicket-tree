@@ -19,7 +19,7 @@ import java.util.Set;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
-import org.apache.wicket.markup.html.CSSPackageResource;
+import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.OddEvenItem;
 import org.apache.wicket.model.IModel;
@@ -54,12 +54,17 @@ public class DefaultTableTree<T> extends TableTree<T>
 	{
 		super(id, columns, provider, rowsPerPage, state);
 
-		add(CSSPackageResource.getHeaderContribution(new WindowsTheme()));
-
 		addTopToolbar(new HeadersToolbar(this, provider));
 		addBottomToolbar(new NoRecordsToolbar(this));
 	}
 
+	@Override
+	public void renderHead(IHeaderResponse response) {
+		response.renderCSSReference(new WindowsTheme());
+		
+		super.renderHead(response);
+	}
+	
 	@Override
 	protected Component newContentComponent(String id, IModel<T> model)
 	{

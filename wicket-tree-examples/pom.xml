@@ -18,7 +18,7 @@
 		<dependency>
 			<groupId>wicket-tree</groupId>
 			<artifactId>wicket-tree</artifactId>
-			<version>0.4-SNAPSHOT</version>
+			<version>0.5-SNAPSHOT</version>
 		</dependency>
 
 		<!--  WICKET DEPENDENCIES -->
@@ -127,7 +127,7 @@
 		</plugins>
 	</build>
 	<properties>
-		<wicket.version>1.4.1</wicket.version>
+		<wicket.version>1.5-SNAPSHOT</wicket.version>
 		<jetty.version>6.1.4</jetty.version>
 	</properties>
 	<repositories> 

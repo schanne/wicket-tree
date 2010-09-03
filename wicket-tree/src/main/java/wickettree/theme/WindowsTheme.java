@@ -15,7 +15,7 @@
  */
 package wickettree.theme;
 
-import org.apache.wicket.markup.html.resources.CompressedResourceReference;
+import org.apache.wicket.request.resource.CompressedResourceReference;
 
 /**
  * @author Sven Meier

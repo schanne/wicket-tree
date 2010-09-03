@@ -20,9 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.ResourceReference;
-import org.apache.wicket.behavior.HeaderContributor;
-import org.apache.wicket.markup.html.IHeaderContributor;
+import org.apache.wicket.behavior.AbstractBehavior;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -33,6 +31,7 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IDetachable;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.resource.ResourceReference;
 
 import wickettree.AbstractTree;
 import wickettree.examples.content.BookmarkableFolderContent;
@@ -55,8 +54,7 @@ import wickettree.theme.WindowsTheme;
 /**
  * @author Sven Meier
  */
-public abstract class ContentPage extends ExamplePage
-{
+public abstract class ContentPage extends ExamplePage {
 
 	private static final long serialVersionUID = 1L;
 
@@ -74,89 +72,74 @@ public abstract class ContentPage extends ExamplePage
 
 	private List<ResourceReference> themes;
 
-	public ContentPage()
-	{
+	public ContentPage() {
 		content = new CheckedFolderContent(provider);
 
 		Form<Void> form = new Form<Void>("form");
 		add(form);
 
 		tree = createTree(provider, newStateModel());
-		tree.add(new HeaderContributor(new IHeaderContributor()
-		{
+		tree.add(new AbstractBehavior() {
 			private static final long serialVersionUID = 1L;
 
-			public void renderHead(IHeaderResponse response)
-			{
+			public void renderHead(IHeaderResponse response) {
 				response.renderCSSReference(theme);
 			}
-		}));
+		});
 		form.add(tree);
 
 		form.add(new DropDownChoice<Content>("content",
 				new PropertyModel<Content>(this, "content"), initContents(),
-				new ChoiceRenderer<Content>("class.simpleName"))
-		{
+				new ChoiceRenderer<Content>("class.simpleName")) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected boolean wantOnSelectionChangedNotifications()
-			{
+			protected boolean wantOnSelectionChangedNotifications() {
 				return true;
 			}
 		});
 
 		form.add(new DropDownChoice<ResourceReference>("theme",
-				new PropertyModel<ResourceReference>(this, "theme"), initThemes(),
-				new ChoiceRenderer<ResourceReference>("class.simpleName"))
-		{
+				new PropertyModel<ResourceReference>(this, "theme"),
+				initThemes(), new ChoiceRenderer<ResourceReference>(
+						"class.simpleName")) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected boolean wantOnSelectionChangedNotifications()
-			{
+			protected boolean wantOnSelectionChangedNotifications() {
 				return true;
 			}
 		});
 
-		form.add(new Link<Void>("expandAll")
-		{
+		form.add(new Link<Void>("expandAll") {
 			@Override
-			public void onClick()
-			{
-				((IDetachable)state).detach();
+			public void onClick() {
+				((IDetachable) state).detach();
 				state = new InverseSet<Foo>(new ProviderSubset<Foo>(provider));
 			}
 		});
 
-		form.add(new Link<Void>("collapseAll")
-		{
+		form.add(new Link<Void>("collapseAll") {
 			@Override
-			public void onClick()
-			{
-				((IDetachable)state).detach();
+			public void onClick() {
+				((IDetachable) state).detach();
 				state = new ProviderSubset<Foo>(provider);
 			}
 		});
 
-		form.add(new Button("submit")
-		{
+		form.add(new Button("submit") {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void onSubmit()
-			{
+			public void onSubmit() {
 			}
 		});
 	}
 
-	private IModel<Set<Foo>> newStateModel()
-	{
-		return new AbstractReadOnlyModel<Set<Foo>>()
-		{
+	private IModel<Set<Foo>> newStateModel() {
+		return new AbstractReadOnlyModel<Set<Foo>>() {
 			@Override
-			public Set<Foo> getObject()
-			{
+			public Set<Foo> getObject() {
 				return state;
 			}
 
@@ -164,17 +147,16 @@ public abstract class ContentPage extends ExamplePage
 			 * Super class doesn't detach - would be nice though.
 			 */
 			@Override
-			public void detach()
-			{
-				((IDetachable)state).detach();
+			public void detach() {
+				((IDetachable) state).detach();
 			}
 		};
 	}
 
-	protected abstract AbstractTree<Foo> createTree(FooProvider provider, IModel<Set<Foo>> state);
+	protected abstract AbstractTree<Foo> createTree(FooProvider provider,
+			IModel<Set<Foo>> state);
 
-	private List<Content> initContents()
-	{
+	private List<Content> initContents() {
 		contents = new ArrayList<Content>();
 
 		contents.add(new BookmarkableFolderContent(tree));
@@ -194,8 +176,7 @@ public abstract class ContentPage extends ExamplePage
 		return contents;
 	}
 
-	private List<ResourceReference> initThemes()
-	{
+	private List<ResourceReference> initThemes() {
 		themes = new ArrayList<ResourceReference>();
 
 		themes.add(new WindowsTheme());
@@ -207,18 +188,15 @@ public abstract class ContentPage extends ExamplePage
 	}
 
 	@Override
-	public void detachModels()
-	{
-		for (Content content : contents)
-		{
+	public void detachModels() {
+		for (Content content : contents) {
 			content.detach();
 		}
 
 		super.detachModels();
 	}
 
-	protected Component newContentComponent(String id, IModel<Foo> model)
-	{
+	protected Component newContentComponent(String id, IModel<Foo> model) {
 		return content.newContentComponent(id, tree, model);
 	}
 }
