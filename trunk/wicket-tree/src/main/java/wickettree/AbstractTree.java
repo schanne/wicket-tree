@@ -25,6 +25,8 @@ import org.apache.wicket.markup.repeater.IItemReuseStrategy;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.util.visit.IVisit;
+import org.apache.wicket.util.visit.IVisitor;
 
 import wickettree.provider.ProviderSubset;
 
@@ -271,16 +273,16 @@ public abstract class AbstractTree<T> extends Panel
 		if (target != null)
 		{
 			final IModel<T> model = getProvider().model(t);
-			visitChildren(Node.class, new IVisitor<Node<T>>()
+			visitChildren(Node.class, new IVisitor<Node<T>, Void>()
 			{
-				public Object component(Node<T> node)
+				public void component(Node<T> node, IVisit<Void> visit)
 				{
 					if (model.equals(node.getModel()))
 					{
 						target.addComponent(node);
-						return IVisitor.STOP_TRAVERSAL;
+						visit.stop();
 					}
-					return IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
+					visit.dontGoDeeper();
 				}
 			});
 			model.detach();
