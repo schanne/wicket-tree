@@ -23,8 +23,8 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.DefaultItemReuseStrategy;
 import org.apache.wicket.markup.repeater.IItemReuseStrategy;
 import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.util.visit.IVisit;
 import org.apache.wicket.util.visit.IVisitor;
 
@@ -131,9 +131,18 @@ public abstract class AbstractTree<T> extends Panel
 	 * Factory method for a model, by default creates a model containing a
 	 * {@link ProviderSubset}.
 	 */
-	protected Model<ProviderSubset<T>> newModel()
+	protected IModel<Set<T>> newModel()
 	{
-		return new Model<ProviderSubset<T>>(new ProviderSubset<T>(provider));
+		final ProviderSubset<T> set = new ProviderSubset<T>(provider);
+		
+		return new AbstractReadOnlyModel<Set<T>>()
+		{
+			@Override
+			public Set<T> getObject()
+			{
+				return set;
+			}
+		};
 	}
 
 	@SuppressWarnings("unchecked")
