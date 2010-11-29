@@ -60,7 +60,7 @@ public class BookmarkableFolderContent extends Content {
 					return super.newLinkComponent(id, model);
 				} else {
 					PageParameters parameters = new PageParameters();
-					parameters.add("foo", foo.getId());
+					parameters.addNamedParameter("foo", foo.getId());
 
 					return new BookmarkablePageLink<Void>(id, tree.getPage()
 							.getClass(), parameters);
