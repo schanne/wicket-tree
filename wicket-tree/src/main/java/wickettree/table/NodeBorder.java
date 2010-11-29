@@ -16,11 +16,12 @@
 package wickettree.table;
 
 import org.apache.wicket.Component;
+import org.apache.wicket.RequestCycle;
+import org.apache.wicket.Response;
 import org.apache.wicket.behavior.AbstractBehavior;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.request.Response;
 
 /**
  * A border for a node component which renders nested <code>DIV</code>s to
@@ -45,7 +46,7 @@ public class NodeBorder extends AbstractBehavior
 	@Override
 	public void beforeRender(Component component)
 	{
-		Response response = component.getResponse();
+		Response response = RequestCycle.get().getResponse();
 
 		for (int i = 0; i < branches.length; i++)
 		{
@@ -74,7 +75,7 @@ public class NodeBorder extends AbstractBehavior
 	@Override
 	public void onRendered(Component component)
 	{
-		Response response = component.getResponse();
+		Response response = RequestCycle.get().getResponse();
 
 		for (int i = 0; i < branches.length; i++)
 		{

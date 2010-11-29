@@ -32,9 +32,6 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.util.visit.IVisit;
-import org.apache.wicket.util.visit.IVisitor;
-
 import wickettree.table.AbstractToolbar;
 import wickettree.table.ITreeColumn;
 import wickettree.table.ITreeDataProvider;
@@ -117,9 +114,6 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 		}
 		this.columns = columns;
 
-		WebMarkupContainer body = newBodyContainer("body");
-		add(body);
-
 		datagrid = new DataGridView<T>("rows", columns, newDataProvider(provider))
 		{
 			private static final long serialVersionUID = 1L;
@@ -163,7 +157,7 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 						existingItems);
 			}
 		});
-		body.add(datagrid);
+		add(datagrid);
 
 		topToolbars = new ToolbarsContainer("topToolbars");
 		bottomToolbars = new ToolbarsContainer("bottomToolbars");
@@ -183,18 +177,6 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 		};
 	}
 
-	/**
-	 * Create the MarkupContainer for the <tbody> tag. Users may subclass it to provide their own
-	 * (modified) implementation.
-	 * 
-	 * @param id
-	 * @return A new markup container
-	 */
-	protected WebMarkupContainer newBodyContainer(final String id)
-	{
-		return new WebMarkupContainer(id);
-	}
-	
 	public IColumn<T>[] getColumns()
 	{
 		return columns;
@@ -335,17 +317,18 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 		if (target != null)
 		{
 			final IModel<T> model = getProvider().model(t);
-			visitChildren(Item.class, new IVisitor<Item<T>, Void>()
+			visitChildren(Item.class, new IVisitor<Item<T>>()
 			{
-			public void component(Item<T> item, IVisit<Void> visit) {
+				public Object component(Item<T> item)
+				{
 					NodeModel<T> nodeModel = (NodeModel<T>)item.getModel();
 
 					if (model.equals(nodeModel.getWrappedModel()))
 					{
 						target.addComponent(item);
-						visit.stop();
+						return IVisitor.STOP_TRAVERSAL;
 					}
-					visit.dontGoDeeper();
+					return IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
 				}
 			});
 			model.detach();

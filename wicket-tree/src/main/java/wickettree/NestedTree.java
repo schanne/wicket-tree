@@ -21,8 +21,6 @@ import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.util.visit.IVisit;
-import org.apache.wicket.util.visit.IVisitor;
 
 import wickettree.nested.BranchItem;
 import wickettree.nested.Subtree;
@@ -71,16 +69,16 @@ public abstract class NestedTree<T> extends AbstractTree<T>
 		if (target != null)
 		{
 			final IModel<T> model = getProvider().model(t);
-			visitChildren(BranchItem.class, new IVisitor<BranchItem<T>, Void>()
+			visitChildren(BranchItem.class, new IVisitor<BranchItem<T>>()
 			{
-				public void component(BranchItem<T> branch,
-						IVisit<Void> visit)
+				public Object component(BranchItem<T> branch)
 				{
 					if (model.equals(branch.getModel()))
 					{
 						target.addComponent(branch);
-						visit.stop();
+						return IVisitor.STOP_TRAVERSAL;
 					}
+					return IVisitor.CONTINUE_TRAVERSAL;
 				}
 			});
 			model.detach();

@@ -17,9 +17,9 @@ package wickettree.examples.content;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.MarkupContainer;
+import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import wickettree.AbstractTree;
 import wickettree.content.Folder;
@@ -29,16 +29,19 @@ import wickettree.examples.FooProvider;
 /**
  * @author Sven Meier
  */
-public class BookmarkableFolderContent extends Content {
+public class BookmarkableFolderContent extends Content
+{
 
 	private static final long serialVersionUID = 1L;
 
-	public BookmarkableFolderContent(final AbstractTree<Foo> tree) {
-		String id = tree.getRequest().getRequestParameters().getParameterValue(
-				"foo").toString();
-		if (id != null) {
+	public BookmarkableFolderContent(final AbstractTree<Foo> tree)
+	{
+		String id = tree.getRequest().getParameter("foo");
+		if (id != null)
+		{
 			Foo foo = FooProvider.get(id);
-			while (foo != null) {
+			while (foo != null)
+			{
 				tree.getModel().getObject().add(foo);
 				foo = foo.getParent();
 			}
@@ -46,24 +49,25 @@ public class BookmarkableFolderContent extends Content {
 	}
 
 	@Override
-	public Component newContentComponent(String id,
-			final AbstractTree<Foo> tree, IModel<Foo> model) {
-		return new Folder<Foo>(id, tree, model) {
+	public Component newContentComponent(String id, final AbstractTree<Foo> tree, IModel<Foo> model)
+	{
+		return new Folder<Foo>(id, tree, model)
+		{
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			protected MarkupContainer newLinkComponent(String id,
-					IModel<Foo> model) {
+			protected MarkupContainer newLinkComponent(String id, IModel<Foo> model)
+			{
 				Foo foo = model.getObject();
 
-				if (tree.getProvider().hasChildren(foo)) {
+				if (tree.getProvider().hasChildren(foo))
+				{
 					return super.newLinkComponent(id, model);
-				} else {
-					PageParameters parameters = new PageParameters();
-					parameters.add("foo", foo.getId());
-
-					return new BookmarkablePageLink<Void>(id, tree.getPage()
-							.getClass(), parameters);
+				}
+				else
+				{
+					return new BookmarkablePageLink<Void>(id, tree.getPage().getClass(),
+							new PageParameters("foo=" + foo.getId()));
 				}
 			}
 		};
