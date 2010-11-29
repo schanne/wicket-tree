@@ -166,7 +166,7 @@ public class ProviderSubset<T> implements Set<T>, IDetachable
 
 		for (T t : ts)
 		{
-			changed = changed || add(t);
+			changed |= add(t);
 		}
 
 		return changed;
@@ -190,7 +190,7 @@ public class ProviderSubset<T> implements Set<T>, IDetachable
 
 		for (Object c : cs)
 		{
-			changed = changed || remove(c);
+			changed |= remove(c);
 		}
 
 		return changed;

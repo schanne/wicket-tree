@@ -16,6 +16,7 @@
 package wickettree.provider;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -41,8 +42,7 @@ public class ProviderSubsetTest extends TestCase
 		ProviderSubset<String> subset = new ProviderSubset<String>(provider);
 
 		subset.add("A");
-		subset.add("AA");
-		subset.add("AAA");
+		subset.addAll(Arrays.asList("AA", "AAA"));
 
 		assertEquals(3, subset.size());
 		
