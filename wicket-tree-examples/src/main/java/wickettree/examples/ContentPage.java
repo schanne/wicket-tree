@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.behavior.AbstractHeaderContributor;
+import org.apache.wicket.behavior.AbstractBehavior;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -79,7 +79,7 @@ public abstract class ContentPage extends ExamplePage {
 		add(form);
 
 		tree = createTree(provider, newStateModel());
-		tree.add(new AbstractHeaderContributor()
+		tree.add(new AbstractBehavior()
 		{
 			@Override
 			public void renderHead(IHeaderResponse response) {
