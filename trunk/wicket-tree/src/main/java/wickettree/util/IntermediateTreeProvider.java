@@ -194,7 +194,7 @@ public class IntermediateTreeProvider<T> implements ITreeProvider<T>
 
 						intermediates.remove(t);
 
-						target.addComponent(component);
+						target.add(component);
 					}
 				});
 			}

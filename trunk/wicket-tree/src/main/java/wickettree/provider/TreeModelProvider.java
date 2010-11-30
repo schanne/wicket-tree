@@ -145,7 +145,7 @@ public abstract class TreeModelProvider<T> implements ITreeProvider<T>
 	{
 		if (completeUpdate)
 		{
-			target.addComponent(tree);
+			target.add(tree);
 		}
 		else
 		{

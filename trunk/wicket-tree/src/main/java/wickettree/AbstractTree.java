@@ -265,7 +265,7 @@ public abstract class AbstractTree<T> extends Panel
 	{
 		if (target != null)
 		{
-			target.addComponent(this);
+			target.add(this);
 		}
 	}
 
@@ -288,7 +288,7 @@ public abstract class AbstractTree<T> extends Panel
 				{
 					if (model.equals(node.getModel()))
 					{
-						target.addComponent(node);
+						target.add(node);
 						visit.stop();
 					}
 					visit.dontGoDeeper();

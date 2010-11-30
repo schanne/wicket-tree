@@ -18,8 +18,8 @@ package wickettree;
 import java.util.Set;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
+import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.OddEvenItem;
 import org.apache.wicket.model.IModel;
@@ -56,11 +56,14 @@ public class DefaultTableTree<T> extends TableTree<T>
 
 		addTopToolbar(new HeadersToolbar(this, provider));
 		addBottomToolbar(new NoRecordsToolbar(this));
-
-		WindowsTheme theme = new WindowsTheme();
-		add(HeaderContributor.forCss(theme.getScope(), theme.getName()));
 	}
 
+	@Override
+	public void renderHead(IHeaderResponse response)
+	{
+		response.renderCSSReference(new WindowsTheme());
+	}
+	
 	@Override
 	protected Component newContentComponent(String id, IModel<T> model)
 	{

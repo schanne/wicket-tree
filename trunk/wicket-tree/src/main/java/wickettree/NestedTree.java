@@ -78,7 +78,7 @@ public abstract class NestedTree<T> extends AbstractTree<T>
 				{
 					if (model.equals(branch.getModel()))
 					{
-						target.addComponent(branch);
+						target.add(branch);
 						visit.stop();
 					}
 				}
