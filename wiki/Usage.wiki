@@ -1,4 +1,4 @@
-  * Maven
+  * Add Maven dependency
 {{{
 	<dependency>
 		<groupId>wicket-tree</groupId>
@@ -13,6 +13,6 @@
 	</repository> 
 }}}
 
-  * Otherwise
+  * Or download binary and sources
 
-	[http://code.google.com/p/wicket-tree/source/browse/#svn/repo/wicket-tree/wicket-tree/0.4.1]
+	[http://code.google.com/p/wicket-tree/source/browse/#svn/repo/wicket-tree/wicket-tree/0.4.2]
