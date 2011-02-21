@@ -33,6 +33,11 @@ public class TreeColumn<T> extends AbstractTreeColumn<T>
 		super(displayModel);
 	}
 
+	public TreeColumn(IModel<String> displayModel, String sortProperty)
+	{
+		super(displayModel, sortProperty);
+	}
+
 	@Override
 	public String getCssClass()
 	{
