@@ -170,14 +170,14 @@ public class IntermediateTreeProvider<T> implements ITreeProvider<T>
 				component.add(new AbstractDefaultAjaxBehavior()
 				{
 					@Override
-					public void renderHead(IHeaderResponse response)
+					public void renderHead(Component component, IHeaderResponse response)
 					{
-						super.renderHead(response);
+						super.renderHead(component, response);
 
 						T t = model.getObject();
 						if (hasIntermediateChildren(t))
 						{
-							response.renderOnLoadJavascript(getJsTimeoutCall());
+							response.renderOnLoadJavaScript(getJsTimeoutCall());
 						}
 					}
 
