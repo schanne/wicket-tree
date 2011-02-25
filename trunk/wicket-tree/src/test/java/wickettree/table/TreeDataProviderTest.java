@@ -75,6 +75,8 @@ public class TreeDataProviderTest extends TestCase
 		assertEquals("CCA", iterator.next());
 		assertEquals("CCB", iterator.next());
 		assertEquals("CCC", iterator.next());
+		
+		assertFalse(iterator.hasNext());
 	}
 
 	private static class TestProvider implements ITreeProvider<String>
