@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package wickettree.provider;
+package wickettree.util;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IDetachable;
 import org.apache.wicket.model.IModel;
 
@@ -215,5 +216,28 @@ public class ProviderSubset<T> implements Set<T>, IDetachable
 	private IModel<T> model(Object o)
 	{
 		return provider.model((T)o);
+	}
+	
+	/**
+	 * Create a model holding this set.
+	 * 
+	 * @return model
+	 */
+	public IModel<Set<T>> createModel()
+	{
+		return new AbstractReadOnlyModel<Set<T>>()
+		{
+			@Override
+			public Set<T> getObject()
+			{
+				return ProviderSubset.this;
+			}
+			
+			@Override
+			public void detach()
+			{
+				ProviderSubset.this.detach();
+			}
+		};
 	}
 }

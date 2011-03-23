@@ -28,7 +28,6 @@ import org.apache.wicket.util.time.Duration;
 
 import wickettree.ITreeProvider;
 import wickettree.nested.BranchItem;
-import wickettree.provider.ProviderSubset;
 
 /**
  * Wrapper of a ITreeProvider handling intermediate childrens.
