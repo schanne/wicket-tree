@@ -28,7 +28,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.util.visit.IVisit;
 import org.apache.wicket.util.visit.IVisitor;
 
-import wickettree.provider.ProviderSubset;
+import wickettree.util.ProviderSubset;
 
 /**
  * Abstract base class for {@link NestedTree} and {@link TableTree}. Uses its
