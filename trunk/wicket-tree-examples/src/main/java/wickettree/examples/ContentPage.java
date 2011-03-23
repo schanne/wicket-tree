@@ -46,10 +46,10 @@ import wickettree.examples.content.MultiLineLabelContent;
 import wickettree.examples.content.MultiSelectableFolderContent;
 import wickettree.examples.content.PanelContent;
 import wickettree.examples.content.SelectableFolderContent;
-import wickettree.provider.InverseSet;
-import wickettree.provider.ProviderSubset;
 import wickettree.theme.HumanTheme;
 import wickettree.theme.WindowsTheme;
+import wickettree.util.InverseSet;
+import wickettree.util.ProviderSubset;
 
 /**
  * @author Sven Meier
