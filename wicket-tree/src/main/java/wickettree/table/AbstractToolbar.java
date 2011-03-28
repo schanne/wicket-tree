@@ -31,20 +31,20 @@ public abstract class AbstractToolbar extends Panel
 {
 	private static final long serialVersionUID = 1L;
 
+	private static int counter = 0;
+
 	private final TableTree<?> tree;
 
 	public AbstractToolbar(IModel<?> model, TableTree<?> table)
 	{
-		super(TableTree.TOOLBAR_COMPONENT_ID, model);
+		super("" + (counter++), model);
 
 		this.tree = table;
 	}
 
 	public AbstractToolbar(TableTree<?> tree)
 	{
-		super(TableTree.TOOLBAR_COMPONENT_ID);
-
-		this.tree = tree;
+		this(null, tree);
 	}
 
 	protected TableTree<?> getTree()
