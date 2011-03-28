@@ -4,7 +4,7 @@
 	<groupId>wicket-tree</groupId>
 	<artifactId>wicket-tree-examples</artifactId>
 	<packaging>war</packaging>
-	<version>0.4-SNAPSHOT</version>
+	<version>0.4.3</version>
 	<name>Wicket Tree Examples</name>
 	<description>Tree components for Wicket.</description>
 	<licenses>
@@ -18,7 +18,7 @@
 		<dependency>
 			<groupId>wicket-tree</groupId>
 			<artifactId>wicket-tree</artifactId>
-			<version>0.4-SNAPSHOT</version>
+			<version>0.4.3</version>
 		</dependency>
 
 		<!--  WICKET DEPENDENCIES -->
