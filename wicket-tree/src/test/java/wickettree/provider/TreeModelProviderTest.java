@@ -25,8 +25,6 @@ import junit.framework.TestCase;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-import wickettree.util.TreeModelProvider;
-
 /**
  * Test for {@link TreeModelProvider}.
  * 

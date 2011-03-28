@@ -15,33 +15,46 @@
  */
 package wickettree.examples;
 
+import org.apache.wicket.protocol.http.HttpSessionStore;
 import org.apache.wicket.protocol.http.WebApplication;
-import org.apache.wicket.request.mapper.MountedMapper;
+import org.apache.wicket.request.target.coding.QueryStringUrlCodingStrategy;
+import org.apache.wicket.session.ISessionStore;
 
 /**
  * @author Sven Meier
  */
-public class WicketApplication extends WebApplication {
-	public WicketApplication() {
+public class WicketApplication extends WebApplication
+{
+	public WicketApplication()
+	{
 	}
 
 	@Override
-	protected void init() {
-		try {
+	protected void init()
+	{
+		try
+		{
 			new Thread().start();
-		} catch (Exception threadsNotAllowed) {
+		}
+		catch (Exception threadsNotAllowed)
+		{
 			getResourceSettings().setResourcePollFrequency(null);
 		}
 
-		getRootRequestMapperAsCompound().add(
-				new MountedMapper("nested", NestedTreePage.class));
-		getRootRequestMapperAsCompound().add(
-				new MountedMapper("table", IntermediatePage.class));
-		getRootRequestMapperAsCompound().add(
-				new MountedMapper("intermediate", IntermediatePage.class));
+		mount(new QueryStringUrlCodingStrategy("nested", NestedTreePage.class));
+		mount(new QueryStringUrlCodingStrategy("table", TableTreePage.class));
+		mount(new QueryStringUrlCodingStrategy("intermediate", IntermediatePage.class));
 	}
 
-	public Class<NestedTreePage> getHomePage() {
+	public Class<NestedTreePage> getHomePage()
+	{
 		return NestedTreePage.class;
+	}
+
+	@Override
+	protected ISessionStore newSessionStore()
+	{
+		// assume no disk present
+		return new HttpSessionStore(this);
 	}
 }

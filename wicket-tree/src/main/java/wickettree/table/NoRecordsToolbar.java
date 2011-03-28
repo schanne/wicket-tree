@@ -48,7 +48,7 @@ public class NoRecordsToolbar extends AbstractToolbar
 		add(td);
 
 		td.add(new AttributeModifier("colspan", true, new Model<String>(String.valueOf(table
-				.getColumns().size()))));
+				.getColumns().length))));
 		td.add(new Label("msg", messageModel));
 	}
 

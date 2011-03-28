@@ -16,13 +16,14 @@
 package wickettree.examples.content;
 
 import org.apache.wicket.Component;
+import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.model.IModel;
 
 import wickettree.AbstractTree;
 import wickettree.ITreeProvider;
 import wickettree.content.CheckedFolder;
 import wickettree.examples.Foo;
-import wickettree.util.ProviderSubset;
+import wickettree.provider.ProviderSubset;
 
 /**
  * @author Sven Meier
@@ -49,7 +50,7 @@ public class CheckedFolderContent extends Content
 		return checked.contains(foo);
 	}
 
-	protected void check(Foo foo, boolean check)
+	protected void check(Foo foo, boolean check, final AjaxRequestTarget target)
 	{
 		if (check)
 		{
@@ -82,7 +83,7 @@ public class CheckedFolderContent extends Content
 
 					public void setObject(Boolean object)
 					{
-						check(model.getObject(), object);
+						check(model.getObject(), object, AjaxRequestTarget.get());
 					}
 
 					public void detach()

@@ -33,11 +33,6 @@ public abstract class AbstractTreeColumn<T> extends AbstractColumn<T> implements
 		super(displayModel);
 	}
 
-	public AbstractTreeColumn(IModel<String> displayModel, String sortProperty)
-	{
-		super(displayModel, sortProperty);
-	}
-
 	public void setTree(TableTree<T> tree)
 	{
 		this.tree = tree;

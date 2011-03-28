@@ -62,7 +62,7 @@ public class NavigatorLabel extends Label
 			{
 				return 0;
 			}
-			return (table.getCurrentPage() * table.getItemsPerPage()) + 1;
+			return (table.getCurrentPage() * table.getRowsPerPage()) + 1;
 		}
 
 		public int getTo()
@@ -71,7 +71,7 @@ public class NavigatorLabel extends Label
 			{
 				return 0;
 			}
-			return Math.min(getOf(), getFrom() + table.getItemsPerPage() - 1);
+			return Math.min(getOf(), getFrom() + table.getRowsPerPage() - 1);
 		}
 	}
 }

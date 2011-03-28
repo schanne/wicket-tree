@@ -20,7 +20,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.behavior.Behavior;
+import org.apache.wicket.ResourceReference;
+import org.apache.wicket.behavior.HeaderContributor;
+import org.apache.wicket.markup.html.IHeaderContributor;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -31,7 +33,6 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IDetachable;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.request.resource.ResourceReference;
 
 import wickettree.AbstractTree;
 import wickettree.examples.content.BookmarkableFolderContent;
@@ -46,10 +47,10 @@ import wickettree.examples.content.MultiLineLabelContent;
 import wickettree.examples.content.MultiSelectableFolderContent;
 import wickettree.examples.content.PanelContent;
 import wickettree.examples.content.SelectableFolderContent;
+import wickettree.provider.InverseSet;
+import wickettree.provider.ProviderSubset;
 import wickettree.theme.HumanTheme;
 import wickettree.theme.WindowsTheme;
-import wickettree.util.InverseSet;
-import wickettree.util.ProviderSubset;
 
 /**
  * @author Sven Meier
@@ -81,14 +82,15 @@ public abstract class ContentPage extends ExamplePage
 		add(form);
 
 		tree = createTree(provider, newStateModel());
-		tree.add(new Behavior()
+		tree.add(new HeaderContributor(new IHeaderContributor()
 		{
-			@Override
-			public void renderHead(Component component, IHeaderResponse response)
+			private static final long serialVersionUID = 1L;
+
+			public void renderHead(IHeaderResponse response)
 			{
 				response.renderCSSReference(theme);
 			}
-		});
+		}));
 		form.add(tree);
 
 		form.add(new DropDownChoice<Content>("content",

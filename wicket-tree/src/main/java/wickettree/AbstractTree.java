@@ -25,10 +25,8 @@ import org.apache.wicket.markup.repeater.IItemReuseStrategy;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.util.visit.IVisit;
-import org.apache.wicket.util.visit.IVisitor;
 
-import wickettree.util.ProviderSubset;
+import wickettree.provider.ProviderSubset;
 
 /**
  * Abstract base class for {@link NestedTree} and {@link TableTree}. Uses its
@@ -265,7 +263,7 @@ public abstract class AbstractTree<T> extends Panel
 	{
 		if (target != null)
 		{
-			target.add(this);
+			target.addComponent(this);
 		}
 	}
 
@@ -282,16 +280,16 @@ public abstract class AbstractTree<T> extends Panel
 		if (target != null)
 		{
 			final IModel<T> model = getProvider().model(t);
-			visitChildren(Node.class, new IVisitor<Node<T>, Void>()
+			visitChildren(Node.class, new IVisitor<Node<T>>()
 			{
-				public void component(Node<T> node, IVisit<Void> visit)
+				public Object component(Node<T> node)
 				{
 					if (model.equals(node.getModel()))
 					{
-						target.add(node);
-						visit.stop();
+						target.addComponent(node);
+						return IVisitor.STOP_TRAVERSAL;
 					}
-					visit.dontGoDeeper();
+					return IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
 				}
 			});
 			model.detach();

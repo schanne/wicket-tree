@@ -16,7 +16,6 @@
 package wickettree;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.behavior.AttributeAppender;
@@ -25,7 +24,6 @@ import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulato
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IStyledColumn;
-import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.navigation.paging.IPageable;
 import org.apache.wicket.markup.repeater.IItemFactory;
 import org.apache.wicket.markup.repeater.IItemReuseStrategy;
@@ -33,9 +31,6 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.util.visit.IVisit;
-import org.apache.wicket.util.visit.IVisitor;
-
 import wickettree.table.AbstractToolbar;
 import wickettree.table.ITreeColumn;
 import wickettree.table.ITreeDataProvider;
@@ -57,7 +52,7 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 
 	private final DataGridView<T> datagrid;
 
-	private final List<IColumn<T>> columns;
+	private final IColumn<T>[] columns;
 
 	private final RepeatingView topToolbars;
 
@@ -75,7 +70,7 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 	 * @param rowsPerPage
 	 *            number of rows per page
 	 */
-	public TableTree(String id, List<IColumn<T>> columns, ITreeProvider<T> provider, int rowsPerPage)
+	public TableTree(String id, IColumn<T>[] columns, ITreeProvider<T> provider, int rowsPerPage)
 	{
 		this(id, columns, provider, rowsPerPage, null);
 	}
@@ -89,17 +84,17 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 	 *            list of column definitions
 	 * @param provider
 	 *            provider of the tree
-	 * @param itemsPerPage
+	 * @param rowsPerPage
 	 *            number of rows per page
 	 * @param state
 	 *            state of nodes
 	 */
-	public TableTree(String id, List<IColumn<T>> columns, ITreeProvider<T> provider,
-			int itemsPerPage, IModel<Set<T>> state)
+	public TableTree(String id, IColumn<T>[] columns, ITreeProvider<T> provider, int rowsPerPage,
+			IModel<Set<T>> state)
 	{
 		super(id, provider, state);
 
-		if (columns == null || columns.isEmpty())
+		if (columns == null || columns.length < 1)
 		{
 			throw new IllegalArgumentException("Argument `columns` cannot be null or empty");
 		}
@@ -112,9 +107,6 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 		}
 		this.columns = columns;
 
-		WebMarkupContainer body = newBodyContainer("body");
-		add(body);
-
 		datagrid = new DataGridView<T>("rows", columns, newDataProvider(provider))
 		{
 			private static final long serialVersionUID = 1L;
@@ -125,7 +117,7 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 			{
 				Item<ICellPopulator<T>> item = TableTree.this.newCellItem(id, index, model);
 
-				final IColumn<?> column = TableTree.this.columns.get(index);
+				final IColumn<?> column = TableTree.this.columns[index];
 				if (column instanceof IStyledColumn<?>)
 				{
 					item.add(new AttributeAppender("class", true, Model
@@ -146,7 +138,7 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 				return item;
 			}
 		};
-		datagrid.setItemsPerPage(itemsPerPage);
+		datagrid.setRowsPerPage(rowsPerPage);
 		datagrid.setItemReuseStrategy(new IItemReuseStrategy()
 		{
 			private static final long serialVersionUID = 1L;
@@ -158,7 +150,7 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 						existingItems);
 			}
 		});
-		body.add(datagrid);
+		add(datagrid);
 
 		topToolbars = new ToolbarsContainer("topToolbars");
 		bottomToolbars = new ToolbarsContainer("bottomToolbars");
@@ -178,19 +170,7 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 		};
 	}
 
-	/**
-	 * Create the MarkupContainer for the <tbody> tag. Users may subclass it to
-	 * provide their own (modified) implementation.
-	 * 
-	 * @param id
-	 * @return A new markup container
-	 */
-	protected WebMarkupContainer newBodyContainer(final String id)
-	{
-		return new WebMarkupContainer(id);
-	}
-
-	public List<IColumn<T>> getColumns()
+	public IColumn<T>[] getColumns()
 	{
 		return columns;
 	}
@@ -242,11 +222,11 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 	}
 
 	/**
-	 * @return number of items per page
+	 * @return number of rows per page
 	 */
-	public int getItemsPerPage()
+	public int getRowsPerPage()
 	{
-		return datagrid.getItemsPerPage();
+		return datagrid.getRowsPerPage();
 	}
 
 	/**
@@ -256,9 +236,9 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 	 *            number of items to display per page
 	 * 
 	 */
-	public void setItemsPerPage(int items)
+	public void setRowsPerPage(int items)
 	{
-		datagrid.setItemsPerPage(items);
+		datagrid.setRowsPerPage(items);
 	}
 
 	/**
@@ -283,7 +263,7 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 	/**
 	 * @see DataTable
 	 */
-	private class ToolbarsContainer extends RepeatingView
+	private static class ToolbarsContainer extends RepeatingView
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -304,18 +284,18 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 		if (target != null)
 		{
 			final IModel<T> model = getProvider().model(t);
-			visitChildren(Item.class, new IVisitor<Item<T>, Void>()
+			visitChildren(Item.class, new IVisitor<Item<T>>()
 			{
-				public void component(Item<T> item, IVisit<Void> visit)
+				public Object component(Item<T> item)
 				{
 					NodeModel<T> nodeModel = (NodeModel<T>)item.getModel();
 
 					if (model.equals(nodeModel.getWrappedModel()))
 					{
-						target.add(item);
-						visit.stop();
+						target.addComponent(item);
+						return IVisitor.STOP_TRAVERSAL;
 					}
-					visit.dontGoDeeper();
+					return IVisitor.CONTINUE_TRAVERSAL_BUT_DONT_GO_DEEPER;
 				}
 			});
 			model.detach();
