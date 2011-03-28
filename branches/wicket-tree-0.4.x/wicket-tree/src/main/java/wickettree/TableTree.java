@@ -24,7 +24,6 @@ import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulato
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IStyledColumn;
-import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.navigation.paging.IPageable;
 import org.apache.wicket.markup.repeater.IItemFactory;
 import org.apache.wicket.markup.repeater.IItemReuseStrategy;
@@ -48,12 +47,6 @@ import wickettree.table.TreeDataProvider;
  */
 public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 {
-
-	/**
-	 * The component id that toolbars must be created with in order to be added
-	 * to the tree table.
-	 */
-	public static final String TOOLBAR_COMPONENT_ID = "toolbar";
 
 	private static final long serialVersionUID = 1L;
 
@@ -205,20 +198,7 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 			throw new IllegalArgumentException("argument [toolbar] cannot be null");
 		}
 
-		if (!toolbar.getId().equals(TOOLBAR_COMPONENT_ID))
-		{
-			throw new IllegalArgumentException(
-					"Toolbar must have component id equal to AbstractDataTable.TOOLBAR_COMPONENT_ID");
-		}
-
-		toolbar.setRenderBodyOnly(true);
-
-		// create a container item for the toolbar (required by repeating view)
-		WebMarkupContainer item = new ToolbarContainer(container.newChildId());
-		item.setRenderBodyOnly(true);
-		item.add(toolbar);
-
-		container.add(item);
+		container.add(toolbar);
 	}
 
 	public final int getRowCount()
@@ -283,20 +263,7 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 	/**
 	 * @see DataTable
 	 */
-	private final class ToolbarContainer extends WebMarkupContainer
-	{
-		private static final long serialVersionUID = 1L;
-
-		private ToolbarContainer(String id)
-		{
-			super(id);
-		}
-	}
-
-	/**
-	 * @see DataTable
-	 */
-	private class ToolbarsContainer extends RepeatingView
+	private static class ToolbarsContainer extends RepeatingView
 	{
 		private static final long serialVersionUID = 1L;
 
