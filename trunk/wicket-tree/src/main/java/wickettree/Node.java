@@ -19,7 +19,7 @@ import org.apache.wicket.Component;
 import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
-import org.apache.wicket.behavior.AbstractBehavior;
+import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
@@ -144,7 +144,7 @@ public abstract class Node<T> extends Panel
 	/**
 	 * Behavior to add a style class attribute.
 	 */
-	private static class StyleBehavior extends AbstractBehavior
+	private static class StyleBehavior extends Behavior
 	{
 		private static final long serialVersionUID = 1L;
 
