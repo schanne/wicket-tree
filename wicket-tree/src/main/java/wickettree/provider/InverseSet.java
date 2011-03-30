@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package wickettree.util;
+package wickettree.provider;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -52,9 +52,19 @@ public class InverseSet<T> implements Set<T>, IDetachable
 		}
 	}
 
+	public int size()
+	{
+		throw new UnsupportedOperationException();
+	}
+
 	public boolean isEmpty()
 	{
 		return !set.isEmpty();
+	}
+
+	public void clear()
+	{
+		throw new UnsupportedOperationException();
 	}
 
 	public boolean contains(Object o)
@@ -73,13 +83,18 @@ public class InverseSet<T> implements Set<T>, IDetachable
 		return set.add((T)o);
 	}
 
+	public Iterator<T> iterator()
+	{
+		throw new UnsupportedOperationException();
+	}
+
 	public boolean addAll(Collection<? extends T> ts)
 	{
 		boolean changed = false;
 
 		for (T t : ts)
 		{
-			changed |= set.remove(t);
+			changed = changed || set.remove(t);
 		}
 
 		return changed;
@@ -104,25 +119,10 @@ public class InverseSet<T> implements Set<T>, IDetachable
 
 		for (Object c : cs)
 		{
-			changed |= set.add((T)c);
+			changed = changed || set.add((T)c);
 		}
 
 		return changed;
-	}
-
-	public int size()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	public void clear()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	public Iterator<T> iterator()
-	{
-		throw new UnsupportedOperationException();
 	}
 
 	public boolean retainAll(Collection<?> c)

@@ -28,6 +28,7 @@ import org.apache.wicket.util.time.Duration;
 
 import wickettree.ITreeProvider;
 import wickettree.nested.BranchItem;
+import wickettree.provider.ProviderSubset;
 
 /**
  * Wrapper of a ITreeProvider handling intermediate childrens.
@@ -169,14 +170,14 @@ public class IntermediateTreeProvider<T> implements ITreeProvider<T>
 				component.add(new AbstractDefaultAjaxBehavior()
 				{
 					@Override
-					public void renderHead(Component component, IHeaderResponse response)
+					public void renderHead(IHeaderResponse response)
 					{
-						super.renderHead(component, response);
+						super.renderHead(response);
 
 						T t = model.getObject();
 						if (hasIntermediateChildren(t))
 						{
-							response.renderOnLoadJavaScript(getJsTimeoutCall());
+							response.renderOnLoadJavascript(getJsTimeoutCall());
 						}
 					}
 
@@ -193,7 +194,7 @@ public class IntermediateTreeProvider<T> implements ITreeProvider<T>
 
 						intermediates.remove(t);
 
-						target.add(component);
+						target.addComponent(component);
 					}
 				});
 			}

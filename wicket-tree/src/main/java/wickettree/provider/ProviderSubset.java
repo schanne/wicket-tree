@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package wickettree.util;
+package wickettree.provider;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -99,7 +99,7 @@ public class ProviderSubset<T> implements Set<T>, IDetachable
 	public void clear()
 	{
 		detach();
-		
+
 		models.clear();
 	}
 
@@ -217,7 +217,7 @@ public class ProviderSubset<T> implements Set<T>, IDetachable
 	{
 		return provider.model((T)o);
 	}
-	
+
 	/**
 	 * Create a model holding this set.
 	 * 
@@ -232,7 +232,7 @@ public class ProviderSubset<T> implements Set<T>, IDetachable
 			{
 				return ProviderSubset.this;
 			}
-			
+
 			@Override
 			public void detach()
 			{

@@ -16,7 +16,6 @@
 package wickettree.examples;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import org.apache.wicket.Component;
@@ -50,7 +49,7 @@ public class TableTreePage extends ContentPage
 	@Override
 	protected AbstractTree<Foo> createTree(FooProvider provider, IModel<Set<Foo>> state)
 	{
-		List<IColumn<Foo>> columns = createColumns();
+		IColumn<Foo>[] columns = createColumns();
 
 		tree = new TableTree<Foo>("tree", columns, provider, Integer.MAX_VALUE, state)
 		{
@@ -73,9 +72,10 @@ public class TableTreePage extends ContentPage
 		return tree;
 	}
 
-	private List<IColumn<Foo>> createColumns()
+	@SuppressWarnings("unchecked")
+	private IColumn<Foo>[] createColumns()
 	{
-		List<IColumn<Foo>> columns = new ArrayList<IColumn<Foo>>();
+		ArrayList<IColumn<Foo>> columns = new ArrayList<IColumn<Foo>>();
 
 		columns.add(new PropertyColumn<Foo>(Model.of("ID"), "id"));
 
@@ -103,6 +103,6 @@ public class TableTreePage extends ContentPage
 		columns.add(new PropertyColumn<Foo>(Model.of("Bar"), "bar"));
 		columns.add(new PropertyColumn<Foo>(Model.of("Baz"), "baz"));
 
-		return columns;
+		return columns.toArray(new IColumn[columns.size()]);
 	}
 }

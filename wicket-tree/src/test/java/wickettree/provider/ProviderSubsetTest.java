@@ -25,7 +25,6 @@ import junit.framework.TestCase;
 import org.apache.wicket.model.IModel;
 
 import wickettree.ITreeProvider;
-import wickettree.util.ProviderSubset;
 
 /**
  * Test for {@link ProviderSubset}.

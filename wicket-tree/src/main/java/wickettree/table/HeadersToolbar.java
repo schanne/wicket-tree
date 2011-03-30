@@ -59,7 +59,8 @@ public class HeadersToolbar extends AbstractToolbar
 		RepeatingView headers = new RepeatingView("headers");
 		add(headers);
 
-		for (final IColumn<?> column : tree.getColumns())
+		final IColumn<?>[] columns = tree.getColumns();
+		for (final IColumn<?> column : columns)
 		{
 			WebMarkupContainer item = new WebMarkupContainer(headers.newChildId());
 			headers.add(item);

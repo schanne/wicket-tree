@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package wickettree.util;
+package wickettree.provider;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -145,7 +145,7 @@ public abstract class TreeModelProvider<T> implements ITreeProvider<T>
 	{
 		if (completeUpdate)
 		{
-			target.add(tree);
+			target.addComponent(tree);
 		}
 		else
 		{

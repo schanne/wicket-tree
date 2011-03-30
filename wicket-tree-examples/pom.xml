@@ -4,7 +4,7 @@
 	<groupId>wicket-tree</groupId>
 	<artifactId>wicket-tree-examples</artifactId>
 	<packaging>war</packaging>
-	<version>0.5-SNAPSHOT</version>
+	<version>0.4.4</version>
 	<name>Wicket Tree Examples</name>
 	<description>Tree components for Wicket.</description>
 	<licenses>
@@ -18,13 +18,13 @@
 		<dependency>
 			<groupId>wicket-tree</groupId>
 			<artifactId>wicket-tree</artifactId>
-			<version>0.5-SNAPSHOT</version>
+			<version>0.4.4</version>
 		</dependency>
 
 		<!--  WICKET DEPENDENCIES -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket-core</artifactId>
+			<artifactId>wicket</artifactId>
 			<version>${wicket.version}</version>
 		</dependency>
 		<dependency> <groupId>org.apache.wicket</groupId>
@@ -36,12 +36,12 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.6.1</version>
+			<version>1.4.2</version>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.16</version>
+			<version>1.2.14</version>
 		</dependency>
 
 		<!--  JUNIT DEPENDENCY FOR TESTING -->
@@ -127,7 +127,7 @@
 		</plugins>
 	</build>
 	<properties>
-		<wicket.version>1.5-rc2</wicket.version>
+		<wicket.version>1.4.1</wicket.version>
 		<jetty.version>6.1.4</jetty.version>
 	</properties>
 	<repositories> 

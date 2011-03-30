@@ -18,8 +18,6 @@ package wickettree.provider;
 import java.util.HashSet;
 import java.util.Set;
 
-import wickettree.util.InverseSet;
-
 import junit.framework.TestCase;
 
 /**

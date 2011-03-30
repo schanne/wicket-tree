@@ -18,7 +18,7 @@ package wickettree;
 import java.util.Set;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.model.IModel;
 
 import wickettree.content.Folder;
@@ -44,14 +44,10 @@ public class DefaultNestedTree<T> extends NestedTree<T>
 	public DefaultNestedTree(String id, ITreeProvider<T> provider, IModel<Set<T>> state)
 	{
 		super(id, provider, state);
+
+		add(CSSPackageResource.getHeaderContribution(new WindowsTheme()));
 	}
 
-	@Override
-	public void renderHead(IHeaderResponse response)
-	{
-		response.renderCSSReference(new WindowsTheme());
-	}
-	
 	@Override
 	protected Component newContentComponent(String id, IModel<T> model)
 	{

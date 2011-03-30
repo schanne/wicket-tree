@@ -23,7 +23,7 @@ import wickettree.AbstractTree;
 import wickettree.ITreeProvider;
 import wickettree.content.Folder;
 import wickettree.examples.Foo;
-import wickettree.util.ProviderSubset;
+import wickettree.provider.ProviderSubset;
 
 /**
  * @author Sven Meier

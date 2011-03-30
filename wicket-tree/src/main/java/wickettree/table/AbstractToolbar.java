@@ -35,11 +35,11 @@ public abstract class AbstractToolbar extends Panel
 
 	private final TableTree<?> tree;
 
-	public AbstractToolbar(IModel<?> model, TableTree<?> tree)
+	public AbstractToolbar(IModel<?> model, TableTree<?> table)
 	{
 		super("" + (counter++), model);
 
-		this.tree = tree;
+		this.tree = table;
 	}
 
 	public AbstractToolbar(TableTree<?> tree)
