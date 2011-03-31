@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package wickettree.provider;
+package wickettree.util;
 
 import java.util.HashSet;
-import java.util.Set;
-
-import wickettree.util.InverseSet;
 
 import junit.framework.TestCase;
+
+import org.apache.wicket.model.IDetachable;
 
 /**
  * Test for {@link InverseSet}.
@@ -29,15 +28,15 @@ import junit.framework.TestCase;
  */
 public class InverseSetTest extends TestCase
 {
-	private Set<String> set;
+	private TestSet set;
 
 	@Override
 	protected void setUp() throws Exception
 	{
-		set = new HashSet<String>();
+		set = new TestSet();
 		set.add("A");
 	}
-	
+
 	public void test() throws Exception
 	{
 		InverseSet<String> inverse = new InverseSet<String>(set);
@@ -47,9 +46,22 @@ public class InverseSetTest extends TestCase
 		inverse.remove("B");
 		assertFalse(inverse.contains("A"));
 		assertFalse(inverse.contains("B"));
-		
+
 		inverse.add("A");
 		assertTrue(inverse.contains("A"));
 		assertFalse(inverse.contains("B"));
+
+		inverse.detach();
+		assertTrue(set.detached);
+	}
+
+	private class TestSet extends HashSet<String> implements IDetachable
+	{
+		boolean detached = false;
+
+		public void detach()
+		{
+			detached = true;
+		}
 	}
 }
