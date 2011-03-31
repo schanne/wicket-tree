@@ -27,12 +27,13 @@ import org.apache.wicket.model.IModel;
 
 import wickettree.content.Folder;
 import wickettree.table.HeadersToolbar;
+import wickettree.table.NavigationToolbar;
 import wickettree.table.NoRecordsToolbar;
 import wickettree.theme.WindowsTheme;
 
 /**
  * An implementation of the TableTree that aims to solve the 90% usecase by
- * using {@link Folder}s and by adding headers and no-records-found toolbars to
+ * using {@link Folder}s and by adding navigation, headers and no-records-found toolbars to
  * a standard {@link TableTree}.
  * 
  * @param <T>
@@ -55,6 +56,7 @@ public class DefaultTableTree<T> extends TableTree<T>
 	{
 		super(id, columns, provider, rowsPerPage, state);
 
+		addTopToolbar(new NavigationToolbar(this));
 		addTopToolbar(new HeadersToolbar(this, provider));
 		addBottomToolbar(new NoRecordsToolbar(this));
 	}
