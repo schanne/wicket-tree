@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package wickettree.provider;
+package wickettree.util;
 
 import java.util.Iterator;
 
@@ -24,8 +24,6 @@ import junit.framework.TestCase;
 
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-
-import wickettree.util.TreeModelProvider;
 
 /**
  * Test for {@link TreeModelProvider}.

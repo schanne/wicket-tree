@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package wickettree.provider;
+package wickettree.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +25,6 @@ import junit.framework.TestCase;
 import org.apache.wicket.model.IModel;
 
 import wickettree.ITreeProvider;
-import wickettree.util.ProviderSubset;
 
 /**
  * Test for {@link ProviderSubset}.
@@ -46,7 +45,7 @@ public class ProviderSubsetTest extends TestCase
 		subset.addAll(Arrays.asList("AA", "AAA"));
 
 		assertEquals(3, subset.size());
-		
+
 		Iterator<String> iterator = subset.iterator();
 		assertTrue(iterator.hasNext());
 		iterator.next();
@@ -55,23 +54,26 @@ public class ProviderSubsetTest extends TestCase
 		assertTrue(iterator.hasNext());
 		iterator.next();
 		assertFalse(iterator.hasNext());
-		try {
+		try
+		{
 			iterator.next();
 			fail();
-		}catch (Exception expected) {
 		}
-		
+		catch (Exception expected)
+		{
+		}
+
 		assertTrue(subset.contains("A"));
 		assertTrue(subset.contains("AA"));
 		assertTrue(subset.contains("AAA"));
 
-		subset.detach();
+		subset.createModel().detach();
 
 		for (StringModel model : models)
 		{
 			assertTrue(model.isDetached());
 		}
-		
+
 		assertTrue(subset.contains("A"));
 		assertTrue(subset.contains("AA"));
 		assertTrue(subset.contains("AAA"));
@@ -111,13 +113,13 @@ public class ProviderSubsetTest extends TestCase
 		{
 			return detached;
 		}
-		
+
 		@Override
 		public boolean equals(Object obj)
 		{
 			return string == ((StringModel)obj).string;
 		}
-		
+
 		@Override
 		public int hashCode()
 		{
