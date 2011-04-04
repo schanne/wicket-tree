@@ -27,7 +27,10 @@ import org.apache.wicket.model.IModel;
 import wickettree.AbstractTree.State;
 
 /**
- * Representation of a single node in the tree.
+ * Representation of a single node in the tree. By default uses an
+ * {@link AjaxFallbackLink} for its junction component.
+ * 
+ * @see #createJunctionComponent(String)
  * 
  * @author Sven Meier
  */
@@ -72,6 +75,9 @@ public abstract class Node<T> extends Panel
 		return getModel().getObject();
 	}
 
+	/**
+	 * The junction component expands and collapses this node.
+	 */
 	protected MarkupContainer createJunctionComponent(String id)
 	{
 		return new AjaxFallbackLink<Void>(id)
@@ -106,8 +112,23 @@ public abstract class Node<T> extends Panel
 		}
 	}
 
+	/**
+	 * Create the component to display the actual node's content.
+	 * 
+	 * @param id
+	 *            the component id
+	 * @param model
+	 *            the node's model
+	 */
 	protected abstract Component createContent(String id, IModel<T> model);
 
+	/**
+	 * Get the style class depending on the current {@link State} of this node.
+	 * 
+	 * @see #getExpandedStyleClass(Object)
+	 * @see #getCollapsedStyleClass()
+	 * @see #getOtherStyleClass()
+	 */
 	protected String getStyleClass()
 	{
 		T t = getModelObject();
@@ -140,9 +161,11 @@ public abstract class Node<T> extends Panel
 	{
 		return "tree-junction";
 	}
-	
+
 	/**
-	 * Behavior to add a style class attribute.
+	 * Behavior to add the style class attribute.
+	 * 
+	 * @see Node#getStyleClass()
 	 */
 	private static class StyleBehavior extends Behavior
 	{
