@@ -2,8 +2,8 @@
 
 To run wicket-tree-examples, do the following:
 
-  * svn checkout http://wicket-tree.googlecode.com/svn/trunk/ wicket-tree-read-only
-  * cd wicket-tree-read-only/wicket-tree-examples/
+  * svn checkout http://wicket-tree.googlecode.com/svn/trunk/ wicket-tree
+  * cd wicket-tree/wicket-tree-examples/
   * mvn package
   * mvn jetty:run
 
