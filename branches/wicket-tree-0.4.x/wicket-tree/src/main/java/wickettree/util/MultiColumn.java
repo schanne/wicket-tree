@@ -18,10 +18,12 @@ package wickettree.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
-import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
+import org.apache.wicket.extensions.markup.html.repeater.data.table.IStyledColumn;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.IObjectClassAwareModel;
@@ -29,9 +31,17 @@ import org.apache.wicket.model.IObjectClassAwareModel;
 /**
  * A column utilizing other {@link IColumn}s depending on a row's model object
  * type.
+ * 
+ * @see #wrap(Class, IColumn)
  */
-public class MultiColumn<T> extends AbstractColumn<T>
+public class MultiColumn<T> implements IStyledColumn<T>
 {
+
+	private IColumn<T> mainColumn;
+
+	private IModel<String> displayModel;
+
+	private String sortProperty;
 
 	private Map<Class<?>, IColumn<?>> columns = new HashMap<Class<?>, IColumn<?>>();
 
@@ -40,32 +50,29 @@ public class MultiColumn<T> extends AbstractColumn<T>
 	 * 
 	 * @param displayModel
 	 *            model for header
-	 * @see #wrap(Class, IColumn)
 	 */
 	public MultiColumn(IModel<String> displayModel)
 	{
-		super(displayModel);
+		this(displayModel, null);
 	}
 
 	/**
-	 * Wrap the given column, taking it's display model and sort property into
-	 * account.
+	 * Create an initially empty column.
 	 * 
-	 * @param clazz
-	 *            type of column
-	 * @param column
-	 *            wrapped column
-	 * 
-	 * @see AbstractColumn#getDisplayModel()
-	 * @see AbstractColumn#getSortProperty()
+	 * @param displayModel
+	 *            model for header
+	 * @param sortProperty
+	 *            the sort property
 	 */
-	public <S> MultiColumn(Class<S> clazz, AbstractColumn<S> column)
+	public MultiColumn(IModel<String> displayModel, String sortProperty)
 	{
-		this(column.getDisplayModel(), column.getSortProperty(), clazz, column);
+		this.displayModel = displayModel;
+		this.sortProperty = sortProperty;
 	}
 
 	/**
-	 * Wrap the given column.
+	 * Wrap the given column specifying header model and sort property
+	 * explicitely.
 	 * 
 	 * @param displayModel
 	 *            model for header
@@ -79,9 +86,28 @@ public class MultiColumn<T> extends AbstractColumn<T>
 	public <S> MultiColumn(IModel<String> displayModel, String sortProperty, Class<S> type,
 			IColumn<S> column)
 	{
-		super(displayModel, sortProperty);
+		this(displayModel, sortProperty);
 
 		wrap(type, column);
+	}
+
+	/**
+	 * Wrap the given column, delegating header creation and sorting.
+	 * 
+	 * @param clazz
+	 *            type of column
+	 * @param column
+	 *            wrapped column
+	 * 
+	 * @see IColumn#getHeader(String)
+	 * @see IColumn#getSortProperty()
+	 */
+	@SuppressWarnings("unchecked")
+	public <S> MultiColumn(Class<S> clazz, IColumn<S> column)
+	{
+		this.mainColumn = (IColumn<T>)column;
+
+		wrap(clazz, column);
 	}
 
 	/**
@@ -160,6 +186,59 @@ public class MultiColumn<T> extends AbstractColumn<T>
 		else
 		{
 			return model.getObject().getClass();
+		}
+	}
+
+	public Component getHeader(String componentId)
+	{
+		if (this.mainColumn != null)
+		{
+			return this.mainColumn.getHeader(componentId);
+		}
+		else
+		{
+			return new Label(componentId, displayModel);
+		}
+	}
+
+	public String getSortProperty()
+	{
+		if (this.mainColumn != null)
+		{
+			return this.mainColumn.getSortProperty();
+		}
+		else
+		{
+			return this.sortProperty;
+		}
+	}
+
+	public boolean isSortable()
+	{
+		if (this.mainColumn != null)
+		{
+			return this.mainColumn.isSortable();
+		}
+		else
+		{
+			return this.sortProperty != null;
+		}
+	}
+
+	public String getCssClass()
+	{
+		if (this.mainColumn instanceof IStyledColumn<?>) {
+			return ((IStyledColumn<?>)this.mainColumn).getCssClass();
+		} else {
+			return null;
+		}
+	}
+	
+	public void detach()
+	{
+		if (this.displayModel != null)
+		{
+			this.displayModel.detach();
 		}
 	}
 }
