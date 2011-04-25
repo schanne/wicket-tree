@@ -18,15 +18,16 @@ package wickettree.content;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxCheckBox;
+import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 import wickettree.AbstractTree;
 
 /**
- * This class adds a checkbox to a {@link Folder}. Subclasses have to override
- * {@link #newCheckBoxModel(IModel)} to do anything useful with the checkbox
- * state.
+ * This class adds a {@link CheckBox} to a {@link Folder}. Subclasses have to
+ * override {@link #newCheckBoxModel(IModel)} to do anything useful with the
+ * checkbox state.
  * 
  * @see #newCheckBoxModel(IModel)
  * 
