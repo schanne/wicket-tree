@@ -19,6 +19,7 @@ import java.util.Iterator;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
 
 import junit.framework.TestCase;
 
@@ -32,11 +33,37 @@ import org.apache.wicket.model.Model;
  */
 public class TreeModelProviderTest extends TestCase
 {
+	private DefaultMutableTreeNode root;
+	
 	private DefaultTreeModel treeModel;
 
 	public TreeModelProviderTest()
 	{
-		treeModel = getDefaultTreeModel();
+		root = new DefaultMutableTreeNode("JTree");
+		DefaultMutableTreeNode parent;
+
+		parent = new DefaultMutableTreeNode("colors");
+		root.add(parent);
+		parent.add(new DefaultMutableTreeNode("blue"));
+		parent.add(new DefaultMutableTreeNode("violet"));
+		parent.add(new DefaultMutableTreeNode("red"));
+		parent.add(new DefaultMutableTreeNode("yellow"));
+
+		parent = new DefaultMutableTreeNode("sports");
+		root.add(parent);
+		parent.add(new DefaultMutableTreeNode("basketball"));
+		parent.add(new DefaultMutableTreeNode("soccer"));
+		parent.add(new DefaultMutableTreeNode("football"));
+		parent.add(new DefaultMutableTreeNode("hockey"));
+
+		parent = new DefaultMutableTreeNode("food");
+		root.add(parent);
+		parent.add(new DefaultMutableTreeNode("hot dogs"));
+		parent.add(new DefaultMutableTreeNode("pizza"));
+		parent.add(new DefaultMutableTreeNode("ravioli"));
+		parent.add(new DefaultMutableTreeNode("bananas"));
+		
+		treeModel = new DefaultTreeModel(root);
 	}
 
 	public void test() throws Exception
@@ -69,32 +96,44 @@ public class TreeModelProviderTest extends TestCase
 		treeModel.nodeChanged(root);
 	}
 
-	protected static DefaultTreeModel getDefaultTreeModel()
+	public void testUpdate() throws Exception
 	{
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode("JTree");
-		DefaultMutableTreeNode parent;
+		TreeModelProvider<DefaultMutableTreeNode> provider = new TreeModelProvider<DefaultMutableTreeNode>(
+				treeModel)
+		{
+			@Override
+			public IModel<DefaultMutableTreeNode> model(DefaultMutableTreeNode object)
+			{
+				return Model.of(object);
+			}
+		};
 
-		parent = new DefaultMutableTreeNode("colors");
-		root.add(parent);
-		parent.add(new DefaultMutableTreeNode("blue"));
-		parent.add(new DefaultMutableTreeNode("violet"));
-		parent.add(new DefaultMutableTreeNode("red"));
-		parent.add(new DefaultMutableTreeNode("yellow"));
-
-		parent = new DefaultMutableTreeNode("sports");
-		root.add(parent);
-		parent.add(new DefaultMutableTreeNode("basketball"));
-		parent.add(new DefaultMutableTreeNode("soccer"));
-		parent.add(new DefaultMutableTreeNode("football"));
-		parent.add(new DefaultMutableTreeNode("hockey"));
-
-		parent = new DefaultMutableTreeNode("food");
-		root.add(parent);
-		parent.add(new DefaultMutableTreeNode("hot dogs"));
-		parent.add(new DefaultMutableTreeNode("pizza"));
-		parent.add(new DefaultMutableTreeNode("ravioli"));
-		parent.add(new DefaultMutableTreeNode("bananas"));
-		return new DefaultTreeModel(root);
+		assertFalse(provider.completeUpdate);
+		assertEquals(null, provider.nodeUpdates);
+		assertEquals(null, provider.branchUpdates);
+		
+		treeModel.removeNodeFromParent((MutableTreeNode)root.getChildAt(0).getChildAt(0));
+	
+		assertFalse(provider.completeUpdate);
+		assertEquals(null, provider.nodeUpdates);
+		assertEquals(1, provider.branchUpdates.size());
+		
+		treeModel.nodeChanged(root.getChildAt(1));
+		
+		assertFalse(provider.completeUpdate);
+		assertEquals(1, provider.nodeUpdates.size());
+		assertEquals(1, provider.branchUpdates.size());
+		
+		treeModel.nodeStructureChanged(root.getChildAt(2));
+		
+		assertFalse(provider.completeUpdate);
+		assertEquals(1, provider.nodeUpdates.size());
+		assertEquals(2, provider.branchUpdates.size());
+		
+		treeModel.setRoot(new DefaultMutableTreeNode("bam!"));
+		
+		assertTrue(provider.completeUpdate);
+		assertEquals(1, provider.nodeUpdates.size());
+		assertEquals(2, provider.branchUpdates.size());
 	}
-
 }
