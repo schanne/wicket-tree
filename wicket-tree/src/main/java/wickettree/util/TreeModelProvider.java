@@ -44,25 +44,34 @@ public abstract class TreeModelProvider<T> implements ITreeProvider<T>
 
 	private boolean rootVisible;
 
-	private Listener listener;
+	protected boolean completeUpdate;
 
-	private boolean completeUpdate;
+	protected List<T> nodeUpdates;
 
-	private List<T> nodeUpdates;
+	protected List<T> branchUpdates;
 
-	private List<T> branchUpdates;
-
+	/**
+	 * Wrap the given {@link TreeModel}.
+	 */
 	public TreeModelProvider(TreeModel treeModel)
 	{
 		this(treeModel, true);
 	}
 
+	/**
+	 * Wrap the given {@link TreeModel}.
+	 * 
+	 * @param treeModel
+	 *            the wrapped model
+	 * @param rootVisible
+	 *            should the root be visible
+	 */
 	public TreeModelProvider(TreeModel treeModel, boolean rootVisible)
 	{
 		this.treeModel = treeModel;
 		this.rootVisible = rootVisible;
 
-		treeModel.addTreeModelListener(listener);
+		treeModel.addTreeModelListener(new Listener());
 	}
 
 	public Iterator<T> getRoots()
@@ -141,6 +150,15 @@ public abstract class TreeModelProvider<T> implements ITreeProvider<T>
 		branchUpdates = null;
 	}
 
+	/**
+	 * Call this method after all change to the wrapped {@link TreeModel} being
+	 * initiated via {@link AjaxRequestTarget}.
+	 * 
+	 * @param tree
+	 *            the tree utilizing this {@link ITreeProvider}
+	 * @param target
+	 *            the {@link AjaxRequestTarget} which initiated the changes
+	 */
 	public void update(AbstractTree<T> tree, AjaxRequestTarget target)
 	{
 		if (completeUpdate)
@@ -149,17 +167,23 @@ public abstract class TreeModelProvider<T> implements ITreeProvider<T>
 		}
 		else
 		{
-			for (T object : nodeUpdates)
+			if (nodeUpdates != null)
 			{
-				tree.updateNode(object, target);
+				for (T object : nodeUpdates)
+				{
+					tree.updateNode(object, target);
+				}
 			}
 
-			for (T object : branchUpdates)
+			if (branchUpdates != null)
 			{
-				tree.updateBranch(object, target);
+				for (T object : branchUpdates)
+				{
+					tree.updateBranch(object, target);
+				}
 			}
 		}
-		
+
 		detach();
 	}
 
