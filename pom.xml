@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>wicket-tree</groupId>
     <artifactId>wicket-tree-parent</artifactId>
-	<version>0.5-SNAPSHOT</version>
+	<version>0.5.0</version>
     <packaging>pom</packaging>
     <name>Wicket Tree Parent</name>
     <description>Tree components for Wicket.</description>
@@ -18,8 +18,8 @@
 	</licenses>
 
 	<properties>
-		<wicket.version>1.5-RC5.1</wicket.version>
-		<jetty.version>6.1.4</jetty.version>
+		<wicket.version>1.5.0</wicket.version>
+		<jetty.version>7.4.2.v20110526</jetty.version>
 		<slf4j.version>1.6.1</slf4j.version>
 		<log4j.version>1.2.16</log4j.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -73,24 +73,12 @@
 			    <artifactId>log4j</artifactId>
 			    <version>${log4j.version}</version>
 		    </dependency>
-		    <dependency>
-			    <groupId>org.mortbay.jetty</groupId>
-			    <artifactId>jetty</artifactId>
-			    <version>${jetty.version}</version>
-			    <scope>provided</scope>
-		    </dependency>
-		    <dependency>
-			    <groupId>org.mortbay.jetty</groupId>
-			    <artifactId>jetty-util</artifactId>
-			    <version>${jetty.version}</version>
-			    <scope>provided</scope>
-		    </dependency>
-		    <dependency>
-			    <groupId>org.mortbay.jetty</groupId>
-			    <artifactId>jetty-management</artifactId>
-			    <version>${jetty.version}</version>
-			    <scope>provided</scope>
-		    </dependency>
+			<dependency>
+				<groupId>org.eclipse.jetty.aggregate</groupId>
+				<artifactId>jetty-all-server</artifactId>
+				<version>${jetty.version}</version>
+				<scope>provided</scope>
+			</dependency>
         </dependencies>
     </dependencyManagement>
 	
@@ -151,6 +139,19 @@
 			    </configuration>
 		    </plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.mortbay.jetty</groupId>
+					<artifactId>jetty-maven-plugin</artifactId>
+					<version>${jetty.version}</version>
+					<configuration>
+						<scanIntervalSeconds>60</scanIntervalSeconds>
+						<webAppSourceDirectory>src/main/webapp</webAppSourceDirectory>
+					</configuration>
+				</plugin>
+    		</plugins>
+		</pluginManagement>
     </build>
 
     <distributionManagement>

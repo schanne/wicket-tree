@@ -128,7 +128,7 @@ public abstract class TableTree<T> extends AbstractTree<T> implements IPageable
 				final IColumn<?> column = TableTree.this.columns.get(index);
 				if (column instanceof IStyledColumn<?>)
 				{
-					item.add(new AttributeAppender("class", true, Model
+					item.add(new AttributeAppender("class", Model
 							.of(((IStyledColumn<?>)column).getCssClass()), " "));
 				}
 

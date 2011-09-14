@@ -27,12 +27,6 @@ public class WicketApplication extends WebApplication {
 
 	@Override
 	protected void init() {
-		try {
-			new Thread().start();
-		} catch (Exception threadsNotAllowed) {
-			getResourceSettings().setResourcePollFrequency(null);
-		}
-
 		getRootRequestMapperAsCompound().add(
 				new MountedMapper("nested", NestedTreePage.class));
 		getRootRequestMapperAsCompound().add(
