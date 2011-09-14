@@ -47,7 +47,7 @@ public class NoRecordsToolbar extends AbstractToolbar
 		WebMarkupContainer td = new WebMarkupContainer("td");
 		add(td);
 
-		td.add(new AttributeModifier("colspan", true, new Model<String>(String.valueOf(table
+		td.add(new AttributeModifier("colspan", new Model<String>(String.valueOf(table
 				.getColumns().size()))));
 		td.add(new Label("msg", messageModel));
 	}

@@ -76,7 +76,7 @@ public class HeadersToolbar extends AbstractToolbar
 
 			if (column instanceof IStyledColumn<?>)
 			{
-				header.add(new AttributeAppender("class", true, Model.of(((IStyledColumn<?>)column)
+				header.add(new AttributeAppender("class", Model.of(((IStyledColumn<?>)column)
 						.getCssClass()), " "));
 			}
 
