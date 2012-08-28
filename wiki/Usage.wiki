@@ -10,7 +10,7 @@
 	<repository> 
 		<id>wicket-tree</id> 
 		<name>Wicket-tree Repository</name> 
-		<url>http://wicket-tree.googlecode.com/svn/repo</url> 
+		<url>svn:https://wicket-tree.googlecode.com/svn/repo</url> 
 	</repository> 
 }}}
 
@@ -30,7 +30,7 @@
 	<repository> 
 		<id>wicket-tree</id> 
 		<name>Wicket-tree Repository</name> 
-		<url>http://wicket-tree.googlecode.com/svn/repo</url> 
+		<url>svn:https://wicket-tree.googlecode.com/svn/repo</url> 
 	</repository> 
 }}}
 
