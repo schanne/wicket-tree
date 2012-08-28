@@ -3,11 +3,12 @@
 To run wicket-tree-examples, do the following:
 
   * svn checkout http://wicket-tree.googlecode.com/svn/trunk/ wicket-tree
-  * cd wicket-tree/wicket-tree-examples/
-  * mvn package
+  * cd wicket-tree
+  * mvn clean install
+  * cd wicket-tree-examples/
   * mvn jetty:run
 
-Then open http://localhost:8080/wicket-tree-examples/ in your browser.
+Then open http://localhost:8080/ in your browser.
 
 To edit the examples in Eclipse:
 
