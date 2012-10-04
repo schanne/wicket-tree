@@ -36,4 +36,4 @@
 
   * Or download binary and sources
 
-	[http://code.google.com/p/wicket-tree/source/browse/#svn/repo/wicket-tree/wicket-tree/0.5-SNAPSHOT]
+	[http://code.google.com/p/wicket-tree/source/browse/#svn/repo/wicket-tree/wicket-tree/0.5.0]
